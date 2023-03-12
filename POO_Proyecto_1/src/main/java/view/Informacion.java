@@ -3,9 +3,9 @@ package view;
 import java.awt.Color;
 import javax.swing.JFrame;
 
-public class VentaInfo extends JFrame {
+public class Informacion extends JFrame {
 
-    public VentaInfo() {
+    public Informacion() {
         super("Informacion");
         this.init();
     }

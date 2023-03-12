@@ -8,5 +8,6 @@ public class Main {
         System.out.println("Qué pasa? Algun problema?");
         
         Mapa vent = new Mapa ();
+        Controlador control = new Controlador(vent);
     }
 }
