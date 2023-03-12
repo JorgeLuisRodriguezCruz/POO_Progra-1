@@ -1,4 +1,3 @@
-
 package view;
 
 import java.awt.Color;
@@ -11,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Ventana extends JFrame implements ActionListener, KeyListener {
+public class Mapa extends JFrame implements ActionListener, KeyListener {
     private JPanel principal = new JPanel();
     private JLabel casillas[][];
     private JButton boton;
@@ -19,7 +18,7 @@ public class Ventana extends JFrame implements ActionListener, KeyListener {
     private int cordenadas [];
     
 
-    public Ventana() {
+    public Mapa() {
         super("Ventana");
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();

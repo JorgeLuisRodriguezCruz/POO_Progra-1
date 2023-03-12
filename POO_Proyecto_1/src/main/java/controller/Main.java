@@ -1,12 +1,12 @@
 package controller;
 
-import view.Ventana;
+import view.Mapa;
 
 public class Main {
 
     public static void main(String[] args) {
         System.out.println("Qué pasa? Algun problema?");
         
-        Ventana vent = new Ventana ();
+        Mapa vent = new Mapa ();
     }
 }
