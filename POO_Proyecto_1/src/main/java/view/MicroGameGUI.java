@@ -47,7 +47,7 @@ public class MicroGameGUI extends JFrame {
     
     private void iniciarComponentes () {
         this.fondo.setBounds(0, 0, 600, 680);
-        this.fondo.setBackground(Color.GRAY);
+        this.fondo.setBackground(Color.LIGHT_GRAY);
         this.fondo.setLayout(null);
         
         this.titulo.setText("MicroGame");
