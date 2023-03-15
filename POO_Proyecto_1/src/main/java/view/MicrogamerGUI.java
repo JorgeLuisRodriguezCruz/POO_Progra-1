@@ -35,7 +35,6 @@ public class MicrogamerGUI {
         labelTitulo.setForeground(Color.BLACK);
         labelTitulo.setBounds(100, 20, 420, 50);
 
-
         // Crear las etiquetas de saludo y escáner
         JLabel labelMaxAtributos = new JLabel("-Máxima capacidad de los atributos", SwingConstants.CENTER);
         labelMaxAtributos.setFont(new Font("Comic Sans Ms", Font.BOLD, 18));

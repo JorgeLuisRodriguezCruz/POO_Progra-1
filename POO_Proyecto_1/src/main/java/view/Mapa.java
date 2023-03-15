@@ -57,7 +57,7 @@ public class Mapa extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
         this.add(principal);
-        this.setVisible(true);
+        this.setVisible(false);
     }
     
     public JButton getBoton() {

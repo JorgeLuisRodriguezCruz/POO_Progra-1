@@ -5,14 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
 import view.Mapa;
 import view.Informacion;
+import view.MicroGameGUI;
 
 public class Controlador implements ActionListener, KeyListener {
     private Mapa mapa;
+    private MicroGameGUI configuracion;
 
-    public Controlador (Mapa pMapa) {
-        this.mapa = pMapa;
+    public Controlador (MicroGameGUI pConfiguracion) {
+        this.mapa = new Mapa();
+        this.configuracion = pConfiguracion;
         
         this.establecerComunicacion();
     }
@@ -22,6 +26,8 @@ public class Controlador implements ActionListener, KeyListener {
         this.mapa.getYUGADOR().addActionListener(this);
         this.mapa.getBoton().addKeyListener(this);
         this.mapa.getYUGADOR().addKeyListener(this);
+        
+        this.configuracion.getJugar().addActionListener(this);
     }
     
     public void moverTemporal (int x, int y) {
@@ -42,6 +48,17 @@ public class Controlador implements ActionListener, KeyListener {
             this.mapa.getCasillas()[24][24].setBackground(Color.RED);
             this.mapa.getCasillas()[0][0].setBackground(Color.BLUE);
             this.mapa.getCasillas()[49][49].setBackground(Color.BLUE);
+        }
+        if (e.getSource() == this.configuracion.getJugar()) {
+            try {
+                Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
+                Integer.parseInt(this.configuracion.getEntradaMinimo().getText()); 
+                Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
+                Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
+              } 
+              catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "ERROR: Los valores digitados deben de ser enteros. Digite nuevamente los valores.");
+              }
         }
     }
 
