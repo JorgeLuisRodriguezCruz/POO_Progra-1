@@ -1,36 +1,46 @@
 package view;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Mapa extends JFrame {
-    private JPanel principal = new JPanel();
+    private ArrayList<JButton> organismos;
+    private JPanel principal = new JPanel(); 
     private JLabel casillas[][];
     private JButton boton;
-    private JButton YUGADOR;
     private int cordenadas [];
     
 
     public Mapa() {
         super("Ventana");
+        this.organismos = new ArrayList<JButton> ();
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
         this.cordenadas = new int[2];
         this.boton = new JButton();
-        this.YUGADOR = new JButton();
         this.iniciarComponentes();
         this.iniciarVentana();
     }
     
     private void iniciarComponentes () {
+        this.cordenadas[0] = 24;
+        this.cordenadas[1] = 24;
         this.principal.setBounds(0, 0, 1115, 1000);
         this.principal.setBackground(Color.BLACK);
         this.principal.setLayout(null);
-        this.principal.add(this.YUGADOR);
-        this.principal.add(this.boton);
+        
+        this.organismos.add(new JButton());
+        this.principal.add(this.boton);  
+        this.principal.add(this.organismos.get(0));
+        
+        this.organismos.get(0).setBounds(325, 325, 12, 12);
+        this.organismos.get(0).setBackground(Color.ORANGE);
+        this.organismos.get(0).setOpaque(true);
+        this.boton.setBounds(700, 13, 60, 23);
         
         for (int i=0; i<50; i++){
             for (int j=0; j<50; j++) {
@@ -40,14 +50,7 @@ public class Mapa extends JFrame {
                 this.casillas[i][j].setOpaque(true);
                 this.principal.add(this.casillas[i][j]);
             }
-        }
-        
-        this.cordenadas[0] = 24;
-        this.cordenadas[1] = 24;
-        this.boton.setBounds(700, 13, 60, 23);
-        this.YUGADOR.setBounds(663, this.cordenadas[1], 12, 12);
-        this.YUGADOR.setBackground(Color.ORANGE);
-        this.YUGADOR.setOpaque(true);
+        } 
     }
     
     private void iniciarVentana () {
@@ -63,11 +66,7 @@ public class Mapa extends JFrame {
     public JButton getBoton() {
         return boton;
     }
-
-    public JButton getYUGADOR() {
-        return YUGADOR;
-    }
-
+ 
     public JLabel[][] getCasillas() {
         return casillas;
     }
@@ -75,5 +74,9 @@ public class Mapa extends JFrame {
     public int[] getCordenadas() {
         return cordenadas;
     }
-     
+
+    public ArrayList<JButton> getOrganismos() {
+        return organismos;
+    }
+    
 }

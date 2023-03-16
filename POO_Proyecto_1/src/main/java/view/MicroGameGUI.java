@@ -75,7 +75,6 @@ public class MicroGameGUI extends JFrame {
         this.decremento.setBounds(20, 220, 400, 30);
         this.entradaDecremento.setBounds(380, 220, 150, 30);
         
-        
         this.imagen.setBounds(140, 340, 300, 250);
         ImageIcon imagen = new ImageIcon ("micro.jpg");
         Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(this.imagen.getWidth(), this.imagen.getHeight(), Image.SCALE_DEFAULT));
