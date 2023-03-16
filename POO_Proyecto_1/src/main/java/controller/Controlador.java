@@ -65,7 +65,7 @@ public class Controlador implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
             if (e.getSource() == this.mapa.getOrganismos().get(i)) {
-                Informacion info = new Informacion ();
+                Informacion info = new Informacion (22, 23, 24, 25);
             }
         }
         
