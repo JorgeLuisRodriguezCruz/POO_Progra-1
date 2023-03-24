@@ -3,6 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -85,7 +88,8 @@ public class MicroGameGUI extends JFrame {
         this.jugar.setBounds(200, 280, 180, 40);
         this.jugar.setBackground(Color.GREEN);
         this.jugar.setFocusable(false);
-        
+
+
         this.fondo.add(this.jugar);
         this.fondo.add(this.titulo);
         this.fondo.add(this.maximo);
