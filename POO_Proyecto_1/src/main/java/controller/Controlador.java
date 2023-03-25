@@ -50,6 +50,8 @@ public class Controlador implements ActionListener, KeyListener {
     }
     
     public void moverTemporal (int x, int y, int turno) {
+
+
         this.mapa.getCasillas()[ this.mapa.getCordenadas()[0] ][ this.mapa.getCordenadas()[1] ].setBackground(Color.WHITE);
         if (this.mapa.getCordenadas()[0]+x != -1 && this.mapa.getCordenadas()[0]+x != 50) {
             this.mapa.getOrganismos().get(turno).setLocation(this.mapa.getOrganismos().get(turno).getX() + (13*x), this.mapa.getOrganismos().get(turno).getY());
@@ -59,7 +61,29 @@ public class Controlador implements ActionListener, KeyListener {
             this.mapa.getCordenadas()[1] = this.mapa.getCordenadas()[1]+y; 
         }
         this.mapa.getCasillas()[ this.mapa.getCordenadas()[0] ][ this.mapa.getCordenadas()[1] ].setBackground(Color.RED);
-    }
+        }
+        public void moverEnLineaRecta(int cuadros, String direccion, int turno) {
+            switch(direccion) {
+                case "arriba":
+                    moverTemporal(0, -cuadros, turno);
+                    break;
+                case "abajo":
+                    moverTemporal(0, cuadros, turno);
+                    break;
+                case "izquierda":
+                    moverTemporal(-cuadros, 0, turno);
+                    break;
+                case "derecha":
+                    moverTemporal(cuadros, 0, turno);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -89,26 +113,48 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) { }
+    // @Override
+    // public void keyTyped(KeyEvent e) { }
+
+    // @Override
+    // public void keyPressed(KeyEvent e) {
+    //     switch (e.getKeyCode()) {
+    //         case 37:
+    //             moverTemporal(-1, 0, 0); 
+    //             break;
+    //         case 38:
+    //             moverTemporal(0, -1, 0); 
+    //             break;
+    //         case 39:
+    //             moverTemporal(1, 0, 0); 
+    //             break;
+    //         case 40:
+    //             moverTemporal(0, 1, 0); 
+    //             break;
+    //     }
+    // }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case 37:
-                moverTemporal(-1, 0, 0); 
-                break;
-            case 38:
-                moverTemporal(0, -1, 0); 
-                break;
-            case 39:
-                moverTemporal(1, 0, 0); 
-                break;
-            case 40:
-                moverTemporal(0, 1, 0); 
-                break;
-        }
+public void keyPressed(KeyEvent e) {
+    switch (e.getKeyCode()) {
+        case 37: // flecha izquierda
+        moverEnLineaRecta(4, "izquierda", 0);
+            break;
+        case 38: // flecha arriba
+        moverEnLineaRecta(4, "arriba", 0);
+            break;
+        case 39: // flecha derecha
+        moverEnLineaRecta(4, "derecha", 0);
+            break;
+        case 40: // flecha abajo
+        moverEnLineaRecta(4, "abajo", 0);
+            break;
+
+        default:
+
+            break;
     }
+}
 
     @Override
     public void keyReleased(KeyEvent e) { }

@@ -18,6 +18,7 @@ public class Informacion extends JFrame {
 
     public Informacion(int ed, int vis, int en, int vel) {
         super("Informacion");
+
         this.fondo = new JPanel();
         this.edad = new JLabel("Edad: " + ed);
         this.vision = new JLabel("Vision: " + vis);
@@ -34,16 +35,16 @@ public class Informacion extends JFrame {
         this.fondo.setLayout(null);
         
         this.edad.setFont(new Font("Comic Sans Ms", Font.BOLD, 18));
-        this.edad.setBounds(20, 20, 400, 30);
+        this.edad.setBounds(150, 20, 400, 30);
          
         this.vision.setFont(new Font("Comic Sans Ms", Font.BOLD, 18));
-        this.vision.setBounds(20, 60, 400, 30);
+        this.vision.setBounds(150, 60, 400, 30);
         
         this.energia.setFont(new Font("Comic Sans Ms", Font.BOLD, 18));
-        this.energia.setBounds(20, 100, 400, 30);
+        this.energia.setBounds(150, 100, 400, 30);
         
         this.velocidad.setFont(new Font("Comic Sans Ms", Font.BOLD, 18));
-        this.velocidad.setBounds(20, 140, 400, 30);
+        this.velocidad.setBounds(145, 140, 400, 30);
         
         this.fondo.add(this.edad);
         this.fondo.add(this.vision);

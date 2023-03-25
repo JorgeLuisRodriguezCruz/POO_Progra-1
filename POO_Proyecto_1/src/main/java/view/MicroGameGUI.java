@@ -89,7 +89,13 @@ public class MicroGameGUI extends JFrame {
         this.jugar.setBackground(Color.GREEN);
         this.jugar.setFocusable(false);
 
-
+        //Al seleccionar el botón de jugar, se abrirá el mapa de juego si los datos ingresados son corretos.
+        this.jugar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Mapa mapa = new Mapa();
+            }
+        });
+    
         this.fondo.add(this.jugar);
         this.fondo.add(this.titulo);
         this.fondo.add(this.maximo);

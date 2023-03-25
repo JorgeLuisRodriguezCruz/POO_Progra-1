@@ -14,10 +14,8 @@ public class Main {
         //Mapa vent = new Mapa (); 
         //Controlador co = new Controlador(vent);
         
-         
-
         //MicrogamerGUI uimicro = new MicrogamerGUI();
         MicroGameGUI a = new MicroGameGUI ();
-        //Controlador coco = new Controlador( a);
+        Controlador coco = new Controlador( a);
     }
 }

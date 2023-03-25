@@ -40,12 +40,12 @@ public class Mapa extends JFrame {
         this.organismos.get(0).setBounds(325, 325, 12, 12);
         this.organismos.get(0).setBackground(Color.ORANGE);
         this.organismos.get(0).setOpaque(true);
-        this.boton.setBounds(700, 13, 60, 23);
+        this.boton.setBounds(950, 300, 60, 23);
         
         for (int i=0; i<50; i++){
             for (int j=0; j<50; j++) {
                 this.casillas[i][j] = new JLabel();
-                this.casillas[i][j].setBounds((i+1)*13, (j+1)*13, 10, 10);
+                this.casillas[i][j].setBounds((i+1)*13 +200, (j+1)*13, 10, 10);
                 this.casillas[i][j].setBackground(Color.WHITE);
                 this.casillas[i][j].setOpaque(true);
                 this.principal.add(this.casillas[i][j]);
