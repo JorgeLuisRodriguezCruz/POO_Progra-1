@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Color;
 import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -13,6 +15,7 @@ import javax.swing.JPanel;
 
 import model.Alimento;
 import model.Energizante;
+import model.Organismo;
 import model.Vision;
 
 public class Mapa extends JFrame {
@@ -25,10 +28,11 @@ public class Mapa extends JFrame {
     private ArrayList<Alimento> alimentosEnergia;
     private ArrayList<Alimento> alimentosVision;
     private ArrayList<Alimento> alimentosVelocidad;
+    private ArrayList<Organismo> crearOrganismos;
 
     public Mapa() {
         super("Ventana");
-        this.organismos = new ArrayList<JButton> ();
+        this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
         this.cordenadas = new int[2];
@@ -36,14 +40,18 @@ public class Mapa extends JFrame {
         this.iniciarComponentes();
         this.iniciarVentana();
 
+        //va en el gestor de partida
+
         this.alimentosEnergia = new ArrayList<Alimento>();
         this.alimentosVision = new ArrayList<Alimento>();
         this.alimentosVelocidad = new ArrayList<Alimento>();
         this.generarAlimentos();
+        this.crearOrganismos= new ArrayList<Organismo>(); // Llamada al método crear Organismos
+        this.crearOrganismos();
+        
     }
 
-
-    
+//-----------------------------------------------Se generan alimentos aleatoriamente de los diversos tipos-------------------------
 
     private void generarAlimentos() {
         Random rand = new Random();
@@ -68,7 +76,7 @@ public class Mapa extends JFrame {
             this.casillas[x][y].setBackground(Color.BLUE);
         }
 
-        // ----------Generar alimentos de visión------------
+        // ---------------Generar alimentos de visión-----------------
         for (int i = 0; i < 5; i++) {
             Alimento alimento = new Alimento();
 
@@ -86,7 +94,7 @@ public class Mapa extends JFrame {
             this.casillas[x][y].setBackground(Color.YELLOW);
         }
 
-            //---------- Generar alimentos de velocidad--------
+            //--------------Generar alimentos de velocidad-------------
             for (int i = 0; i < 5; i++) {
                 Alimento alimento = new Alimento();
     
@@ -104,12 +112,35 @@ public class Mapa extends JFrame {
                 this.casillas[x][y].setBackground(Color.GREEN);
             }
     }
+//----------------------------------Se crean organismos aleatoriamente------------------------------------------------
+    private void crearOrganismos() {
+        Random rand = new Random();
+        HashSet<String> coordenadasUsadas = new HashSet<String>();
+
+        //------------ Generar Organismos--------------
+        for (int i = 0; i < 5; i++) {
+            Organismo organismo = new Organismo();
+
+        // Asignar coordenadas aleatorias, asegurándose de que no choquen con otros alimentos
+            int x, y;
+            do {
+                x = rand.nextInt(50);
+                y = rand.nextInt(50);
+            } while (coordenadasUsadas.contains(x + "," + y));
+            coordenadasUsadas.add(x + "," + y);
+            organismo.setCoordenadas(x, y);
+
+
+        // Agregar alimento energia a la lista y pintar en el mapa
+            this.crearOrganismos.add(organismo);
+            this.casillas[x][y].setBackground(Color.magenta);
+        }
+
+    }
 
         private void iniciarComponentes () {
             this.cordenadas[0] = 24;
             this.cordenadas[1] = 24;
-
-
     //---------------Se crea panel a la izquierda del mapa donde aparece información de los colores de cada jugador--------------
 
             // Agregar nuevo panel a la izquierda del panel principal
@@ -162,6 +193,18 @@ public class Mapa extends JFrame {
             comidaVisionCuadro.setOpaque(true);
             comidaVisionCuadro.setBackground(Color.YELLOW);
             panelLateral.add(comidaVisionCuadro);
+
+            // Agregar label y cuadro para la NPC
+
+            JLabel LabelNpc = new JLabel("NPC");
+            LabelNpc.setBounds(10, 340, 100, 20);
+            panelLateral.add(LabelNpc);
+
+            JLabel NpcCuadro = new JLabel();
+            NpcCuadro.setBounds(130, 340, 20, 20);
+            NpcCuadro.setOpaque(true);
+            NpcCuadro.setBackground(Color.magenta);
+            panelLateral.add(NpcCuadro);
 
     // Se crea 
             this.principal.setBounds(0, 0, 1115, 1000);
