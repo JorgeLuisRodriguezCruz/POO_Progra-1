@@ -49,19 +49,21 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
     
+    //Funciones (temporal y linea recta) que permiten moverse en una linea recta una determinada cantidad de casillas
+
     public void moverTemporal (int x, int y, int turno) {
 
-
-        this.mapa.getCasillas()[ this.mapa.getCordenadas()[0] ][ this.mapa.getCordenadas()[1] ].setBackground(Color.WHITE);
-        if (this.mapa.getCordenadas()[0]+x != -1 && this.mapa.getCordenadas()[0]+x != 50) {
-            this.mapa.getOrganismos().get(turno).setLocation(this.mapa.getOrganismos().get(turno).getX() + (13*x), this.mapa.getOrganismos().get(turno).getY());
-            this.mapa.getCordenadas()[0] = this.mapa.getCordenadas()[0]+x; 
-        } if (this.mapa.getCordenadas()[1]+y != -1 && this.mapa.getCordenadas()[1]+y != 50) {
-            this.mapa.getOrganismos().get(turno).setLocation(this.mapa.getOrganismos().get(turno).getX(), this.mapa.getOrganismos().get(turno).getY() + (13*y) );
-            this.mapa.getCordenadas()[1] = this.mapa.getCordenadas()[1]+y; 
+        int newX = this.mapa.getCordenadas()[0] + x;
+        int newY = this.mapa.getCordenadas()[1] + y;
+        if (newX >= 0 && newX < 50 && newY >= 0 && newY < 50) {
+            this.mapa.getCasillas()[this.mapa.getCordenadas()[0]][this.mapa.getCordenadas()[1]].setBackground(Color.WHITE);
+            this.mapa.getOrganismos().get(turno).setLocation(this.mapa.getOrganismos().get(turno).getX() + (13 * x), this.mapa.getOrganismos().get(turno).getY() + (13 * y));
+            this.mapa.getCordenadas()[0] = newX;
+            this.mapa.getCordenadas()[1] = newY;
+            this.mapa.getCasillas()[this.mapa.getCordenadas()[0]][this.mapa.getCordenadas()[1]].setBackground(Color.RED);
         }
-        this.mapa.getCasillas()[ this.mapa.getCordenadas()[0] ][ this.mapa.getCordenadas()[1] ].setBackground(Color.RED);
-        }
+    }
+        
         public void moverEnLineaRecta(int cuadros, String direccion, int turno) {
             switch(direccion) {
                 case "arriba":
@@ -81,82 +83,58 @@ public class Controlador implements ActionListener, KeyListener {
             }
         }
 
-
-
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
-            if (e.getSource() == this.mapa.getOrganismos().get(i)) {
-                Informacion info = new Informacion (22, 23, 24, 25);
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
+                if (e.getSource() == this.mapa.getOrganismos().get(i)) {
+                    Informacion info = new Informacion (22, 23, 24, 25);
+                }
+            }
+            
+            //Boton que no tiene funcionalidad
+            
+            // if (e.getSource() == this.mapa.getBoton()) { 
+            //     this.mapa.getCasillas()[24][24].setBackground(Color.RED);
+            //     this.mapa.getCasillas()[0][0].setBackground(Color.BLUE);
+            //     this.mapa.getCasillas()[49][49].setBackground(Color.BLUE);
+            // }
+            if (e.getSource() == this.configuracion.getJugar()) {
+                try {
+                    Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
+                    Integer.parseInt(this.configuracion.getEntradaMinimo().getText()); 
+                    Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
+                    Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
+                    this.mapa.setVisible(true);
+                    this.configuracion.setVisible(false);
+                } 
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "ERROR: Los valores digitados deben de ser enteros. Digite nuevamente los valores.");
+                }
             }
         }
-        
-        if (e.getSource() == this.mapa.getBoton()) { 
-            this.mapa.getCasillas()[24][24].setBackground(Color.RED);
-            this.mapa.getCasillas()[0][0].setBackground(Color.BLUE);
-            this.mapa.getCasillas()[49][49].setBackground(Color.BLUE);
-        }
-        if (e.getSource() == this.configuracion.getJugar()) {
-            try {
-                Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
-                Integer.parseInt(this.configuracion.getEntradaMinimo().getText()); 
-                Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
-                Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
-                this.mapa.setVisible(true);
-                this.configuracion.setVisible(false);
-              } 
-              catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "ERROR: Los valores digitados deben de ser enteros. Digite nuevamente los valores.");
-              }
+        @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case 37: // flecha izquierda
+            moverEnLineaRecta(4, "izquierda", 0);
+                break;
+            case 38: // flecha arriba
+            moverEnLineaRecta(4, "arriba", 0);
+                break;
+            case 39: // flecha derecha
+            moverEnLineaRecta(4, "derecha", 0);
+                break;
+            case 40: // flecha abajo
+            moverEnLineaRecta(4, "abajo", 0);
+                break;
+
+            default:
+
+                break;
         }
     }
 
-    // @Override
-    // public void keyTyped(KeyEvent e) { }
-
-    // @Override
-    // public void keyPressed(KeyEvent e) {
-    //     switch (e.getKeyCode()) {
-    //         case 37:
-    //             moverTemporal(-1, 0, 0); 
-    //             break;
-    //         case 38:
-    //             moverTemporal(0, -1, 0); 
-    //             break;
-    //         case 39:
-    //             moverTemporal(1, 0, 0); 
-    //             break;
-    //         case 40:
-    //             moverTemporal(0, 1, 0); 
-    //             break;
-    //     }
-    // }
-
-    @Override
-public void keyPressed(KeyEvent e) {
-    switch (e.getKeyCode()) {
-        case 37: // flecha izquierda
-        moverEnLineaRecta(4, "izquierda", 0);
-            break;
-        case 38: // flecha arriba
-        moverEnLineaRecta(4, "arriba", 0);
-            break;
-        case 39: // flecha derecha
-        moverEnLineaRecta(4, "derecha", 0);
-            break;
-        case 40: // flecha abajo
-        moverEnLineaRecta(4, "abajo", 0);
-            break;
-
-        default:
-
-            break;
-    }
-}
-
-    @Override
-    public void keyReleased(KeyEvent e) { }
+        @Override
+        public void keyReleased(KeyEvent e) { }
     
 }

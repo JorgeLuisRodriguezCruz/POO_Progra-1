@@ -15,7 +15,9 @@ public class Informacion extends JFrame {
     private JLabel energia;
     private JLabel velocidad;
     
-
+    public Informacion(){
+        
+    }
     public Informacion(int ed, int vis, int en, int vel) {
         super("Informacion");
 

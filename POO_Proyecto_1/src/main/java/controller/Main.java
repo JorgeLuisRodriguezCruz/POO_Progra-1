@@ -4,6 +4,7 @@ import java.awt.GraphicsEnvironment;
 import java.util.Arrays;
 import view.Mapa;
 import view.MicroGameGUI;
+import model.Organismo;
 //import view.MicrogamerGUI;
 
 public class Main {
@@ -17,5 +18,8 @@ public class Main {
         //MicrogamerGUI uimicro = new MicrogamerGUI();
         MicroGameGUI a = new MicroGameGUI ();
         Controlador coco = new Controlador( a);
+
     }
 }
+
+    
