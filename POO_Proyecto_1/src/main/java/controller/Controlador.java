@@ -136,5 +136,11 @@ public class Controlador implements ActionListener, KeyListener {
 
         @Override
         public void keyReleased(KeyEvent e) { }
+
+        @Override
+        public void keyTyped(KeyEvent arg0) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        }
     
 }
