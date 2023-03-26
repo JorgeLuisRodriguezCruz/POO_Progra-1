@@ -18,6 +18,7 @@ public class Informacion extends JFrame {
     public Informacion(){
         
     }
+    
     public Informacion(int ed, int vis, int en, int vel) {
         super("Informacion");
 

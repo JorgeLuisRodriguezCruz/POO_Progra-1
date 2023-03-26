@@ -38,9 +38,7 @@ public class Controlador implements ActionListener, KeyListener {
         this.establecerComunicacion();
     }
     
-    private void establecerComunicacion () {
-        this.mapa.getBoton().addActionListener(this); 
-        this.mapa.getBoton().addKeyListener(this);
+    private void establecerComunicacion () { 
         this.configuracion.getJugar().addActionListener(this);
         
         for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
@@ -60,7 +58,7 @@ public class Controlador implements ActionListener, KeyListener {
             this.mapa.getOrganismos().get(turno).setLocation(this.mapa.getOrganismos().get(turno).getX() + (13 * x), this.mapa.getOrganismos().get(turno).getY() + (13 * y));
             this.mapa.getCordenadas()[0] = newX;
             this.mapa.getCordenadas()[1] = newY;
-            this.mapa.getCasillas()[this.mapa.getCordenadas()[0]][this.mapa.getCordenadas()[1]].setBackground(Color.RED);
+            //this.mapa.getCasillas()[this.mapa.getCordenadas()[0]][this.mapa.getCordenadas()[1]].setBackground(Color.RED);
         }
     }
         
@@ -89,15 +87,7 @@ public class Controlador implements ActionListener, KeyListener {
                 if (e.getSource() == this.mapa.getOrganismos().get(i)) {
                     Informacion info = new Informacion (22, 23, 24, 25);
                 }
-            }
-            
-            //Boton que no tiene funcionalidad
-            
-            // if (e.getSource() == this.mapa.getBoton()) { 
-            //     this.mapa.getCasillas()[24][24].setBackground(Color.RED);
-            //     this.mapa.getCasillas()[0][0].setBackground(Color.BLUE);
-            //     this.mapa.getCasillas()[49][49].setBackground(Color.BLUE);
-            // }
+            } 
             if (e.getSource() == this.configuracion.getJugar()) {
                 try {
                     Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
@@ -112,7 +102,8 @@ public class Controlador implements ActionListener, KeyListener {
                 }
             }
         }
-        @Override
+        
+    @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case 37: // flecha izquierda
@@ -134,13 +125,10 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
 
-        @Override
-        public void keyReleased(KeyEvent e) { }
+    @Override
+    public void keyReleased(KeyEvent e) { }
 
-        @Override
-        public void keyTyped(KeyEvent arg0) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
-        }
+    @Override
+    public void keyTyped(KeyEvent e) { }
     
 }
