@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import view.Mapa;
 import view.Informacion;
@@ -49,59 +50,78 @@ public class Controlador implements ActionListener, KeyListener {
     
     //Funciones (temporal y linea recta) que permiten moverse en una linea recta una determinada cantidad de casillas
 
-    public void moverTemporal (int x, int y, int turno) {
+    public void mover (int x, int y, int turno) {
 
-        int newX = this.mapa.getCordenadas()[0] + x;
-        int newY = this.mapa.getCordenadas()[1] + y;
-        if (newX >= 0 && newX < 50 && newY >= 0 && newY < 50) {
-            this.mapa.getCasillas()[this.mapa.getCordenadas()[0]][this.mapa.getCordenadas()[1]].setBackground(Color.WHITE);
-            this.mapa.getOrganismos().get(turno).setLocation(this.mapa.getOrganismos().get(turno).getX() + (13 * x), this.mapa.getOrganismos().get(turno).getY() + (13 * y));
-            this.mapa.getCordenadas()[0] = newX;
-            this.mapa.getCordenadas()[1] = newY;
-            //this.mapa.getCasillas()[this.mapa.getCordenadas()[0]][this.mapa.getCordenadas()[1]].setBackground(Color.RED);
+        JButton org = this.mapa.getOrganismos().get(turno);
+        
+        int posEnMapX = (org.getX() - 299) / 13; posEnMapX--;
+        int posEnMapY = org.getY() / 13; posEnMapY--;
+         
+        if (posEnMapX >= 0 && posEnMapX < 50 && posEnMapY >= 0 && posEnMapY < 50) {
+            
+            this.mapa.getCasillas()[ posEnMapX ][ posEnMapY ].setBackground(Color.WHITE);
+            
+            if (org.getX() + (13 * x) < 312){
+                org.setLocation(312,  org.getY() + (13 * y));
+                return;
+            }
+            if (org.getX() + (13 * x) > 949){
+                org.setLocation(949,  org.getY() + (13 * y));
+                return;
+            }
+            if (org.getY() + (13 * y) < 13){
+                org.setLocation(org.getX() + (13 * x),  13);
+                return;
+            }
+            if (org.getY() + (13 * y) > 650){
+                org.setLocation(org.getX() + (13 * x),  650);
+                return;
+            }
+            org.setLocation(org.getX() + (13 * x),  org.getY() + (13 * y));
+            
         }
     }
         
-        public void moverEnLineaRecta(int cuadros, String direccion, int turno) {
-            switch(direccion) {
-                case "arriba":
-                    moverTemporal(0, -cuadros, turno);
-                    break;
-                case "abajo":
-                    moverTemporal(0, cuadros, turno);
-                    break;
-                case "izquierda":
-                    moverTemporal(-cuadros, 0, turno);
-                    break;
-                case "derecha":
-                    moverTemporal(cuadros, 0, turno);
-                    break;
-                default:
-                    break;
-            }
+    public void moverEnLineaRecta(int cuadros, String direccion, int turno) {
+        switch(direccion) {
+            case "arriba":
+                mover(0, -cuadros, turno);
+                break;
+            case "abajo":
+                mover(0, cuadros, turno);
+                break;
+            case "izquierda":
+                mover(-cuadros, 0, turno);
+                break;
+            case "derecha":
+                mover(cuadros, 0, turno);
+                break;
+            default:
+                break;
         }
+    }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
-                if (e.getSource() == this.mapa.getOrganismos().get(i)) {
-                    Informacion info = new Informacion (22, 23, 24, 25);
-                }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
+            if (e.getSource() == this.mapa.getOrganismos().get(i)) {
+                Informacion info = new Informacion (22, 23, 24, 25);
+            }
+        } 
+        if (e.getSource() == this.configuracion.getJugar()) {
+            try {
+                Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
+                Integer.parseInt(this.configuracion.getEntradaMinimo().getText()); 
+                Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
+                Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
+                this.mapa.setVisible(true);
+                this.configuracion.setVisible(false);
             } 
-            if (e.getSource() == this.configuracion.getJugar()) {
-                try {
-                    Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
-                    Integer.parseInt(this.configuracion.getEntradaMinimo().getText()); 
-                    Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
-                    Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
-                    this.mapa.setVisible(true);
-                    this.configuracion.setVisible(false);
-                } 
-                catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "ERROR: Los valores digitados deben de ser enteros. Digite nuevamente los valores.");
-                }
+            catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "ERROR: Los valores digitados deben de ser enteros. Digite nuevamente los valores.");
             }
         }
+    }
         
     @Override
     public void keyPressed(KeyEvent e) {
