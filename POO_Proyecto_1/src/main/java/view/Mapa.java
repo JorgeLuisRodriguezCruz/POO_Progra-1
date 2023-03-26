@@ -20,7 +20,7 @@ import model.Organismo;
 import model.Vision;
 
 public class Mapa extends JFrame {
-    private ArrayList<JButton> organismos;
+    public ArrayList<JButton> organismos;
     private JPanel principal; 
     private JPanel informacionJuego;
     private JLabel casillas[][];
@@ -68,14 +68,14 @@ public class Mapa extends JFrame {
     private void generarAlimentos() {
         Random rand = new Random(); 
         
-        for (int i = 0; i <= 14; i++) { 
+        for (int i = 0; i <= 20; i++) { 
             int x = rand.nextInt(50);
             int y = rand.nextInt(50); 
-            if (i <= 4)
+            if (i <= 6)
                 this.casillas[x][y].setBackground(Color.BLUE);
-            if (i > 4 && i <= 9)
+            if (i > 6 && i <= 13)
                 this.casillas[x][y].setBackground(Color.YELLOW);
-            if (i > 9)
+            if (i > 13)
                 this.casillas[x][y].setBackground(Color.GREEN);
         }
     }

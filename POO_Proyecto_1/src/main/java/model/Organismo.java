@@ -13,6 +13,7 @@ public class Organismo {
     protected int vision; 
     protected int energia;
     protected int velocidad;
+
  
     public Organismo () {
         this.coordenadas[0] = 0; 
@@ -23,5 +24,5 @@ public class Organismo {
         this.velocidad = 2;
         
     }
-
-}
+  
+    }
