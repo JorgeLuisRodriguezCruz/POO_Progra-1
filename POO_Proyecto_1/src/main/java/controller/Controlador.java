@@ -82,22 +82,10 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
         
-    public void moverEnLineaRecta(int cuadros, String direccion, int turno) {
-        switch(direccion) {
-            case "arriba":
-                mover(0, -cuadros, turno);
-                break;
-            case "abajo":
-                mover(0, cuadros, turno);
-                break;
-            case "izquierda":
-                mover(-cuadros, 0, turno);
-                break;
-            case "derecha":
-                mover(cuadros, 0, turno);
-                break;
-            default:
-                break;
+    public void moverEnLineaRecta(int cuadros, int turno, int x, int y) {
+        
+        for (int i = 0; i < cuadros; i++) {
+            mover(x, y, turno);
         }
     }
 
@@ -127,20 +115,18 @@ public class Controlador implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case 37: // flecha izquierda
-            moverEnLineaRecta(4, "izquierda", 0);
+                moverEnLineaRecta(4, 0, -1, 0);
                 break;
             case 38: // flecha arriba
-            moverEnLineaRecta(4, "arriba", 0);
+                moverEnLineaRecta(4, 0, 0, -1);
                 break;
             case 39: // flecha derecha
-            moverEnLineaRecta(4, "derecha", 0);
+                moverEnLineaRecta(4, 0, 1, 0);
                 break;
             case 40: // flecha abajo
-            moverEnLineaRecta(4, "abajo", 0);
-                break;
-
-            default:
-
+                moverEnLineaRecta(4, 0, 0, 1);
+                break; 
+            default: 
                 break;
         }
     }
