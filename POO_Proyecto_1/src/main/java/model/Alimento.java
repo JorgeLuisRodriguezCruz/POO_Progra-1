@@ -1,32 +1,27 @@
 package model;
 
 
-    public class Alimento {
-        protected int cordenadad[];
-        protected int cantidad;
-        protected int turnosParaReaparecer;
-    
-        public Alimento() {
-            this.cordenadad[0] = 0; 
-            this.cordenadad[1] = 0;
-            this.cantidad = 1;
-            this.turnosParaReaparecer = 0;
-        
-        }
+public class Alimento {
+    protected int[] coordenadas;
+    protected int cantidad;
+    protected int turnosParaReaparecer;
 
-        public void serComido (Organismo org) { 
-        }
+    public Alimento() {
+        this.coordenadas = new int[2];
+        this.coordenadas[0] = 0; 
+        this.coordenadas[1] = 0;
+        this.cantidad = 4;
+        this.turnosParaReaparecer = 0;
 
-        public void setPosicion(int x, int y) {
-        }
-
-
-        public void setCordenadas(int[] is) {
-        }
-
-        public void setCoordenadas(int x, int y) {
-        }
-        
     }
+
+    public void serComido (Organismo org) { }
+
+    public void setCoordenadas(int x, int y) {
+        this.coordenadas[0] = x;
+        this.coordenadas[1] = y;
+    }
+
+}
     
 

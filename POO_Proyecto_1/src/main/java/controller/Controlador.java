@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import model.GestorPartida;
 import view.Mapa;
 import view.Informacion;
 import view.MicroGameGUI;
@@ -14,11 +15,13 @@ import view.MicroGameGUI;
 public class Controlador implements ActionListener, KeyListener {
     private Mapa mapa;
     private MicroGameGUI configuracion;
+    private GestorPartida gestor;
 
     public Controlador () {
         this.mapa = new Mapa();
         this.configuracion = new MicroGameGUI(); 
         this.configuracion.setVisible(false);
+        this.gestor = new GestorPartida(this);
         
         this.establecerComunicacion();
     }
@@ -48,8 +51,6 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
     
-    //Funciones (temporal y linea recta) que permiten moverse en una linea recta una determinada cantidad de casillas
-
     public void mover (int x, int y, int turno) {
 
         JButton org = this.mapa.getOrganismos().get(turno);
@@ -89,6 +90,10 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
 
+    public void iniciarOrganismos () {
+        
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {

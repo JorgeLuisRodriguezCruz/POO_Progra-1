@@ -13,10 +13,10 @@ public class Organismo {
     protected int vision; 
     protected int energia;
     protected int velocidad;
-
  
     public Organismo () {
-        this.coordenadas[0] = 0; 
+        this.coordenadas = new int[2];
+        this.coordenadas[0] = 0;
         this.coordenadas[1] = 0;
         this.edad = 1;
         this.vision = 4; 
@@ -25,4 +25,4 @@ public class Organismo {
         
     }
   
-    }
+}
