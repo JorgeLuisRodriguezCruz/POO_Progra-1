@@ -20,9 +20,14 @@ public class Organismo {
         this.coordenadas[1] = 0;
         this.edad = 1;
         this.vision = 4; 
-        this.energia = 4;
-        this.velocidad = 2;
+        this.energia = 10;
+        this.velocidad = 3;
         
     }
-  
+
+    public void setCoordenadas(int x, int y) {
+        this.coordenadas [0] = x;
+        this.coordenadas [1] = y;
+    }
+    
 }

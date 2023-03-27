@@ -11,11 +11,11 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Qué pasa? Algun problema?");
         
-        // Mapa vent = new Mapa (); 
-        // Controlador co = new Controlador(vent);
+        //Mapa vent = new Mapa (); 
+        Controlador co = new Controlador();
         
-         MicroGameGUI a = new MicroGameGUI ();
-        Controlador coco = new Controlador( a);
+        //MicroGameGUI a = new MicroGameGUI ();
+        //Controlador coco = new Controlador( a);
 
     }
 }

@@ -18,12 +18,15 @@ public class Controlador implements ActionListener, KeyListener {
     private GestorPartida gestor;
 
     public Controlador () {
-        this.mapa = new Mapa();
+        
         this.configuracion = new MicroGameGUI(); 
         this.configuracion.setVisible(false);
         this.gestor = new GestorPartida(this);
+        this.mapa = new Mapa(this);
+        this.mapa.setVisible(true);
         
         this.establecerComunicacion();
+        this.iniciarOrganismos();
     }
     
     public Controlador (Mapa pMapa) {
@@ -36,7 +39,7 @@ public class Controlador implements ActionListener, KeyListener {
     }
     
     public Controlador (MicroGameGUI pConfiguracion) {
-        this.mapa = new Mapa();
+        this.mapa = new Mapa(this);
         this.configuracion = pConfiguracion;
         
         this.establecerComunicacion();
@@ -91,7 +94,11 @@ public class Controlador implements ActionListener, KeyListener {
     }
 
     public void iniciarOrganismos () {
-        
+        this.gestor.crearOrganismos(this.mapa.getOrganismos());
+    }
+    
+    public void pasarCoordsAlimentos (int[][] coordsAlimentos) {
+        this.gestor.crearAlimentos(coordsAlimentos);
     }
     
     @Override

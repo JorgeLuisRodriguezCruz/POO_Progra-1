@@ -11,8 +11,7 @@ public class Alimento {
         this.coordenadas[0] = 0; 
         this.coordenadas[1] = 0;
         this.cantidad = 4;
-        this.turnosParaReaparecer = 0;
-
+        this.turnosParaReaparecer = 0; 
     }
 
     public void serComido (Organismo org) { }

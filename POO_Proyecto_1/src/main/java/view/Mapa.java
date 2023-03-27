@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controlador;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.List;
@@ -20,7 +21,8 @@ import model.Organismo;
 import model.Vision;
 
 public class Mapa extends JFrame {
-    public ArrayList<JButton> organismos;
+    private Controlador controlador;
+    private ArrayList<JButton> organismos;
     private JPanel principal; 
     private JPanel informacionJuego;
     private JLabel casillas[][];
@@ -37,14 +39,15 @@ public class Mapa extends JFrame {
     private JLabel colorAlimentoEnergia;
     private JLabel colorAlimentoVision;
     
-    private int cordenadas [];
-
+    //private int cordenadas [];
+    
     public Mapa() {
         super("Ventana");
+        
         this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
-        this.cordenadas = new int[2];
+        //this.cordenadas = new int[2];
         
         this.npcs = new JLabel("NPC");
         this.jugadores = new JLabel("Jugador");
@@ -64,20 +67,55 @@ public class Mapa extends JFrame {
         this.iniciarVentana();
         
     }
+
+    public Mapa(Controlador controlador) {
+        super("Ventana");
+        this.controlador = controlador;
+        this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
+        this.casillas = new JLabel[50][50];
+        this.principal = new JPanel();
+        //this.cordenadas = new int[2];
+        
+        this.npcs = new JLabel("NPC");
+        this.jugadores = new JLabel("Jugador");
+        this.alimentoVision = new JLabel("Comida vision"); 
+        this.alimentoEnergia = new JLabel("Comida energia");
+        this.alimentoVelocidad = new JLabel("Comida velocidad");
+        
+        this.colorNpcs = new JLabel();
+        this.colorJugadores = new JLabel();
+        this.colorAlimentoVision = new JLabel();
+        this.colorAlimentoEnergia = new JLabel();
+        this.colorAlimentoVelocidad = new JLabel(); 
+        
+        
+        this.iniciarComponentes ();
+        this.generarAlimentos();
+        this.iniciarVentana();
+    }
  
     private void generarAlimentos() {
         Random rand = new Random(); 
+        int coordsAlimentos [][] = new int[21][2];
         
-        for (int i = 0; i <= 20; i++) { 
+        int i = 0;
+        while (i <= 20) {
             int x = rand.nextInt(50);
-            int y = rand.nextInt(50); 
-            if (i <= 6)
-                this.casillas[x][y].setBackground(Color.BLUE);
-            if (i > 6 && i <= 13)
-                this.casillas[x][y].setBackground(Color.YELLOW);
-            if (i > 13)
-                this.casillas[x][y].setBackground(Color.GREEN);
+            int y = rand.nextInt(50);  
+            
+            if (this.casillas[x][y].getBackground() == Color.WHITE) { 
+                coordsAlimentos [i][0] = x;
+                coordsAlimentos [i][1] = y;
+                if (i <= 6)
+                    this.casillas[x][y].setBackground(Color.BLUE);  //energia
+                if (i > 6 && i <= 13)
+                    this.casillas[x][y].setBackground(Color.YELLOW);//vision
+                if (i > 13)
+                    this.casillas[x][y].setBackground(Color.GREEN); // velocidad
+                i++;
+            }
         }
+        this.controlador.pasarCoordsAlimentos(coordsAlimentos);
     }
  
     private void crearOrganismos() {
@@ -108,8 +146,8 @@ public class Mapa extends JFrame {
     }
 
     private void iniciarComponentes () {
-        this.cordenadas[0] = 24;
-        this.cordenadas[1] = 24;
+        //this.cordenadas[0] = 24;
+        //this.cordenadas[1] = 24;
         
         int sizeFont = 16;
         int widthFont = 140; 
@@ -201,10 +239,6 @@ public class Mapa extends JFrame {
 
     public JLabel[][] getCasillas() {
         return casillas;
-    }
-
-    public int[] getCordenadas() {
-        return cordenadas;
     }
 
     public ArrayList<JButton> getOrganismos() {
