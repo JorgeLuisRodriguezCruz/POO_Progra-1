@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import model.GestorPartida;
+import model.Organismo;
 import view.Mapa;
 import view.Informacion;
 import view.MicroGameGUI;
@@ -17,8 +18,7 @@ public class Controlador implements ActionListener, KeyListener {
     private MicroGameGUI configuracion;
     private GestorPartida gestor;
 
-    public Controlador () {
-        
+    public Controlador () { 
         this.configuracion = new MicroGameGUI(); 
         this.configuracion.setVisible(false);
         this.gestor = new GestorPartida(this);
@@ -56,32 +56,37 @@ public class Controlador implements ActionListener, KeyListener {
     
     public void mover (int x, int y, int turno) {
 
-        JButton org = this.mapa.getOrganismos().get(turno);
+        JButton orgBoton = this.mapa.getOrganismos().get(turno);
+        Organismo org = this.gestor.getOrganismos().get(turno);
         
-        int posEnMapX = (org.getX() - 299) / 13; posEnMapX--;
-        int posEnMapY = org.getY() / 13; posEnMapY--;
+        int posEnMapX = (orgBoton.getX() - 299) / 13; posEnMapX--;
+        int posEnMapY = orgBoton.getY() / 13; posEnMapY--;
          
         if (posEnMapX >= 0 && posEnMapX < 50 && posEnMapY >= 0 && posEnMapY < 50) {
             
             this.mapa.getCasillas()[ posEnMapX ][ posEnMapY ].setBackground(Color.WHITE);
             
-            if (org.getX() + (13 * x) < 312){
-                org.setLocation(312,  org.getY() + (13 * y));
+            if (orgBoton.getX() + (13 * x) < 312){
+                orgBoton.setLocation(312,  orgBoton.getY() + (13 * y));
+                org.setCoordenadas(312,  orgBoton.getY() + (13 * y));
                 return;
             }
-            if (org.getX() + (13 * x) > 949){
-                org.setLocation(949,  org.getY() + (13 * y));
+            if (orgBoton.getX() + (13 * x) > 949){
+                orgBoton.setLocation(949,  orgBoton.getY() + (13 * y));
+                org.setCoordenadas(949,  orgBoton.getY() + (13 * y));
                 return;
             }
-            if (org.getY() + (13 * y) < 13){
-                org.setLocation(org.getX() + (13 * x),  13);
+            if (orgBoton.getY() + (13 * y) < 13){
+                orgBoton.setLocation(orgBoton.getX() + (13 * x),  13);
+                org.setCoordenadas(orgBoton.getX() + (13 * x),  13);
                 return;
             }
-            if (org.getY() + (13 * y) > 650){
-                org.setLocation(org.getX() + (13 * x),  650);
+            if (orgBoton.getY() + (13 * y) > 650){
+                orgBoton.setLocation(orgBoton.getX() + (13 * x),  650);
+                org.setCoordenadas(orgBoton.getX() + (13 * x),  650);
                 return;
             }
-            org.setLocation(org.getX() + (13 * x),  org.getY() + (13 * y));
+            orgBoton.setLocation(orgBoton.getX() + (13 * x),  orgBoton.getY() + (13 * y));
             
         }
     }
@@ -105,7 +110,8 @@ public class Controlador implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
             if (e.getSource() == this.mapa.getOrganismos().get(i)) {
-                Informacion info = new Informacion (22, 23, 24, 25);
+                Organismo org = this.gestor.getOrganismos().get(i);
+                Informacion info = new Informacion (org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
             }
         } 
         if (e.getSource() == this.configuracion.getJugar()) {
@@ -125,22 +131,28 @@ public class Controlador implements ActionListener, KeyListener {
         
     @Override
     public void keyPressed(KeyEvent e) {
+        int turno = 0; //Esto es solo representativo cuando este implementado la gestion del turno, se quita.
+        if (turno != 0)
+            return;
         switch (e.getKeyCode()) {
             case 37: // flecha izquierda
-                moverEnLineaRecta(4, 0, -1, 0);
+                moverEnLineaRecta(4, turno, -1, 0);
                 break;
             case 38: // flecha arriba
-                moverEnLineaRecta(4, 0, 0, -1);
+                moverEnLineaRecta(4, turno, 0, -1);
                 break;
             case 39: // flecha derecha
-                moverEnLineaRecta(4, 0, 1, 0);
+                moverEnLineaRecta(4, turno, 1, 0);
                 break;
             case 40: // flecha abajo
-                moverEnLineaRecta(4, 0, 0, 1);
+                moverEnLineaRecta(4, turno, 0, 1);
                 break; 
             default: 
                 break;
         }
+        Organismo org = this.gestor.getOrganismos().get(turno);
+        org.setEdad(org.getEdad()+1);
+        org.setEnergia(org.getEnergia()-1);
     }
 
     @Override

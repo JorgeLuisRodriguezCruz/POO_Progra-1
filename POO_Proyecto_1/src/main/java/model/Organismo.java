@@ -29,5 +29,30 @@ public class Organismo {
         this.coordenadas [0] = x;
         this.coordenadas [1] = y;
     }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public int getVision() {
+        return vision;
+    }
+
+    public int getEnergia() {
+        return energia;
+    }
+
+    public int getVelocidad() {
+        return velocidad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public void setEnergia(int energia) {
+        this.energia = energia;
+    }
+    
     
 }

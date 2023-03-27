@@ -22,7 +22,6 @@ public class GestorPartida {
         
         for (int i = 0; i < organismos.size(); i++) { //JButton get = organismos.get(i);
             int tipo = rand.nextInt(2);
-            System.out.println("tipo = " + tipo);
             
             if (tipo == 1)
                 this.organismos.add(new Velocista ());
@@ -50,6 +49,11 @@ public class GestorPartida {
             }
         }
     }
+
+    public ArrayList<Organismo> getOrganismos() {
+        return organismos;
+    }
+    
     
     
 }
