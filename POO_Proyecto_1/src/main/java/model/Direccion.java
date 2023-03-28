@@ -1,5 +1,5 @@
 package model;
 
-public enum Direcciones {
+public enum Direccion {
     IZQUIERDA, ARRIBA, DERECHA, ABAJO;
 }

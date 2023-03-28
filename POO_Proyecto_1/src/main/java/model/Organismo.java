@@ -5,6 +5,7 @@ import view.Informacion;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 
 public class Organismo { 
@@ -22,7 +23,10 @@ public class Organismo {
         this.vision = 4; 
         this.energia = 10;
         this.velocidad = 3;
-        
+    }
+    
+    public int elegirDireccion (ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos){
+        return 0;
     }
 
     public void setCoordenadas(int x, int y) {
@@ -53,6 +57,5 @@ public class Organismo {
     public void setEnergia(int energia) {
         this.energia = energia;
     }
-    
     
 }

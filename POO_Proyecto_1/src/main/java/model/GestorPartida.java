@@ -9,11 +9,13 @@ public class GestorPartida {
     private Controlador controlador;
     private ArrayList<Organismo> organismos;
     private ArrayList<Alimento> alimentos;
+    private int turno;
 
     public GestorPartida(Controlador controlador) {
-        this.controlador = controlador;
+        this.controlador = controlador; 
         this.organismos = new ArrayList<Organismo>();
         this.alimentos = new ArrayList<Alimento>();
+        this.turno = 0;
         
     }
     
@@ -53,7 +55,38 @@ public class GestorPartida {
     public ArrayList<Organismo> getOrganismos() {
         return organismos;
     }
+
+    public void moverNpcs () {
+        
+        for (int i = this.turno; i < organismos.size(); i++) {
+            int direccionMover = this.organismos.get(i).elegirDireccion(this.organismos, this.alimentos);
+
+            switch(direccionMover){
+                case 0: // Izquierda
+                    this.controlador.moverEnLineaRecta(i, -1, 0);
+                    break;
+                case 1: // Arriba
+                    this.controlador.moverEnLineaRecta(i, 0, -1);
+                    break;
+                case 2: // Derecha
+                    this.controlador.moverEnLineaRecta(i, 1, 0);
+                    break;
+                case 3: // Abajo
+                    this.controlador.moverEnLineaRecta(i, 0, 1);
+                    break;
+                default:
+                    break;
+            }
+        }
+        this.turno = 0; 
+    }
+
+    public void setTurno(int turno) {
+        this.turno = turno;
+    }
     
-    
+    public int getTurno() {
+        return turno;
+    } 
     
 }

@@ -91,11 +91,13 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
         
-    public void moverEnLineaRecta(int cuadros, int turno, int x, int y) {
-        
-        for (int i = 0; i < cuadros; i++) {
+    public void moverEnLineaRecta(int turno, int x, int y) {
+        Organismo org = this.gestor.getOrganismos().get(turno); 
+        for (int i = 0; i < org.getVelocidad(); i++) {
             mover(x, y, turno);
-        }
+        } 
+        org.setEdad(org.getEdad()+1);
+        org.setEnergia(org.getEnergia()-1);
     }
 
     public void iniciarOrganismos () {
@@ -128,31 +130,30 @@ public class Controlador implements ActionListener, KeyListener {
             }
         }
     }
-        
+    
     @Override
     public void keyPressed(KeyEvent e) {
-        int turno = 0; //Esto es solo representativo cuando este implementado la gestion del turno, se quita.
+        int turno = this.gestor.getTurno(); //Esto es solo representativo cuando este implementado la gestion del turno, se quita.
         if (turno != 0)
             return;
         switch (e.getKeyCode()) {
             case 37: // flecha izquierda
-                moverEnLineaRecta(4, turno, -1, 0);
+                moverEnLineaRecta(turno, -1, 0);
                 break;
             case 38: // flecha arriba
-                moverEnLineaRecta(4, turno, 0, -1);
+                moverEnLineaRecta(turno, 0, -1);
                 break;
             case 39: // flecha derecha
-                moverEnLineaRecta(4, turno, 1, 0);
+                moverEnLineaRecta(turno, 1, 0);
                 break;
             case 40: // flecha abajo
-                moverEnLineaRecta(4, turno, 0, 1);
+                moverEnLineaRecta(turno, 0, 1);
                 break; 
             default: 
                 break;
-        }
-        Organismo org = this.gestor.getOrganismos().get(turno);
-        org.setEdad(org.getEdad()+1);
-        org.setEnergia(org.getEnergia()-1);
+        } 
+        this.gestor.setTurno(turno + 1);
+        this.gestor.moverNpcs();
     }
 
     @Override
