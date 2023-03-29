@@ -10,8 +10,9 @@ public class Velocista extends Organismo {
     }
     
     @Override
-    public int elegirDireccion (ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos) {
+    public int elegirDireccion (ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos, int turno) {
         Random rand = new Random(); 
-        return rand.nextInt(4);
+        int ramdom = rand.nextInt(4);
+        return ramdom;
     }
 }

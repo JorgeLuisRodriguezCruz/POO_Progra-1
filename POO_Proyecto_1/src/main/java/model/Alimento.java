@@ -16,6 +16,10 @@ public class Alimento {
 
     public void serComido (Organismo org) { }
 
+    public int[] getCoordenadas() {
+        return coordenadas;
+    } 
+    
     public void setCoordenadas(int x, int y) {
         this.coordenadas[0] = x;
         this.coordenadas[1] = y;

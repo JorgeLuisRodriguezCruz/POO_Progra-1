@@ -10,8 +10,16 @@ public class Visionador extends Organismo {
     }
     
     @Override
-    public int elegirDireccion (ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos) {        
-        Random rand = new Random(); 
-        return rand.nextInt(4);
+    public int elegirDireccion (ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos, int turno) {        
+        Random rand = new Random();  
+        int ramdom = rand.nextInt(4);
+        
+        if (this.organismoALaVista(organismos, turno)){
+            return ramdom;
+        }
+        if (this.alimentosALaVista(alimentos)){
+            return ramdom;
+        } 
+        return ramdom;
     }
 }

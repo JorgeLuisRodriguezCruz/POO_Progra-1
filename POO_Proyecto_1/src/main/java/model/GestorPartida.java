@@ -59,7 +59,7 @@ public class GestorPartida {
     public void moverNpcs () {
         
         for (int i = this.turno; i < organismos.size(); i++) {
-            int direccionMover = this.organismos.get(i).elegirDireccion(this.organismos, this.alimentos);
+            int direccionMover = this.organismos.get(i).elegirDireccion(this.organismos, this.alimentos, i);
 
             switch(direccionMover){
                 case 0: // Izquierda
