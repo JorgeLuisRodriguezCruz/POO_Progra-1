@@ -8,8 +8,7 @@ import model.Organismo;
 
 public class Main {
 
-    public static void main(String[] args) {
-        System.out.println("Qué pasa? Algun problema?");
+    public static void main(String[] args) { 
         
         //Mapa vent = new Mapa (); 
         Controlador co = new Controlador();

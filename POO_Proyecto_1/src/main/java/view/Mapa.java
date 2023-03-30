@@ -120,13 +120,13 @@ public class Mapa extends JFrame {
  
     private void crearOrganismos() {
         //El (0, 0) del mapa es X = 312, Y = 13.
-        //El centro (25, 25) del mapa es X = 637, Y = 325.
+        //El centro (25, 25) del mapa es X = 624, Y = 325.
         //El (50, 50) del mapa es X = 949, Y = 650.
         Random rand = new Random();
         
         this.organismos.add(new JButton());  
         this.principal.add(this.organismos.get(0));
-        this.organismos.get(0).setBounds(637, 325, 12, 12);
+        this.organismos.get(0).setBounds(624, 325, 12, 12);
         this.organismos.get(0).setBackground(Color.RED);
         this.organismos.get(0).setOpaque(true);
         
