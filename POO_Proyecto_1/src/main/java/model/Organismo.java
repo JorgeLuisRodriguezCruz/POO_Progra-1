@@ -26,6 +26,72 @@ public class Organismo {
         this.velocidad = 3;
     }
     
+    protected int seguirAlimento (Alimento alimento) { 
+        int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
+        int posOrgX = (this.coordenadas[0] - 299) / 13; int posOrgY = (this.coordenadas[1] / 13);
+        int diferenciaX, diferenciaY; 
+
+        if (posOrgX > posAlimenX)
+            diferenciaX = posOrgX - posAlimenX;
+        else
+            diferenciaX = posAlimenX - posOrgX;
+
+        if (posOrgY > posAlimenY)
+            diferenciaY = posOrgY - posAlimenY;
+        else
+            diferenciaY = posAlimenY - posOrgY;
+        
+        if (posOrgX < posAlimenX && posOrgY < posAlimenY) { //Der + Arrb
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Der o Arrb
+                    return 2;
+                return 1; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 2;
+            } else { 
+                return 1;
+            }
+        }  
+        if (posOrgX < posAlimenX && posOrgY > posAlimenY) { //Der + Abaj
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Der o Abaj
+                    return 2;
+                return 3; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 2;
+            } else { 
+                return 3;
+            }
+        }  
+        if (posOrgX > posAlimenX && posOrgY < posAlimenY) { //Izq + Arrb
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Izq o Arrb
+                    return 0;
+                return 1; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 0;
+            } else { 
+                return 1;
+            }
+        }  
+        if (posOrgX > posAlimenX && posOrgY > posAlimenY) { //Izq + Abaj
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Izq o Abaj
+                    return 0;
+                return 3; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 0;
+            } else { 
+                return 3;
+            }
+        }
+        return -1;
+    }
+    
     protected int seguirOrganismo (Organismo organismo) {
         int xOrgCompar = organismo.getCoordenadas()[0];
         int yOrgCompar = organismo.getCoordenadas()[1];
@@ -200,49 +266,23 @@ public class Organismo {
         }
         return organismoSercano;
     }
-    /*
-    protected boolean organismoALaVista (ArrayList<Organismo> organismos, int turno) {
-        for (int i = 0; i < organismos.size(); i++) {
-            if (i != turno) {
-                Organismo organismo = organismos.get(i);
-                int xOrgCompar = organismo.getCoordenadas()[0];
-                int yOrgCompar = organismo.getCoordenadas()[1]; 
-                int diferenciaX, diferenciaY;
-                
-                if (this.coordenadas[0] > xOrgCompar)
-                    diferenciaX = this.coordenadas[0] - xOrgCompar;
-                else
-                    diferenciaX = xOrgCompar - this.coordenadas[0];
-                
-                if (this.coordenadas[1] > yOrgCompar)
-                    diferenciaY = this.coordenadas[1] - yOrgCompar;
-                else
-                    diferenciaY = yOrgCompar - this.coordenadas[1];
-                
-                if (diferenciaX <= this.vision && diferenciaY <= this.vision)
-                    return true; 
-            } 
-        }
-        return false;
-    }
-    */
-     
+         
     protected boolean alimentosALaVista (ArrayList<Alimento> alimentos) {
         for (int i = 0; i < alimentos.size(); i++) {
             Alimento alimento = alimentos.get(i);
-            int xOrgCompar = alimento.getCoordenadas()[0];
-            int yOrgCompar = alimento.getCoordenadas()[1]; 
+            int xAlimenCompar = alimento.getCoordenadas()[0];
+            int yAlimenCompar = alimento.getCoordenadas()[1]; 
             int diferenciaX, diferenciaY;
 
-            if ((this.coordenadas[0] - 299) / 13 > xOrgCompar)
-                diferenciaX = (this.coordenadas[0] - 299) / 13 - xOrgCompar;
+            if ((this.coordenadas[0] - 299) / 13 > xAlimenCompar)
+                diferenciaX = (this.coordenadas[0] - 299) / 13 - xAlimenCompar;
             else
-                diferenciaX = xOrgCompar - (this.coordenadas[0] - 299) / 13;
+                diferenciaX = xAlimenCompar - (this.coordenadas[0] - 299) / 13;
 
-            if (this.coordenadas[1] / 13 > yOrgCompar)
-                diferenciaY = (this.coordenadas[1] / 13) - yOrgCompar;
+            if (this.coordenadas[1] / 13 > yAlimenCompar)
+                diferenciaY = (this.coordenadas[1] / 13) - yAlimenCompar;
             else
-                diferenciaY = yOrgCompar - (this.coordenadas[1] / 13);
+                diferenciaY = yAlimenCompar - (this.coordenadas[1] / 13);
 
             if (diferenciaX <= this.vision && diferenciaY <= this.vision)
                 return true; 
