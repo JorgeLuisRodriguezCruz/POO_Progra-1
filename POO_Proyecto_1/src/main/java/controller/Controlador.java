@@ -29,6 +29,8 @@ public class Controlador implements ActionListener, KeyListener {
         
         this.establecerComunicacion();
         this.iniciarOrganismos();
+        this.gestor.mostrarVision(this.mapa.getCasillas());
+        this.mapa.repaint();
     }
     
     public Controlador (Mapa pMapa) {
@@ -39,6 +41,8 @@ public class Controlador implements ActionListener, KeyListener {
         this.automacNPCS = true;
         
         this.establecerComunicacion();
+        this.gestor.mostrarVision(this.mapa.getCasillas());
+        this.mapa.repaint();
     }
     
     public Controlador (MicroGameGUI pConfiguracion) {
@@ -56,11 +60,8 @@ public class Controlador implements ActionListener, KeyListener {
             this.mapa.getOrganismos().get(i).addKeyListener(this);
             this.mapa.getOrganismos().get(i).addActionListener(this);
         }
-        
-        this.mapa.getMostrarVision().addKeyListener(this);
-        this.mapa.getMostrarVision().addActionListener(this);
-        this.mapa.getSimular().addKeyListener(this);
-        this.mapa.getSimular().addActionListener(this);
+        this.mapa.getSiguiente().addKeyListener(this);
+        this.mapa.getSiguiente().addActionListener(this);
         this.mapa.getAutomatico().addKeyListener(this);
         this.mapa.getAutomatico().addActionListener(this);
     }
@@ -129,14 +130,12 @@ public class Controlador implements ActionListener, KeyListener {
                 Informacion info = new Informacion (org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
             }
         }
-        if (e.getSource() == this.mapa.getMostrarVision()){
-           this.gestor.mostrarVision(mapa.getCasillas());
-           this.mapa.repaint();
-        }
-        if (e.getSource() == this.mapa.getSimular()){
+        if (e.getSource() == this.mapa.getSiguiente()){
             this.gestor.limpiarVista(mapa.getCasillas());
             this.mapa.repaint();
             this.gestor.simularSiguiente();
+            this.gestor.mostrarVision(mapa.getCasillas());
+            this.mapa.repaint();
         }
         if (e.getSource() == this.mapa.getAutomatico()){
             this.automacNPCS = !this.automacNPCS;
@@ -182,10 +181,17 @@ public class Controlador implements ActionListener, KeyListener {
             default: 
                 break;
         }  
-        if (this.automacNPCS)
+        if (this.automacNPCS){
+            this.gestor.setTurno(turno + 1);
             this.gestor.moverNpcs();
-        else
-            this.gestor.setTurno(turno + 1);  
+            this.gestor.mostrarVision(this.mapa.getCasillas());
+            this.mapa.repaint();
+        }
+        else {
+            this.gestor.setTurno(turno + 1);
+            this.gestor.mostrarVision(mapa.getCasillas());
+            this.mapa.repaint();
+        }
     }
 
     @Override

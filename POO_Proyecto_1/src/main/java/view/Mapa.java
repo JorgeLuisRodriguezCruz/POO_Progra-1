@@ -22,9 +22,8 @@ import model.Vision;
 
 public class Mapa extends JFrame {
     private Controlador controlador;
-    private ArrayList<JButton> organismos;
-    private JButton mostrarVision;
-    private JButton simular;
+    private ArrayList<JButton> organismos; 
+    private JButton siguiente;
     private JButton automatico;
     private JPanel principal;
     private JPanel informacionJuego;
@@ -48,8 +47,7 @@ public class Mapa extends JFrame {
         this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
-        this.mostrarVision = new JButton("Mostrar vision");
-        this.simular = new JButton("Simular");
+        this.siguiente = new JButton("Siguiente");
         this.automatico = new JButton("NPC automaticos");
         
         this.npcs = new JLabel("NPC");
@@ -77,8 +75,7 @@ public class Mapa extends JFrame {
         this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
-        this.mostrarVision = new JButton("Mostrar vision");
-        this.simular = new JButton("Simular");
+        this.siguiente = new JButton("Siguiente");
         this.automatico = new JButton("NPC automaticos");
         
         this.npcs = new JLabel("NPC");
@@ -112,11 +109,11 @@ public class Mapa extends JFrame {
                 coordsAlimentos [i][0] = x;
                 coordsAlimentos [i][1] = y;
                 if (i <= 6)
-                    this.casillas[x][y].setBackground(Color.BLUE);  //energia
+                    this.casillas[x][y].setBackground(new Color(255, 255, 102));    //energia - Amarillo
                 if (i > 6 && i <= 13)
-                    this.casillas[x][y].setBackground(Color.YELLOW);//vision
-                if (i > 13)
-                    this.casillas[x][y].setBackground(Color.GREEN); // velocidad
+                    this.casillas[x][y].setBackground(new Color(51, 153, 255));    //vision - Azul
+                if (i > 13) 
+                    this.casillas[x][y].setBackground(new Color(178, 255, 102));    //velocidad - Verde
                 i++;
             }
         }
@@ -143,7 +140,7 @@ public class Mapa extends JFrame {
             this.organismos.add(new JButton()); 
             this.principal.add(this.organismos.get(i)); 
             this.organismos.get(i).setBounds(13*(x+1) + 299, 13*(y+1), 12, 12);
-            this.organismos.get(i).setBackground(Color.MAGENTA);
+            this.organismos.get(i).setBackground(new Color(204, 102, 0));
             this.organismos.get(i).setOpaque(true);
             
             //this.casillas[x][y].setBackground(Color.magenta);
@@ -167,7 +164,7 @@ public class Mapa extends JFrame {
  
         this.colorNpcs.setBounds(xCordColor, yCordTxt + 120, 20, 20);
         this.colorNpcs.setOpaque(true);
-        this.colorNpcs.setBackground(Color.MAGENTA); 
+        this.colorNpcs.setBackground(new Color(204, 102, 0)); 
         
         // Agregar label y cuadro para el jugador  
         this.jugadores.setForeground(Color.WHITE);
@@ -185,7 +182,7 @@ public class Mapa extends JFrame {
  
         this.colorAlimentoVision.setBounds(xCordColor, yCordTxt + 90, 20, 20);
         this.colorAlimentoVision.setOpaque(true);
-        this.colorAlimentoVision.setBackground(Color.YELLOW); 
+        this.colorAlimentoVision.setBackground(new Color(51, 153, 255)); 
  
         // Agregar label y cuadro para la comida energia 
         this.alimentoEnergia.setForeground(Color.WHITE);
@@ -194,7 +191,7 @@ public class Mapa extends JFrame {
  
         this.colorAlimentoEnergia.setBounds(xCordColor, yCordTxt + 60, 20, 20);
         this.colorAlimentoEnergia.setOpaque(true);
-        this.colorAlimentoEnergia.setBackground(Color.BLUE); 
+        this.colorAlimentoEnergia.setBackground(new Color(255, 255, 102)); 
                 
         // Agregar label y cuadro para la comida velocidad 
         this.alimentoVelocidad.setForeground(Color.WHITE);
@@ -203,29 +200,22 @@ public class Mapa extends JFrame {
  
         this.colorAlimentoVelocidad.setBounds(xCordColor, yCordTxt + 30, 20, 20);
         this.colorAlimentoVelocidad.setOpaque(true);
-        this.colorAlimentoVelocidad.setBackground(Color.GREEN);
-        
-        this.mostrarVision.setBounds(xCordTxt, yCordTxt + 180, widthFont + 20, 26);
-        this.mostrarVision.setForeground(Color.BLACK);
-        this.mostrarVision.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
-        this.mostrarVision.setFocusable(false);
-        this.mostrarVision.setBackground(new Color(224, 224, 224)); 
-        
-        this.simular.setBounds(xCordTxt, yCordTxt + 220, widthFont - 36, 26);
-        this.simular.setForeground(Color.BLACK);
-        this.simular.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
-        this.simular.setFocusable(false);
-        this.simular.setBackground(new Color(224, 224, 224));
+        this.colorAlimentoVelocidad.setBackground(new Color(178, 255, 102));
          
-        this.automatico.setBounds(xCordTxt, yCordTxt + 260, widthFont + 20, 26);
+        this.automatico.setBounds(xCordTxt, yCordTxt + 220, widthFont + 24, 26);
         this.automatico.setForeground(Color.BLACK);
-        this.automatico.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont - 2));
+        this.automatico.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.automatico.setFocusable(false);
         this.automatico.setBackground(new Color(102, 255, 102));
         
-        this.principal.add(this.mostrarVision);
-        this.principal.add(this.simular);
+        this.siguiente.setBounds(xCordTxt, yCordTxt + 260, widthFont - 36, 26);
+        this.siguiente.setForeground(Color.BLACK);
+        this.siguiente.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
+        this.siguiente.setFocusable(false);
+        this.siguiente.setBackground(new Color(224, 224, 224));
+        
         this.principal.add(this.automatico);
+        this.principal.add(this.siguiente);
         
         this.principal.add(this.npcs);
         this.principal.add(this.jugadores);
@@ -273,12 +263,8 @@ public class Mapa extends JFrame {
         return organismos;
     }
 
-    public JButton getMostrarVision() {
-        return mostrarVision;
-    }
-
-    public JButton getSimular() {
-        return simular;
+    public JButton getSiguiente() {
+        return siguiente;
     }
 
     public JButton getAutomatico() {
