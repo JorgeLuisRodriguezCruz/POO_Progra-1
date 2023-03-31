@@ -28,7 +28,7 @@ public class Organismo {
     
     protected int seguirAlimento (Alimento alimento) { 
         int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
-        int posOrgX = (this.coordenadas[0] - 299) / 13; int posOrgY = (this.coordenadas[1] / 13);
+        int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
         int diferenciaX, diferenciaY; 
 
         if (posOrgX > posAlimenX)
@@ -270,19 +270,19 @@ public class Organismo {
     protected boolean alimentosALaVista (ArrayList<Alimento> alimentos) {
         for (int i = 0; i < alimentos.size(); i++) {
             Alimento alimento = alimentos.get(i);
-            int xAlimenCompar = alimento.getCoordenadas()[0];
-            int yAlimenCompar = alimento.getCoordenadas()[1]; 
+            int xAlimenCompar = alimento.getCoordenadas()[0]; int yAlimenCompar = alimento.getCoordenadas()[1]; 
+            int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
             int diferenciaX, diferenciaY;
 
-            if ((this.coordenadas[0] - 299) / 13 > xAlimenCompar)
-                diferenciaX = (this.coordenadas[0] - 299) / 13 - xAlimenCompar;
+            if (posOrgX > xAlimenCompar)
+                diferenciaX = posOrgX - xAlimenCompar;
             else
-                diferenciaX = xAlimenCompar - (this.coordenadas[0] - 299) / 13;
+                diferenciaX = xAlimenCompar - posOrgX;
 
-            if (this.coordenadas[1] / 13 > yAlimenCompar)
-                diferenciaY = (this.coordenadas[1] / 13) - yAlimenCompar;
+            if (posOrgY > yAlimenCompar)
+                diferenciaY = posOrgY - yAlimenCompar;
             else
-                diferenciaY = yAlimenCompar - (this.coordenadas[1] / 13);
+                diferenciaY = yAlimenCompar - posOrgY;
 
             if (diferenciaX <= this.vision && diferenciaY <= this.vision)
                 return true; 

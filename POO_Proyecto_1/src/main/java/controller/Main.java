@@ -15,6 +15,8 @@ public class Main {
         
         //MicroGameGUI a = new MicroGameGUI ();
         //Controlador coco = new Controlador( a);
+        
+        //Hay que distinguir tres cosas: Coordenadas, posicion en el mapa y indice
 
     }
 }

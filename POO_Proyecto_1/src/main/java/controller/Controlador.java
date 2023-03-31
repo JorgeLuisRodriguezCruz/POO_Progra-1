@@ -17,6 +17,7 @@ public class Controlador implements ActionListener, KeyListener {
     private Mapa mapa;
     private MicroGameGUI configuracion;
     private GestorPartida gestor;
+    private boolean automacNPCS;
 
     public Controlador () { 
         this.configuracion = new MicroGameGUI(); 
@@ -24,6 +25,7 @@ public class Controlador implements ActionListener, KeyListener {
         this.gestor = new GestorPartida(this);
         this.mapa = new Mapa(this);
         this.mapa.setVisible(true);
+        this.automacNPCS = true;
         
         this.establecerComunicacion();
         this.iniciarOrganismos();
@@ -34,6 +36,7 @@ public class Controlador implements ActionListener, KeyListener {
         this.mapa.setVisible(true);
         this.configuracion = new MicroGameGUI(); 
         this.configuracion.setVisible(false);
+        this.automacNPCS = true;
         
         this.establecerComunicacion();
     }
@@ -41,6 +44,7 @@ public class Controlador implements ActionListener, KeyListener {
     public Controlador (MicroGameGUI pConfiguracion) {
         this.mapa = new Mapa(this);
         this.configuracion = pConfiguracion;
+        this.automacNPCS = true;
         
         this.establecerComunicacion();
     }
@@ -52,6 +56,13 @@ public class Controlador implements ActionListener, KeyListener {
             this.mapa.getOrganismos().get(i).addKeyListener(this);
             this.mapa.getOrganismos().get(i).addActionListener(this);
         }
+        
+        this.mapa.getMostrarVision().addKeyListener(this);
+        this.mapa.getMostrarVision().addActionListener(this);
+        this.mapa.getSimular().addKeyListener(this);
+        this.mapa.getSimular().addActionListener(this);
+        this.mapa.getAutomatico().addKeyListener(this);
+        this.mapa.getAutomatico().addActionListener(this);
     }
     
     public void mover (int x, int y, int turno) {
@@ -85,17 +96,19 @@ public class Controlador implements ActionListener, KeyListener {
                 orgBoton.setLocation(orgBoton.getX() + (13 * x),  650);
                 org.setCoordenadas(orgBoton.getX() + (13 * x),  650);
                 return;
-            }
+            } 
             orgBoton.setLocation(orgBoton.getX() + (13 * x),  orgBoton.getY() + (13 * y));
+            org.setCoordenadas(orgBoton.getX(),  orgBoton.getY());
             
         }
     }
         
     public void moverEnLineaRecta(int turno, int x, int y) {
-        Organismo org = this.gestor.getOrganismos().get(turno); 
-        for (int i = 0; i < org.getVelocidad(); i++) {
+        Organismo org = this.gestor.getOrganismos().get(turno);
+        
+        for (int i = 1; i <= org.getVelocidad(); i++) {
             mover(x, y, turno);
-        } 
+        }
         org.setEdad(org.getEdad()+1);
         org.setEnergia(org.getEnergia()-1);
     }
@@ -115,7 +128,23 @@ public class Controlador implements ActionListener, KeyListener {
                 Organismo org = this.gestor.getOrganismos().get(i);
                 Informacion info = new Informacion (org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
             }
-        } 
+        }
+        if (e.getSource() == this.mapa.getMostrarVision()){
+           this.gestor.mostrarVision(mapa.getCasillas());
+           this.mapa.repaint();
+        }
+        if (e.getSource() == this.mapa.getSimular()){
+            this.gestor.limpiarVista(mapa.getCasillas());
+            this.mapa.repaint();
+            this.gestor.simularSiguiente();
+        }
+        if (e.getSource() == this.mapa.getAutomatico()){
+            this.automacNPCS = !this.automacNPCS;
+            if (this.automacNPCS)
+                this.mapa.getAutomatico().setBackground(new Color(102, 255, 102));
+            else
+                this.mapa.getAutomatico().setBackground(new Color(255, 102, 102));
+        }
         if (e.getSource() == this.configuracion.getJugar()) {
             try {
                 Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
@@ -136,24 +165,27 @@ public class Controlador implements ActionListener, KeyListener {
         int turno = this.gestor.getTurno(); //Esto es solo representativo cuando este implementado la gestion del turno, se quita.
         if (turno != 0)
             return;
+        this.gestor.limpiarVista(mapa.getCasillas()); 
         switch (e.getKeyCode()) {
             case 37: // flecha izquierda
-                moverEnLineaRecta(turno, -1, 0);
+                this.moverEnLineaRecta(turno, -1, 0);
                 break;
             case 38: // flecha arriba
-                moverEnLineaRecta(turno, 0, -1);
+                this.moverEnLineaRecta(turno, 0, -1);
                 break;
             case 39: // flecha derecha
-                moverEnLineaRecta(turno, 1, 0);
+                this.moverEnLineaRecta(turno, 1, 0);
                 break;
             case 40: // flecha abajo
-                moverEnLineaRecta(turno, 0, 1);
+                this.moverEnLineaRecta(turno, 0, 1);
                 break; 
             default: 
                 break;
-        } 
-        this.gestor.setTurno(turno + 1);
-        this.gestor.moverNpcs();
+        }  
+        if (this.automacNPCS)
+            this.gestor.moverNpcs();
+        else
+            this.gestor.setTurno(turno + 1);  
     }
 
     @Override

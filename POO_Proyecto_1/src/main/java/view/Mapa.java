@@ -23,7 +23,10 @@ import model.Vision;
 public class Mapa extends JFrame {
     private Controlador controlador;
     private ArrayList<JButton> organismos;
-    private JPanel principal; 
+    private JButton mostrarVision;
+    private JButton simular;
+    private JButton automatico;
+    private JPanel principal;
     private JPanel informacionJuego;
     private JLabel casillas[][];
     
@@ -37,9 +40,7 @@ public class Mapa extends JFrame {
     private JLabel colorJugadores;
     private JLabel colorAlimentoVelocidad;
     private JLabel colorAlimentoEnergia;
-    private JLabel colorAlimentoVision;
-    
-    //private int cordenadas [];
+    private JLabel colorAlimentoVision; 
     
     public Mapa() {
         super("Ventana");
@@ -47,7 +48,9 @@ public class Mapa extends JFrame {
         this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
-        //this.cordenadas = new int[2];
+        this.mostrarVision = new JButton("Mostrar vision");
+        this.simular = new JButton("Simular");
+        this.automatico = new JButton("NPC automaticos");
         
         this.npcs = new JLabel("NPC");
         this.jugadores = new JLabel("Jugador");
@@ -74,7 +77,9 @@ public class Mapa extends JFrame {
         this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
-        //this.cordenadas = new int[2];
+        this.mostrarVision = new JButton("Mostrar vision");
+        this.simular = new JButton("Simular");
+        this.automatico = new JButton("NPC automaticos");
         
         this.npcs = new JLabel("NPC");
         this.jugadores = new JLabel("Jugador");
@@ -152,53 +157,76 @@ public class Mapa extends JFrame {
         int sizeFont = 16;
         int widthFont = 140; 
         int xCordTxt = 40;
+        int yCordTxt = 130;
         int xCordColor = xCordTxt + 150;
 
         // Agregar label y cuadro para la NPC 
         this.npcs.setForeground(Color.WHITE);
         this.npcs.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
-        this.npcs.setBounds(xCordTxt, 340, widthFont, 20); 
+        this.npcs.setBounds(xCordTxt, yCordTxt + 120, widthFont, 20); 
  
-        this.colorNpcs.setBounds(xCordColor, 340, 20, 20);
+        this.colorNpcs.setBounds(xCordColor, yCordTxt + 120, 20, 20);
         this.colorNpcs.setOpaque(true);
         this.colorNpcs.setBackground(Color.MAGENTA); 
         
         // Agregar label y cuadro para el jugador  
         this.jugadores.setForeground(Color.WHITE);
         this.jugadores.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
-        this.jugadores.setBounds(xCordTxt, 220,widthFont, 20);
+        this.jugadores.setBounds(xCordTxt, yCordTxt,widthFont, 20);
         
-        this.colorJugadores.setBounds(xCordColor, 220, 20, 20);
+        this.colorJugadores.setBounds(xCordColor, yCordTxt, 20, 20);
         this.colorJugadores.setOpaque(true);
         this.colorJugadores.setBackground(Color.RED); 
                  
         // Agregar label y cuadro para la comida vision 
         this.alimentoVision.setForeground(Color.WHITE);
         this.alimentoVision.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
-        this.alimentoVision.setBounds(xCordTxt, 310,widthFont, 20); 
+        this.alimentoVision.setBounds(xCordTxt, yCordTxt + 90,widthFont, 20); 
  
-        this.colorAlimentoVision.setBounds(xCordColor, 310, 20, 20);
+        this.colorAlimentoVision.setBounds(xCordColor, yCordTxt + 90, 20, 20);
         this.colorAlimentoVision.setOpaque(true);
         this.colorAlimentoVision.setBackground(Color.YELLOW); 
  
         // Agregar label y cuadro para la comida energia 
         this.alimentoEnergia.setForeground(Color.WHITE);
         this.alimentoEnergia.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
-        this.alimentoEnergia.setBounds(xCordTxt, 280,widthFont, 20); 
+        this.alimentoEnergia.setBounds(xCordTxt, yCordTxt + 60,widthFont, 20); 
  
-        this.colorAlimentoEnergia.setBounds(xCordColor, 280, 20, 20);
+        this.colorAlimentoEnergia.setBounds(xCordColor, yCordTxt + 60, 20, 20);
         this.colorAlimentoEnergia.setOpaque(true);
         this.colorAlimentoEnergia.setBackground(Color.BLUE); 
                 
         // Agregar label y cuadro para la comida velocidad 
         this.alimentoVelocidad.setForeground(Color.WHITE);
         this.alimentoVelocidad.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
-        this.alimentoVelocidad.setBounds(xCordTxt, 250, widthFont, 20); 
+        this.alimentoVelocidad.setBounds(xCordTxt, yCordTxt + 30, widthFont, 20); 
  
-        this.colorAlimentoVelocidad.setBounds(xCordColor, 250, 20, 20);
+        this.colorAlimentoVelocidad.setBounds(xCordColor, yCordTxt + 30, 20, 20);
         this.colorAlimentoVelocidad.setOpaque(true);
-        this.colorAlimentoVelocidad.setBackground(Color.GREEN); 
-       
+        this.colorAlimentoVelocidad.setBackground(Color.GREEN);
+        
+        this.mostrarVision.setBounds(xCordTxt, yCordTxt + 180, widthFont + 20, 26);
+        this.mostrarVision.setForeground(Color.BLACK);
+        this.mostrarVision.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
+        this.mostrarVision.setFocusable(false);
+        this.mostrarVision.setBackground(new Color(224, 224, 224)); 
+        
+        this.simular.setBounds(xCordTxt, yCordTxt + 220, widthFont - 36, 26);
+        this.simular.setForeground(Color.BLACK);
+        this.simular.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
+        this.simular.setFocusable(false);
+        this.simular.setBackground(new Color(224, 224, 224));
+         
+        this.automatico.setBounds(xCordTxt, yCordTxt + 260, widthFont + 20, 26);
+        this.automatico.setForeground(Color.BLACK);
+        this.automatico.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont - 2));
+        this.automatico.setFocusable(false);
+        this.automatico.setBackground(new Color(102, 255, 102));
+        
+        this.principal.add(this.mostrarVision);
+        this.principal.add(this.simular);
+        this.principal.add(this.automatico);
+        
         this.principal.add(this.npcs);
         this.principal.add(this.jugadores);
         this.principal.add(this.alimentoVision);
@@ -245,4 +273,17 @@ public class Mapa extends JFrame {
         return organismos;
     }
 
+    public JButton getMostrarVision() {
+        return mostrarVision;
+    }
+
+    public JButton getSimular() {
+        return simular;
+    }
+
+    public JButton getAutomatico() {
+        return automatico;
+    }
+
+    
 }

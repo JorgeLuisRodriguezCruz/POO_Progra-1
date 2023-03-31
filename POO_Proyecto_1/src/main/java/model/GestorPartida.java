@@ -1,8 +1,10 @@
 package model;
 import controller.Controlador;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import view.Mapa;
 
 public class GestorPartida {
@@ -15,8 +17,16 @@ public class GestorPartida {
         this.controlador = controlador; 
         this.organismos = new ArrayList<Organismo>();
         this.alimentos = new ArrayList<Alimento>();
-        this.turno = 0;
-        
+        this.turno = 0; 
+    }
+    
+    private boolean comprobarHayAlimento (int x, int y) { 
+        for (int i = 0; i < this.alimentos.size(); i++) {
+            Alimento alimento = this.alimentos.get(i);
+            if (alimento.getCoordenadas()[0] == x && alimento.getCoordenadas()[1] == y)
+                return true;
+        } 
+        return false;
     }
     
     public void crearOrganismos (ArrayList<JButton> organismos) {
@@ -81,6 +91,100 @@ public class GestorPartida {
         this.turno = 0; 
     }
 
+    public void simularSiguiente () {
+        if (this.turno != 0) {
+            int direccionMover = this.organismos.get(this.turno).elegirDireccion(this.organismos, this.alimentos, this.turno);
+
+            switch(direccionMover){
+                case 0: // Izquierda
+                    this.controlador.moverEnLineaRecta(this.turno, -1, 0);
+                    break;
+                case 1: // Arriba
+                    this.controlador.moverEnLineaRecta(this.turno, 0, -1);
+                    break;
+                case 2: // Derecha
+                    this.controlador.moverEnLineaRecta(this.turno, 1, 0);
+                    break;
+                case 3: // Abajo
+                    this.controlador.moverEnLineaRecta(this.turno, 0, 1);
+                    break;
+                default:
+                    break;
+            }
+            
+            if (this.turno == this.organismos.size() - 1)
+                this.turno = 0;
+            else
+                this.turno++;
+        } 
+    }
+    
+    public void limpiarVista (JLabel[][] mapa) {
+        Organismo orgEnTurno = orgEnTurno = this.organismos.get(this.turno);
+         
+        int posOrgX = (orgEnTurno.getCoordenadas()[0] - 299) / 13;
+        int posOrgY = orgEnTurno.getCoordenadas()[1] / 13;
+        
+        int indxInicialX = (posOrgX - orgEnTurno.getVision()) - 1;
+        if (indxInicialX < 0)
+            indxInicialX = 0;
+        int indxFinalX = (posOrgX + orgEnTurno.getVision()) - 1;
+        if (indxFinalX > 49)
+            indxFinalX = 49;
+        int indxInicialY = (posOrgY - orgEnTurno.getVision()) - 1;
+        if (indxInicialY < 0)
+            indxInicialY = 0;
+        int indxFinalY = (posOrgY + orgEnTurno.getVision()) - 1;
+        if (indxFinalY > 49)
+            indxFinalY = 49; 
+        
+        for (int i = indxInicialX; i <= indxFinalX; i++) { 
+            for (int j = indxInicialY; j <= indxFinalY; j++) {
+                JLabel casilla = mapa[i][j]; 
+                if (this.comprobarHayAlimento(i, j) ==  false) {
+                    casilla.setBackground(Color.WHITE);
+                }
+            }
+        } 
+    }
+    
+    public void mostrarVision (JLabel[][] mapa) { 
+        Organismo orgEnTurno = orgEnTurno = this.organismos.get(this.turno);
+        
+        int posOrgX = (orgEnTurno.getCoordenadas()[0] - 299) / 13;
+        int posOrgY = orgEnTurno.getCoordenadas()[1] / 13; //posOrgY--;
+        
+        /*System.out.println("Turno:" + this.turno + " JB_coord_x = "+ org_JB.getX()+ " JB_coord_y = "+ org_JB.getY());
+        System.out.println("Turno:" + this.turno + " coord_x = "+ orgEnTurno.getCoordenadas()[0] + " coord_y = "+ orgEnTurno.getCoordenadas()[1]);
+        System.out.println("Turno:" + this.turno + " pos_x = "+ posOrgX + " pos_y = "+ posOrgY);
+        System.out.println("Turno:" + this.turno + " ind_x = "+ (posOrgX-1) + " ind_y = "+ (posOrgY-1) );*/
+         
+        int indxInicialX = (posOrgX - orgEnTurno.getVision())-1;
+        int indxFinalX = (posOrgX + orgEnTurno.getVision())-1;
+        int indxInicialY = (posOrgY - orgEnTurno.getVision())-1;
+        int indxFinalY = (posOrgY + orgEnTurno.getVision())-1;
+        
+        
+        if (indxInicialX < 0) 
+            indxInicialX = 0; 
+        if (indxFinalX > 49)
+            indxFinalX = 49;
+        if (indxInicialY < 0)
+            indxInicialY = 0;
+        if (indxFinalY > 49)
+            indxFinalY = 49; 
+         
+        for (int i = indxInicialX; i <= indxFinalX; i++) { 
+            for (int j = indxInicialY; j <= indxFinalY; j++) {
+                JLabel casilla = mapa[i][j]; 
+                if (this.comprobarHayAlimento(i, j) ==  false) {
+                    casilla.setBackground(Color.LIGHT_GRAY);
+                }
+            }
+        }
+        
+    }
+    
     public void setTurno(int turno) {
         this.turno = turno;
     }
