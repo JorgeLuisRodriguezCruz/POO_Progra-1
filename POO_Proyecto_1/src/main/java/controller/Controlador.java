@@ -134,8 +134,16 @@ public class Controlador implements ActionListener, KeyListener {
             this.gestor.limpiarVista(mapa.getCasillas());
             this.mapa.repaint();
             this.gestor.simularSiguiente();
-            this.gestor.mostrarVision(mapa.getCasillas());
-            this.mapa.repaint();
+            
+            if (this.automacNPCS){
+                this.gestor.moverNpcs();
+                this.gestor.mostrarVision(this.mapa.getCasillas());
+                this.mapa.repaint();
+            }
+            else {
+                this.gestor.mostrarVision(mapa.getCasillas());
+                this.mapa.repaint();
+            }
         }
         if (e.getSource() == this.mapa.getAutomatico()){
             this.automacNPCS = !this.automacNPCS;
