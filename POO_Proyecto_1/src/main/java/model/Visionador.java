@@ -70,4 +70,10 @@ public class Visionador extends Organismo {
         }
         return ramdom;
     }
+
+    @Override
+    public String identificarse (){
+        return "Visionador";
+    }
+    
 }

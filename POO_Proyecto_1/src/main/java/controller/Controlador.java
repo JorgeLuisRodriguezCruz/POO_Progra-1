@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import model.GestorPartida;
@@ -17,14 +18,15 @@ public class Controlador implements ActionListener, KeyListener {
     private Mapa mapa;
     private MicroGameGUI configuracion;
     private GestorPartida gestor;
+    private ArrayList<Informacion> infomacion;
     private boolean automacNPCS;
 
     public Controlador () { 
         this.configuracion = new MicroGameGUI(); 
-        this.configuracion.setVisible(false);
+        this.configuracion.setVisible(true);
         this.gestor = new GestorPartida(this);
-        this.mapa = new Mapa(this);
-        this.mapa.setVisible(true);
+        this.mapa = new Mapa(this); 
+        this.infomacion = new ArrayList<Informacion> ();
         this.automacNPCS = true;
         
         this.establecerComunicacion();
@@ -38,6 +40,7 @@ public class Controlador implements ActionListener, KeyListener {
         this.mapa.setVisible(true);
         this.configuracion = new MicroGameGUI(); 
         this.configuracion.setVisible(false);
+        this.infomacion = new ArrayList<Informacion> ();
         this.automacNPCS = true;
         
         this.establecerComunicacion();
@@ -48,6 +51,7 @@ public class Controlador implements ActionListener, KeyListener {
     public Controlador (MicroGameGUI pConfiguracion) {
         this.mapa = new Mapa(this);
         this.configuracion = pConfiguracion;
+        this.infomacion = new ArrayList<Informacion> ();
         this.automacNPCS = true;
         
         this.establecerComunicacion();
@@ -64,6 +68,15 @@ public class Controlador implements ActionListener, KeyListener {
         this.mapa.getSiguiente().addActionListener(this);
         this.mapa.getAutomatico().addKeyListener(this);
         this.mapa.getAutomatico().addActionListener(this);
+    }
+    
+    public void actualizarInformacion (){
+        this.gestor.crearOrganismos(this.mapa.getOrganismos()); 
+        ArrayList<Organismo> organismos = this.gestor.getOrganismos();
+        for (int i = 0; i < this.infomacion.size(); i++) {
+            Organismo org = organismos.get(i);
+            this.infomacion.get(i).actualisarDatos(org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
+        }
     }
     
     public void mover (int x, int y, int turno) {
@@ -115,7 +128,12 @@ public class Controlador implements ActionListener, KeyListener {
     }
 
     public void iniciarOrganismos () {
-        this.gestor.crearOrganismos(this.mapa.getOrganismos());
+        this.gestor.crearOrganismos(this.mapa.getOrganismos()); 
+        ArrayList<Organismo> organismos = this.gestor.getOrganismos();
+        for (int i = 0; i < organismos.size(); i++) {
+            Organismo org = organismos.get(i);
+            this.infomacion.add(new Informacion(org.identificarse(), org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad()));
+        }
     }
     
     public void pasarCoordsAlimentos (int[][] coordsAlimentos) {
@@ -125,9 +143,9 @@ public class Controlador implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < this.mapa.getOrganismos().size(); i++) {
-            if (e.getSource() == this.mapa.getOrganismos().get(i)) {
-                Organismo org = this.gestor.getOrganismos().get(i);
-                Informacion info = new Informacion (org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
+            if (e.getSource() == this.mapa.getOrganismos().get(i)) { 
+                this.infomacion.get(i).setVisible(true);
+                return;
             }
         }
         if (e.getSource() == this.mapa.getSiguiente()){
@@ -144,6 +162,7 @@ public class Controlador implements ActionListener, KeyListener {
                 this.gestor.mostrarVision(mapa.getCasillas());
                 this.mapa.repaint();
             }
+            //this.actualizarInformacion();
         }
         if (e.getSource() == this.mapa.getAutomatico()){
             this.automacNPCS = !this.automacNPCS;
@@ -154,11 +173,12 @@ public class Controlador implements ActionListener, KeyListener {
         }
         if (e.getSource() == this.configuracion.getJugar()) {
             try {
-                Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
-                Integer.parseInt(this.configuracion.getEntradaMinimo().getText()); 
-                Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
-                Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
+                int maximo = Integer.parseInt(this.configuracion.getEntradaMaximo().getText());
+                int minimo = Integer.parseInt(this.configuracion.getEntradaMinimo().getText()); 
+                int escalaIncremento = Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
+                int escalaDecremento = Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
                 this.mapa.setVisible(true);
+                this.gestor.setSimulacionFactoresDeCambio(maximo, minimo, escalaIncremento, escalaDecremento);
                 this.configuracion.setVisible(false);
             } 
             catch (NumberFormatException ex) {
@@ -200,6 +220,7 @@ public class Controlador implements ActionListener, KeyListener {
             this.gestor.mostrarVision(mapa.getCasillas());
             this.mapa.repaint();
         }
+        //this.actualizarInformacion();
     }
 
     @Override

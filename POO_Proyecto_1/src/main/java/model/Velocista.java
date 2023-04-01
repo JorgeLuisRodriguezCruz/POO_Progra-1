@@ -70,4 +70,10 @@ public class Velocista extends Organismo {
         }
         return ramdom;
     }
+
+    @Override
+    public String identificarse (){
+        return "Velocista";
+    }
+    
 }

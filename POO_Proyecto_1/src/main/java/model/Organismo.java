@@ -295,6 +295,10 @@ public class Organismo {
         return 0;
     }
 
+    public String identificarse (){
+        return "Indefinido";
+    }
+    
     public int[] getCoordenadas() {
         return coordenadas;
     }

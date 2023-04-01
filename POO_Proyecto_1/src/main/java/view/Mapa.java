@@ -158,7 +158,7 @@ public class Mapa extends JFrame {
         int xCordColor = xCordTxt + 150;
 
         // Agregar label y cuadro para la NPC 
-        this.npcs.setForeground(Color.WHITE);
+        this.npcs.setForeground(Color.BLACK);
         this.npcs.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.npcs.setBounds(xCordTxt, yCordTxt + 120, widthFont, 20); 
  
@@ -167,7 +167,7 @@ public class Mapa extends JFrame {
         this.colorNpcs.setBackground(new Color(204, 102, 0)); 
         
         // Agregar label y cuadro para el jugador  
-        this.jugadores.setForeground(Color.WHITE);
+        this.jugadores.setForeground(Color.BLACK);
         this.jugadores.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.jugadores.setBounds(xCordTxt, yCordTxt,widthFont, 20);
         
@@ -176,7 +176,7 @@ public class Mapa extends JFrame {
         this.colorJugadores.setBackground(Color.RED); 
                  
         // Agregar label y cuadro para la comida vision 
-        this.alimentoVision.setForeground(Color.WHITE);
+        this.alimentoVision.setForeground(Color.BLACK);
         this.alimentoVision.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.alimentoVision.setBounds(xCordTxt, yCordTxt + 90,widthFont, 20); 
  
@@ -185,7 +185,7 @@ public class Mapa extends JFrame {
         this.colorAlimentoVision.setBackground(new Color(51, 153, 255)); 
  
         // Agregar label y cuadro para la comida energia 
-        this.alimentoEnergia.setForeground(Color.WHITE);
+        this.alimentoEnergia.setForeground(Color.BLACK);
         this.alimentoEnergia.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.alimentoEnergia.setBounds(xCordTxt, yCordTxt + 60,widthFont, 20); 
  
@@ -194,7 +194,7 @@ public class Mapa extends JFrame {
         this.colorAlimentoEnergia.setBackground(new Color(255, 255, 102)); 
                 
         // Agregar label y cuadro para la comida velocidad 
-        this.alimentoVelocidad.setForeground(Color.WHITE);
+        this.alimentoVelocidad.setForeground(Color.BLACK);
         this.alimentoVelocidad.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.alimentoVelocidad.setBounds(xCordTxt, yCordTxt + 30, widthFont, 20); 
  

@@ -12,12 +12,27 @@ public class GestorPartida {
     private ArrayList<Organismo> organismos;
     private ArrayList<Alimento> alimentos;
     private int turno;
+    private int maxCanpacidad;
+    private int minCanpacidad;
+    private int escalaIncremento;
+    private int escalaDecremento;
 
     public GestorPartida(Controlador controlador) {
         this.controlador = controlador; 
         this.organismos = new ArrayList<Organismo>();
-        this.alimentos = new ArrayList<Alimento>();
-        this.turno = 0; 
+        this.alimentos = new ArrayList<Alimento>(); 
+        this.turno = 0;
+        this.maxCanpacidad = 100;
+        this.minCanpacidad = 0;
+        this.escalaIncremento = 1;
+        this.escalaDecremento = 1;
+    }
+    
+    public void setSimulacionFactoresDeCambio (int maximo, int minimo, int incremento, int decremento) { 
+        this.maxCanpacidad = maximo;
+        this.minCanpacidad = minimo;
+        this.escalaIncremento = incremento;
+        this.escalaDecremento = decremento;
     }
     
     private boolean comprobarHayAlimento (int x, int y) { 

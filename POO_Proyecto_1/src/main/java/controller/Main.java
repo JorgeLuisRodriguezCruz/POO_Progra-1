@@ -5,6 +5,7 @@ import java.util.Arrays;
 import view.Mapa;
 import view.MicroGameGUI;
 import model.Organismo;
+import view.Informacion;
 
 public class Main {
 
