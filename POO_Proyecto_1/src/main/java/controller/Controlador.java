@@ -71,10 +71,10 @@ public class Controlador implements ActionListener, KeyListener {
     }
     
     public void actualizarInformacion (){
-        this.gestor.crearOrganismos(this.mapa.getOrganismos()); 
-        ArrayList<Organismo> organismos = this.gestor.getOrganismos();
-        for (int i = 0; i < this.infomacion.size(); i++) {
-            Organismo org = organismos.get(i);
+        ArrayList<Organismo> arrsyListorg = this.gestor.getOrganismos();
+        //System.out.println("Dentro de actualizarInfo size orga: "+ arrsyListorg.size());
+        for (int i = 0; i < arrsyListorg.size(); i++) {
+            Organismo org = arrsyListorg.get(i); 
             this.infomacion.get(i).actualisarDatos(org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
         }
     }
@@ -128,6 +128,7 @@ public class Controlador implements ActionListener, KeyListener {
     }
 
     public void iniciarOrganismos () {
+        System.out.println("Se crean organismo.");
         this.gestor.crearOrganismos(this.mapa.getOrganismos()); 
         ArrayList<Organismo> organismos = this.gestor.getOrganismos();
         for (int i = 0; i < organismos.size(); i++) {
@@ -150,19 +151,18 @@ public class Controlador implements ActionListener, KeyListener {
         }
         if (e.getSource() == this.mapa.getSiguiente()){
             this.gestor.limpiarVista(mapa.getCasillas());
-            this.mapa.repaint();
-            this.gestor.simularSiguiente();
-            
-            if (this.automacNPCS){
+            this.mapa.repaint(); 
+            if (this.automacNPCS){ 
                 this.gestor.moverNpcs();
                 this.gestor.mostrarVision(this.mapa.getCasillas());
                 this.mapa.repaint();
             }
-            else {
-                this.gestor.mostrarVision(mapa.getCasillas());
-                this.mapa.repaint();
+            else { 
+                this.gestor.simularSiguiente();
+                this.gestor.mostrarVision(mapa.getCasillas()); 
+                this.mapa.repaint();  
             }
-            //this.actualizarInformacion();
+            this.actualizarInformacion();
         }
         if (e.getSource() == this.mapa.getAutomatico()){
             this.automacNPCS = !this.automacNPCS;
@@ -188,8 +188,8 @@ public class Controlador implements ActionListener, KeyListener {
     }
     
     @Override
-    public void keyPressed(KeyEvent e) {
-        int turno = this.gestor.getTurno(); //Esto es solo representativo cuando este implementado la gestion del turno, se quita.
+    public void keyPressed(KeyEvent e) { 
+        int turno = this.gestor.getTurno(); //Esto es solo representativo cuando este implementado la gestion del turno, se quita. 
         if (turno != 0)
             return;
         this.gestor.limpiarVista(mapa.getCasillas()); 
@@ -220,7 +220,7 @@ public class Controlador implements ActionListener, KeyListener {
             this.gestor.mostrarVision(mapa.getCasillas());
             this.mapa.repaint();
         }
-        //this.actualizarInformacion();
+        this.actualizarInformacion();
     }
 
     @Override

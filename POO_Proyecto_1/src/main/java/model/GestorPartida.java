@@ -45,8 +45,7 @@ public class GestorPartida {
     }
     
     public void crearOrganismos (ArrayList<JButton> organismos) {
-        Random rand = new Random(); 
-        
+        Random rand = new Random();
         for (int i = 0; i < organismos.size(); i++) { //JButton get = organismos.get(i);
             int tipo = rand.nextInt(2);
             
@@ -55,7 +54,7 @@ public class GestorPartida {
             else
                 this.organismos.add(new Visionador()); 
             this.organismos.get(i).setCoordenadas(organismos.get(i).getX(), organismos.get(i).getY());    
-        }
+        } 
     }
     
     public void crearAlimentos (int[][] coordsAlimentos) {
@@ -82,6 +81,8 @@ public class GestorPartida {
     }
 
     public void moverNpcs () {
+        if (this.turno == 0)
+            return;
         
         for (int i = this.turno; i < organismos.size(); i++) {
             int direccionMover = this.organismos.get(i).elegirDireccion(this.organismos, this.alimentos, i);
@@ -109,7 +110,7 @@ public class GestorPartida {
     public void simularSiguiente () {
         if (this.turno != 0) {
             int direccionMover = this.organismos.get(this.turno).elegirDireccion(this.organismos, this.alimentos, this.turno);
-
+            
             switch(direccionMover){
                 case 0: // Izquierda
                     this.controlador.moverEnLineaRecta(this.turno, -1, 0);
@@ -126,12 +127,11 @@ public class GestorPartida {
                 default:
                     break;
             }
-            
-            if (this.turno == this.organismos.size() - 1)
+            if (this.turno >= this.organismos.size() - 1)
                 this.turno = 0;
             else
                 this.turno++;
-        } 
+        }
     }
     
     public void limpiarVista (JLabel[][] mapa) {
