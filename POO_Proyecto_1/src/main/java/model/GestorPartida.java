@@ -80,12 +80,91 @@ public class GestorPartida {
         return organismos;
     }
 
+    public void moverAutomatico () {
+        if (this.turno == 0)
+            return; 
+        Organismo orgTemporal = null, orgEncontrado = null;
+        Alimento alimentoEncontrado = null;
+        boolean seguirAlimento = false;
+        boolean seguirHuirOrg = false;
+        int direccionMover = 1;
+        
+        for (int i = this.turno; i < organismos.size(); i++) {
+            orgTemporal = this.organismos.get(i);
+            orgEncontrado = orgTemporal.organismoMasSercano(this.organismos, i);
+            alimentoEncontrado = orgTemporal.alimentosALaVista(this.alimentos);
+                    
+            if (orgEncontrado != null) {
+                seguirHuirOrg = true;
+                if (orgTemporal.getEnergia() <= orgEncontrado.getEnergia())
+                    direccionMover = orgTemporal.huirDeOrganismo(orgEncontrado);
+                else
+                    direccionMover = orgTemporal.seguirOrganismo(orgEncontrado);
+            } else if (alimentoEncontrado != null) {
+                direccionMover = orgTemporal.seguirAlimento(alimentoEncontrado);
+                seguirAlimento = true;
+            }
+            if (orgEncontrado == null && alimentoEncontrado == null)
+                direccionMover = orgTemporal.elegirDireccion();
+            
+            switch(direccionMover){
+                case 0: // Izquierda
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(i, -1, 0, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(i, -1, 0, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    }
+                    this.controlador.moverEnLineaRecta(i, -1, 0);
+                    break;
+                case 1: // Arriba
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(i, 0, -1, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(i, 0, -1, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    }
+                    this.controlador.moverEnLineaRecta(i, 0, -1);
+                    break;
+                case 2: // Derecha
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(i, 1, 0, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(i, 1, 0, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    }
+                    this.controlador.moverEnLineaRecta(i, 1, 0);
+                    break;
+                case 3: // Abajo
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(i, 0, 1, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(i, 0, 1, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    } 
+                    this.controlador.moverEnLineaRecta(i, 0, 1);
+                    break;
+                default: //Cuando no elige direccion
+                    break;
+            }
+        }
+        this.turno = 0; 
+    }
+    
     public void moverNpcs () {
         if (this.turno == 0)
             return;
         
         for (int i = this.turno; i < organismos.size(); i++) {
-            int direccionMover = this.organismos.get(i).elegirDireccion(this.organismos, this.alimentos, i);
+            int direccionMover = -1;//this.organismos.get(i).elegirDireccion(this.organismos, this.alimentos, i);
 
             switch(direccionMover){
                 case 0: // Izquierda
@@ -100,7 +179,7 @@ public class GestorPartida {
                 case 3: // Abajo
                     this.controlador.moverEnLineaRecta(i, 0, 1);
                     break;
-                default:
+                default: //Cuando no elige direccion
                     break;
             }
         }
@@ -109,19 +188,72 @@ public class GestorPartida {
 
     public void simularSiguiente () {
         if (this.turno != 0) {
-            int direccionMover = this.organismos.get(this.turno).elegirDireccion(this.organismos, this.alimentos, this.turno);
+            Organismo orgTemporal = null, orgEncontrado = null;
+            Alimento alimentoEncontrado = null;
+            boolean seguirAlimento = false;
+            boolean seguirHuirOrg = false;
+            int direccionMover = -1;
+            
+            orgTemporal = this.organismos.get(this.turno);
+            orgEncontrado = orgTemporal.organismoMasSercano(this.organismos, this.turno);
+            alimentoEncontrado = orgTemporal.alimentosALaVista(this.alimentos);
+                    
+            if (orgEncontrado != null) {
+                seguirHuirOrg = true;
+                if (orgTemporal.getEnergia() <= orgEncontrado.getEnergia())
+                    direccionMover = orgTemporal.huirDeOrganismo(orgEncontrado);
+                else
+                    direccionMover = orgTemporal.seguirOrganismo(orgEncontrado);
+            } else if (alimentoEncontrado != null) { 
+                direccionMover = orgTemporal.seguirAlimento(alimentoEncontrado);
+                seguirAlimento = true;
+            }
+            if (orgEncontrado == null && alimentoEncontrado == null)
+                direccionMover = orgTemporal.elegirDireccion();
             
             switch(direccionMover){
                 case 0: // Izquierda
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(this.turno, -1, 0, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(this.turno, -1, 0, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    }
                     this.controlador.moverEnLineaRecta(this.turno, -1, 0);
                     break;
                 case 1: // Arriba
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(this.turno, 0, -1, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(this.turno, 0, -1, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    }
                     this.controlador.moverEnLineaRecta(this.turno, 0, -1);
                     break;
                 case 2: // Derecha
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(this.turno, 1, 0, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(this.turno, 1, 0, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    }
                     this.controlador.moverEnLineaRecta(this.turno, 1, 0);
                     break;
                 case 3: // Abajo
+                    if (seguirAlimento) {
+                        this.controlador.moverEnLineaControlado(this.turno, 0, 1, orgTemporal.cantidadMovimiento(alimentoEncontrado, direccionMover));
+                        break;
+                    }
+                    if (seguirHuirOrg)  {
+                        this.controlador.moverEnLineaControlado(this.turno, 0, 1, orgTemporal.cantidadMovimiento(orgEncontrado, direccionMover));
+                        break;
+                    }
                     this.controlador.moverEnLineaRecta(this.turno, 0, 1);
                     break;
                 default:

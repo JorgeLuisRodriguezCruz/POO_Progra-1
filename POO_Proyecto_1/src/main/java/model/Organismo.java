@@ -26,10 +26,10 @@ public class Organismo {
         this.velocidad = 3;
     }
     
-    protected int seguirAlimento (Alimento alimento) { 
+    protected int seguirAlimento (Alimento alimento) {
         int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
         int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
-        int diferenciaX, diferenciaY; 
+        int diferenciaX = 0, diferenciaY = 0;
 
         if (posOrgX > posAlimenX)
             diferenciaX = posOrgX - posAlimenX;
@@ -41,31 +41,36 @@ public class Organismo {
         else
             diferenciaY = posAlimenY - posOrgY;
         
-        if (posOrgX < posAlimenX && posOrgY < posAlimenY) { //Der + Arrb
+        System.out.println("Diferencia_X: " +diferenciaX+ " - Diferencia_Y: " +diferenciaY);
+        
+        if (posOrgX < posAlimenX && posOrgY > posAlimenY) { //El alim esta Der + Arrb
+            System.out.println("Alimento esta arriba + derecha.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Der o Arrb
                     return 2;
-                return 1; 
+                return 1;
             }
             if (diferenciaX > diferenciaY) {
                 return 2;
             } else { 
                 return 1;
             }
-        }  
-        if (posOrgX < posAlimenX && posOrgY > posAlimenY) { //Der + Abaj
+        }
+        if (posOrgX < posAlimenX && posOrgY < posAlimenY) { //Der + Abaj
+            System.out.println("Alimento esta abajo + derecha.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Der o Abaj
                     return 2;
                 return 3; 
-            }
+            } 
             if (diferenciaX > diferenciaY) {
                 return 2;
             } else { 
                 return 3;
-            }
-        }  
-        if (posOrgX > posAlimenX && posOrgY < posAlimenY) { //Izq + Arrb
+            } 
+        }
+        if (posOrgX > posAlimenX && posOrgY > posAlimenY) { //Izq + Arrb
+            System.out.println("Alimento esta arriba + izquierda.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Izq o Arrb
                     return 0;
@@ -76,8 +81,9 @@ public class Organismo {
             } else { 
                 return 1;
             }
-        }  
-        if (posOrgX > posAlimenX && posOrgY > posAlimenY) { //Izq + Abaj
+        } 
+        if (posOrgX > posAlimenX && posOrgY < posAlimenY) { //Izq + Abaj
+            System.out.println("Alimento esta abajo + izquierda.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Izq o Abaj
                     return 0;
@@ -89,67 +95,98 @@ public class Organismo {
                 return 3;
             }
         }
+        if (diferenciaX == 0) {
+            if (posOrgY > posAlimenY)
+                return 1;
+            return 3;
+        }
+        if (diferenciaY == 0) {
+            if (posOrgX > posAlimenX)
+                return 0;
+            return 2;
+        }
         return -1;
     }
     
     protected int seguirOrganismo (Organismo organismo) {
-        int xOrgCompar = organismo.getCoordenadas()[0];
-        int yOrgCompar = organismo.getCoordenadas()[1];
-        int diferenciaX, diferenciaY; 
+        int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
+        int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
+        int diferenciaX = 0, diferenciaY = 0; 
         
-        if (this.coordenadas[0] > xOrgCompar)
-            diferenciaX = this.coordenadas[0] - xOrgCompar;
+        if (xPosOrg > xOrgCompar)
+            diferenciaX = xPosOrg - xOrgCompar;
         else
-            diferenciaX = xOrgCompar - this.coordenadas[0];
-        if (this.coordenadas[1] > yOrgCompar)
-            diferenciaY = this.coordenadas[1] - yOrgCompar;
+            diferenciaX = xOrgCompar - xPosOrg;
+        if (yPosOrg > yOrgCompar)
+            diferenciaY = yPosOrg - yOrgCompar;
         else  
-            diferenciaY = yOrgCompar - this.coordenadas[1]; 
+            diferenciaY = yOrgCompar - yPosOrg; 
         
-        if (diferenciaX == diferenciaY) {
-            if (this.coordenadas[0] < xOrgCompar) {     // El org esta por derecha
-                if (this.coordenadas[1] > yOrgCompar) { // El org esta por arriba
-                    if (new Random().nextInt(2) == 0) // Der o arrib
-                        return 2;
-                    return 1;
-                } else {
-                    if (new Random().nextInt(2) == 0) // Der o Abaj
-                        return 2;
-                    return 3;
-                }
-            } else {                                    // El org esta por Izquierda
-                if (this.coordenadas[1] > yOrgCompar) { // El org esta por arriba
-                    if (new Random().nextInt(2) == 0) // Izq o arrib
-                        return 0;
-                    return 1; 
-                } else { 
-                    if (new Random().nextInt(2) == 0) // Izq o Abaj
-                        return 0;
-                    return 3;
-                }
+        if (xPosOrg < xOrgCompar && yPosOrg > yOrgCompar) { //esta Der + Arrb
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Der o Arrb
+                    return 2;
+                return 1; 
             }
-        } 
-        if (diferenciaX > diferenciaY) {
-            if (this.coordenadas[0] > xOrgCompar) {  // El org esta por la izquierda
-                return 0; 
-            } else {
+            if (diferenciaX > diferenciaY) {
                 return 2;
+            } else { 
+                return 1;
             }
         }
-        if (diferenciaX < diferenciaY) {
-            if (this.coordenadas[1] > yOrgCompar) {  // El org esta por la arriba
+        if (xPosOrg < xOrgCompar && yPosOrg < yOrgCompar) { //Der + Abaj
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Der o Abaj
+                    return 2;
+                return 3; 
+            } 
+            if (diferenciaX > diferenciaY) {
+                return 2;
+            } else { 
+                return 3;
+            } 
+        }
+        if (xPosOrg > xOrgCompar && yPosOrg > yOrgCompar) { //Izq + Arrb
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Izq o Arrb
+                    return 0;
+                return 1; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 0;
+            } else { 
                 return 1;
-            } else {
+            }
+        } 
+        if (xPosOrg > xOrgCompar && yPosOrg < yOrgCompar) { //Izq + Abaj
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Izq o Abaj
+                    return 0;
+                return 3; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 0;
+            } else { 
                 return 3;
             }
+        }
+        if (diferenciaX == 0) {
+            if (yPosOrg > yOrgCompar)
+                return 1;
+            return 3;
+        }
+        if (diferenciaY == 0) {
+            if (xPosOrg > xOrgCompar)
+                return 0;
+            return 2;
         }
         return -1;
     }
     
     protected int huirDeOrganismo (Organismo organismo) {
-        int xOrgCompar = organismo.getCoordenadas()[0];
-        int yOrgCompar = organismo.getCoordenadas()[1];
-        int diferenciaX, diferenciaY; 
+        int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
+        int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
+        int diferenciaX = 0, diferenciaY = 0; 
         
         if (this.coordenadas[0] > xOrgCompar)
             diferenciaX = this.coordenadas[0] - xOrgCompar;
@@ -160,103 +197,96 @@ public class Organismo {
         else  
             diferenciaY = yOrgCompar - this.coordenadas[1]; 
         
-        if (diferenciaX == diferenciaY) {
-            if (this.coordenadas[0] < xOrgCompar) {
-                if (this.coordenadas[1] > yOrgCompar) { // 0 - 3 / Izq - Abaj
-                    if (this.coordenadas[0] >= 624)
-                        return 0; 
-                    if (this.coordenadas[1] <= 325)
-                        return 3;
-                    if (new Random().nextInt(2) == 0)
-                        return 0;
-                    return 3;
-                } else { // 0  - 1 / Izq - Arrib
-                    if (this.coordenadas[0] >= 624)
-                        return 0; 
-                    if (this.coordenadas[1] >= 325)
-                        return 1;
-                    if (new Random().nextInt(2) == 0)
-                        return 0;
-                    return 1; 
-                }
-            }
-            if (this.coordenadas[0] > xOrgCompar) { 
-                
-                if (this.coordenadas[1] > yOrgCompar) { // 2 - 3 / Der - Abaj
-                    if (this.coordenadas[0] <= 624)
-                        return 2; 
-                    if (this.coordenadas[1] <= 325)
-                        return 3;
-                    if (new Random().nextInt(2) == 0)
-                        return 2;
-                    return 3;
-                } else {   // 1 - 2 / Arrib - Der
-                    if (this.coordenadas[0] <= 624)
-                        return 2; 
-                    if (this.coordenadas[1] >= 325)
-                        return 1;
-                    if (new Random().nextInt(2) == 0)
-                        return 2;
-                    return 1;
-                }
-            }
-        } 
-        if (diferenciaX > diferenciaY) {
-            if (this.coordenadas[0] > xOrgCompar) {
-                if (this.coordenadas[0] <= 624) // Mover derecha
-                    return 2;
-                if (new Random().nextInt(2) == 0) // Mueve arriba o abajo
-                    return 1;       //Arrib
-                return 3;           //Abaj
-            } else {
-                if (this.coordenadas[0] >= 624) // Mover izq
+        if (xPosOrg < xOrgCompar && yPosOrg > yOrgCompar) { //esta Der + Arrb
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Izq o Abaj
                     return 0;
-                if (new Random().nextInt(2) == 0) // Mueve arriba o abajo
-                    return 1;       //Arrib
-                return 3;           //Abaj 
+                return 3; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 0;
+            } else { 
+                return 3;
             }
         }
-        if (diferenciaX < diferenciaY) {
-            if (this.coordenadas[1] > yOrgCompar) {
-                if (this.coordenadas[1] <=  325) // Mover abajo
-                    return 3;
-                if (new Random().nextInt(2) == 0) // Mueve der o izq
-                    return 2;       //der
-                return 0;           //izq
-            } else {
-                if (this.coordenadas[1] >=  325) // Mover arrib
-                    return 1;
-                if (new Random().nextInt(2) == 0) // Mueve der o izq
-                    return 2;       //der
-                return 0;           //izq
+        if (xPosOrg < xOrgCompar && yPosOrg < yOrgCompar) { //Der + Abaj
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Izq o Arr
+                    return 0;
+                return 1; 
+            } 
+            if (diferenciaX > diferenciaY) {
+                return 0;
+            } else { 
+                return 1;
+            } 
+        }
+        if (xPosOrg > xOrgCompar && yPosOrg > yOrgCompar) { //Izq + Arrb
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Der o Abj
+                    return 2;
+                return 3; 
             }
+            if (diferenciaX > diferenciaY) {
+                return 2;
+            } else { 
+                return 3;
+            }
+        } 
+        if (xPosOrg > xOrgCompar && yPosOrg < yOrgCompar) { //Izq + Abaj
+            if (diferenciaX == diferenciaY){
+                if (new Random().nextInt(2) == 0) // Der o Arr
+                    return 2;
+                return 1; 
+            }
+            if (diferenciaX > diferenciaY) {
+                return 2;
+            } else { 
+                return 1;
+            }
+        } 
+        if (diferenciaX == 0) {
+            if (yPosOrg > yOrgCompar)
+                return 3;
+            return 1;
+        }
+        if (diferenciaY == 0) {
+            if (xPosOrg > xOrgCompar)
+                return 2;
+            return 0;
         }
         return -1;
     }
     
-    protected Organismo organismoMasSercano (ArrayList<Organismo> organismos, int turno) {
+    public Organismo organismoMasSercano (ArrayList<Organismo> organismos, int turno) {
         Organismo organismoSercano = null;
         int distanciaMenor = 0;
         
         for (int i = 0; i < organismos.size(); i++) {
             if (i != turno) {
                 Organismo organismo = organismos.get(i);
-                int xOrgCompar = organismo.getCoordenadas()[0];
-                int yOrgCompar = organismo.getCoordenadas()[1]; 
+                
+                int posOrgX = (this.coordenadas[0] - 299) / 13, posOrgY = this.coordenadas[1] / 13;
+                int posOrgComparX = (organismo.getCoordenadas()[0] - 299) / 13, posOrgComparY = organismo.getCoordenadas()[1] / 13; 
                 int diferenciaX, diferenciaY, distancia;
                 
-                if (this.coordenadas[0] > xOrgCompar)
-                    diferenciaX = this.coordenadas[0] - xOrgCompar;
+                if (posOrgX > posOrgComparX)
+                    diferenciaX = posOrgX - posOrgComparX;
                 else
-                    diferenciaX = xOrgCompar - this.coordenadas[0];
+                    diferenciaX = posOrgComparX - posOrgX;
                 
-                if (this.coordenadas[1] > yOrgCompar)
-                    diferenciaY = this.coordenadas[1] - yOrgCompar;
+                if (posOrgY > posOrgComparY)
+                    diferenciaY = posOrgY - posOrgComparY;
                 else
-                    diferenciaY = yOrgCompar - this.coordenadas[1];
+                    diferenciaY = posOrgComparY - posOrgY;
                 
-                if (diferenciaX <= this.vision && diferenciaY <= this.vision){
+                if (diferenciaX  <= this.vision && diferenciaY <= this.vision){
                     distancia = (diferenciaX + diferenciaY) / 2;
+                    if (diferenciaX == 0)
+                        distancia = diferenciaY;
+                    if (diferenciaY == 0)
+                        distancia =  diferenciaX;
+                    
                     if (distanciaMenor == 0 || distanciaMenor > distancia){
                         distanciaMenor = distancia;
                         organismoSercano = organismo;
@@ -266,35 +296,70 @@ public class Organismo {
         }
         return organismoSercano;
     }
-         
-    protected boolean alimentosALaVista (ArrayList<Alimento> alimentos) {
-        for (int i = 0; i < alimentos.size(); i++) {
-            Alimento alimento = alimentos.get(i);
-            int xAlimenCompar = alimento.getCoordenadas()[0]; int yAlimenCompar = alimento.getCoordenadas()[1]; 
-            int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
-            int diferenciaX, diferenciaY;
-
-            if (posOrgX > xAlimenCompar)
-                diferenciaX = posOrgX - xAlimenCompar;
-            else
-                diferenciaX = xAlimenCompar - posOrgX;
-
-            if (posOrgY > yAlimenCompar)
-                diferenciaY = posOrgY - yAlimenCompar;
-            else
-                diferenciaY = yAlimenCompar - posOrgY;
-
-            if (diferenciaX <= this.vision && diferenciaY <= this.vision)
-                return true; 
-            
-        }
-        return false;
+    
+    public Alimento alimentosALaVista (ArrayList<Alimento> alimentos) {
+        return null;
     } 
     
-    public int elegirDireccion (ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos, int turno){
+    public int cantidadMovimiento (Organismo organismo, int direccion) {
+        int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
+        int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
+        int diferenciaX = 0, diferenciaY = 0; 
+        
+        if (this.coordenadas[0] > xOrgCompar)
+            diferenciaX = this.coordenadas[0] - xOrgCompar;
+        else
+            diferenciaX = xOrgCompar - this.coordenadas[0];
+        if (this.coordenadas[1] > yOrgCompar)
+            diferenciaY = this.coordenadas[1] - yOrgCompar;
+        else  
+            diferenciaY = yOrgCompar - this.coordenadas[1]; 
+        
+        if (direccion == 0 || direccion == 2){
+            if (this.velocidad >= diferenciaX)
+                return diferenciaX;
+            return this.velocidad;
+        }
+        if (direccion == 1 || direccion == 3){ 
+            if (this.velocidad >= diferenciaY)
+                return diferenciaY;
+            return this.velocidad;
+        }
+        return 1;
+    }
+    
+    public int cantidadMovimiento (Alimento alimento, int direccion) {
+        int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
+        int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
+        int diferenciaX = 0, diferenciaY = 0;
+
+        if (posOrgX > posAlimenX)
+            diferenciaX = posOrgX - posAlimenX;
+        else
+            diferenciaX = posAlimenX - posOrgX;
+
+        if (posOrgY > posAlimenY)
+            diferenciaY = posOrgY - posAlimenY;
+        else
+            diferenciaY = posAlimenY - posOrgY;
+        
+        if (direccion == 0 || direccion == 2){
+            if (this.velocidad >= diferenciaX)
+                return diferenciaX;
+            return this.velocidad;
+        }
+        if (direccion == 1 || direccion == 3){ 
+            if (this.velocidad >= diferenciaY)
+                return diferenciaY;
+            return this.velocidad;
+        }
         return 0;
     }
-
+    
+    public int elegirDireccion () {
+        return -1;
+    }
+    
     public String identificarse (){
         return "Indefinido";
     }

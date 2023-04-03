@@ -23,9 +23,9 @@ public class Controlador implements ActionListener, KeyListener {
 
     public Controlador () { 
         this.configuracion = new MicroGameGUI(); 
-        this.configuracion.setVisible(true);
+        this.configuracion.setVisible(false);    //this.configuracion.setVisible(true);
         this.gestor = new GestorPartida(this);
-        this.mapa = new Mapa(this); 
+        this.mapa = new Mapa(this); this.mapa.setVisible(true);
         this.infomacion = new ArrayList<Informacion> ();
         this.automacNPCS = true;
         
@@ -116,7 +116,17 @@ public class Controlador implements ActionListener, KeyListener {
             
         }
     }
+    
+    public void moverEnLineaControlado (int turno, int x, int y, int cantidad) {
+        Organismo org = this.gestor.getOrganismos().get(turno);
         
+        for (int i = 1; i <= cantidad; i++) {
+            mover(x, y, turno);
+        }
+        org.setEdad(org.getEdad()+1);
+        org.setEnergia(org.getEnergia()-1);
+    }
+    
     public void moverEnLineaRecta(int turno, int x, int y) {
         Organismo org = this.gestor.getOrganismos().get(turno);
         
@@ -153,7 +163,7 @@ public class Controlador implements ActionListener, KeyListener {
             this.gestor.limpiarVista(mapa.getCasillas());
             this.mapa.repaint(); 
             if (this.automacNPCS){ 
-                this.gestor.moverNpcs();
+                this.gestor.moverAutomatico();//this.gestor.moverNpcs();
                 this.gestor.mostrarVision(this.mapa.getCasillas());
                 this.mapa.repaint();
             }
@@ -211,7 +221,7 @@ public class Controlador implements ActionListener, KeyListener {
         }  
         if (this.automacNPCS){
             this.gestor.setTurno(turno + 1);
-            this.gestor.moverNpcs();
+            this.gestor.moverAutomatico();//this.gestor.moverNpcs();
             this.gestor.mostrarVision(this.mapa.getCasillas());
             this.mapa.repaint();
         }
