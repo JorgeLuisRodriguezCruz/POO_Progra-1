@@ -90,19 +90,28 @@ public class GestorPartida {
         int direccionMover = 1;
         
         for (int i = this.turno; i < organismos.size(); i++) {
+            orgTemporal = null; orgEncontrado = null;
+            alimentoEncontrado = null;
+            seguirAlimento = false;
+            seguirHuirOrg = false;
+            direccionMover = 1;
+            
             orgTemporal = this.organismos.get(i);
             orgEncontrado = orgTemporal.organismoMasSercano(this.organismos, i);
             alimentoEncontrado = orgTemporal.alimentosALaVista(this.alimentos);
                     
             if (orgEncontrado != null) {
+                System.out.println("Org encontrado");
                 seguirHuirOrg = true;
                 if (orgTemporal.getEnergia() <= orgEncontrado.getEnergia())
                     direccionMover = orgTemporal.huirDeOrganismo(orgEncontrado);
                 else
                     direccionMover = orgTemporal.seguirOrganismo(orgEncontrado);
-            } else if (alimentoEncontrado != null) {
-                direccionMover = orgTemporal.seguirAlimento(alimentoEncontrado);
-                seguirAlimento = true;
+            } else {
+                if (alimentoEncontrado != null) {
+                    direccionMover = orgTemporal.seguirAlimento(alimentoEncontrado);
+                    seguirAlimento = true;
+                }
             }
             if (orgEncontrado == null && alimentoEncontrado == null)
                 direccionMover = orgTemporal.elegirDireccion();
@@ -199,6 +208,7 @@ public class GestorPartida {
             alimentoEncontrado = orgTemporal.alimentosALaVista(this.alimentos);
                     
             if (orgEncontrado != null) {
+                System.out.println("Org encontrado");
                 seguirHuirOrg = true;
                 if (orgTemporal.getEnergia() <= orgEncontrado.getEnergia())
                     direccionMover = orgTemporal.huirDeOrganismo(orgEncontrado);

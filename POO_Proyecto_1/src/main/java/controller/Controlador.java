@@ -137,8 +137,7 @@ public class Controlador implements ActionListener, KeyListener {
         org.setEnergia(org.getEnergia()-1);
     }
 
-    public void iniciarOrganismos () {
-        System.out.println("Se crean organismo.");
+    public void iniciarOrganismos () { 
         this.gestor.crearOrganismos(this.mapa.getOrganismos()); 
         ArrayList<Organismo> organismos = this.gestor.getOrganismos();
         for (int i = 0; i < organismos.size(); i++) {
