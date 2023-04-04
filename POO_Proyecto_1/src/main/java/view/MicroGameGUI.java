@@ -28,7 +28,9 @@ public class MicroGameGUI extends JFrame {
     private JTextField entradaMinimo;
     private JTextField entradaAumento;
     private JTextField entradaDecremento;
-    
+
+//Se crea la ventana principal, así como sus diversos label y debidas restricciones que deben de llevar las entradas al programa
+
     public MicroGameGUI () {
         super ("MicroGame");
         this.fondo = new JPanel();
@@ -47,7 +49,8 @@ public class MicroGameGUI extends JFrame {
         iniciarComponentes ();
         iniciarVentana ();
     }
-    
+//Se inician los diversos componentes de la ventana para que haya un correcto funcionamiento de la misma
+ 
     private void iniciarComponentes () {
         this.fondo.setBounds(0, 0, 600, 680);
         this.fondo.setBackground(Color.LIGHT_GRAY);
@@ -89,15 +92,7 @@ public class MicroGameGUI extends JFrame {
         this.jugar.setBackground(Color.GREEN);
         this.jugar.setFocusable(false);
 
-        //Al seleccionar el botón de jugar, se abrirá el mapa de juego si los datos ingresados son corretos.
-        /*
-            this.jugar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Mapa mapa = new Mapa();
-            }
-        });
-        */
-    
+        
         this.fondo.add(this.jugar);
         this.fondo.add(this.titulo);
         this.fondo.add(this.maximo);
