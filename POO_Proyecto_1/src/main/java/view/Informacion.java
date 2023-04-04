@@ -16,6 +16,7 @@ public class Informacion extends JFrame {
     private JLabel energia;
     private JLabel velocidad;
     
+//Se crea la ventana secundaria de información que aparecerá en el mapa al presionar el "botón" organismo
     public Informacion(){ 
         super("Informacion");
 
@@ -43,7 +44,8 @@ public class Informacion extends JFrame {
         this.iniciarComponenetes();
         this.init();
     }
-    
+//Se inician diversos componentes de la ventana "Información"
+
     private  void iniciarComponenetes () {
         this.fondo.setBounds(0, 0, 720, 480);
         this.fondo.setBackground(Color.LIGHT_GRAY);

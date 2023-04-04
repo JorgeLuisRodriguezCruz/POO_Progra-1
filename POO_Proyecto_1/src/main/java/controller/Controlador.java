@@ -78,7 +78,9 @@ public class Controlador implements ActionListener, KeyListener {
             this.infomacion.get(i).actualisarDatos(org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
         }
     }
-    
+
+//Se manejan los diversos tipos de movimientos de los organismos
+
     public void mover (int x, int y, int turno) {
 
         JButton orgBoton = this.mapa.getOrganismos().get(turno);
@@ -116,7 +118,9 @@ public class Controlador implements ActionListener, KeyListener {
             
         }
     }
-    
+
+//Movimiento realizado en linea recta (controlado)
+
     public void moverEnLineaControlado (int turno, int x, int y, int cantidad) {
         Organismo org = this.gestor.getOrganismos().get(turno);
         
@@ -126,7 +130,8 @@ public class Controlador implements ActionListener, KeyListener {
         org.setEdad(org.getEdad()+1);
         org.setEnergia(org.getEnergia()-1);
     }
-    
+//Movimiento realizado en linea recta 
+
     public void moverEnLineaRecta(int turno, int x, int y) {
         Organismo org = this.gestor.getOrganismos().get(turno);
         
@@ -136,6 +141,8 @@ public class Controlador implements ActionListener, KeyListener {
         org.setEdad(org.getEdad()+1);
         org.setEnergia(org.getEnergia()-1);
     }
+
+//Se inician  los organismos (la posición [0] es el jugador principal; los demás son los NPC)
 
     public void iniciarOrganismos () { 
         this.gestor.crearOrganismos(this.mapa.getOrganismos()); 

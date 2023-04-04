@@ -25,7 +25,11 @@ public class Organismo {
         this.energia = 10;
         this.velocidad = 3;
     }
-    
+//Seguir alimento por parte de un organismo
+
+    public Organismo(int x, int y) {
+    }
+
     protected int seguirAlimento (Alimento alimento) {
         int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
         int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
@@ -107,7 +111,8 @@ public class Organismo {
         }
         return -1;
     }
-    
+//Parecido al método anterior; solo que ahora es para seguir un organismo
+
     protected int seguirOrganismo (Organismo organismo) {
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
         int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
@@ -182,7 +187,9 @@ public class Organismo {
         }
         return -1;
     }
-    
+
+//Método para escapar de un organismo que lo quiera comer, esto en el mapa de juego
+
     protected int huirDeOrganismo (Organismo organismo) {
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
         int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
@@ -396,5 +403,13 @@ public class Organismo {
     public void setEnergia(int energia) {
         this.energia = energia;
     }
+    public void setVision(int vision) {
+        this.vision = vision;
+    }
+    public void setVelocidad(int velocidad) {
+        this.velocidad = velocidad;
+    }
+
+
     
 }

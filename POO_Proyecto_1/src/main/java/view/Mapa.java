@@ -40,7 +40,8 @@ public class Mapa extends JFrame {
     private JLabel colorAlimentoVelocidad;
     private JLabel colorAlimentoEnergia;
     private JLabel colorAlimentoVision; 
-    
+
+//Se crea el mapa con sus respectivos botones y label que aparecerán en dicha instancia
     public Mapa() {
         super("Ventana");
         
@@ -68,6 +69,7 @@ public class Mapa extends JFrame {
         this.iniciarVentana();
         
     }
+//Se llama al "Controlador" para que mediante una comunicación 1 a 1, se pongan en marcha los diversos métodos
 
     public Mapa(Controlador controlador) {
         super("Ventana");
@@ -119,11 +121,11 @@ public class Mapa extends JFrame {
         }
         this.controlador.pasarCoordsAlimentos(coordsAlimentos);
     }
- 
+
+//Se crean los diversos organismos, así como el organismo principal (color rojo)
+
     private void crearOrganismos() {
-        //El (0, 0) del mapa es X = 312, Y = 13.
-        //El centro (25, 25) del mapa es X = 624, Y = 325.
-        //El (50, 50) del mapa es X = 949, Y = 650.
+
         Random rand = new Random();
         
         this.organismos.add(new JButton());  
@@ -143,21 +145,19 @@ public class Mapa extends JFrame {
             this.organismos.get(i).setBackground(new Color(204, 102, 0));
             this.organismos.get(i).setOpaque(true);
             
-            //this.casillas[x][y].setBackground(Color.magenta);
         }
     }
 
     private void iniciarComponentes () {
-        //this.cordenadas[0] = 24;
-        //this.cordenadas[1] = 24;
-        
+
         int sizeFont = 16;
         int widthFont = 140; 
         int xCordTxt = 40;
         int yCordTxt = 130;
         int xCordColor = xCordTxt + 150;
 
-        // Agregar label y cuadro para la NPC 
+// Agregar label y cuadro para la NPC 
+
         this.npcs.setForeground(Color.BLACK);
         this.npcs.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.npcs.setBounds(xCordTxt, yCordTxt + 120, widthFont, 20); 
@@ -166,7 +166,7 @@ public class Mapa extends JFrame {
         this.colorNpcs.setOpaque(true);
         this.colorNpcs.setBackground(new Color(204, 102, 0)); 
         
-        // Agregar label y cuadro para el jugador  
+// Agregar label y cuadro para el jugador  
         this.jugadores.setForeground(Color.BLACK);
         this.jugadores.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.jugadores.setBounds(xCordTxt, yCordTxt,widthFont, 20);
@@ -175,7 +175,7 @@ public class Mapa extends JFrame {
         this.colorJugadores.setOpaque(true);
         this.colorJugadores.setBackground(Color.RED); 
                  
-        // Agregar label y cuadro para la comida vision 
+// Agregar label y cuadro para la comida vision 
         this.alimentoVision.setForeground(Color.BLACK);
         this.alimentoVision.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.alimentoVision.setBounds(xCordTxt, yCordTxt + 90,widthFont, 20); 
@@ -184,7 +184,7 @@ public class Mapa extends JFrame {
         this.colorAlimentoVision.setOpaque(true);
         this.colorAlimentoVision.setBackground(new Color(51, 153, 255)); 
  
-        // Agregar label y cuadro para la comida energia 
+// Agregar label y cuadro para la comida energia 
         this.alimentoEnergia.setForeground(Color.BLACK);
         this.alimentoEnergia.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.alimentoEnergia.setBounds(xCordTxt, yCordTxt + 60,widthFont, 20); 
@@ -193,7 +193,7 @@ public class Mapa extends JFrame {
         this.colorAlimentoEnergia.setOpaque(true);
         this.colorAlimentoEnergia.setBackground(new Color(255, 255, 102)); 
                 
-        // Agregar label y cuadro para la comida velocidad 
+// Agregar label y cuadro para la comida velocidad 
         this.alimentoVelocidad.setForeground(Color.BLACK);
         this.alimentoVelocidad.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
         this.alimentoVelocidad.setBounds(xCordTxt, yCordTxt + 30, widthFont, 20); 

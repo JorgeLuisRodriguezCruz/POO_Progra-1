@@ -8,6 +8,6 @@ public class Velocidad extends Alimento {
     
     @Override
     public void serComido (Organismo org) {
-        
+        org.setVelocidad(org.getVelocidad()+this.cantidad);
     }
 }

@@ -8,6 +8,7 @@ public class Energizante extends Alimento {
     
     @Override
     public void serComido (Organismo org) {
+        org.setEnergia(org.getEnergia()+this.cantidad);
         
     }
 }

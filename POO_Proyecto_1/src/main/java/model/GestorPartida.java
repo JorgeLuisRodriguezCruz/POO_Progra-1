@@ -46,7 +46,7 @@ public class GestorPartida {
     
     public void crearOrganismos (ArrayList<JButton> organismos) {
         Random rand = new Random();
-        for (int i = 0; i < organismos.size(); i++) { //JButton get = organismos.get(i);
+        for (int i = 0; i < organismos.size(); i++) { 
             int tipo = rand.nextInt(2);
             
             if (tipo == 1)
@@ -56,7 +56,8 @@ public class GestorPartida {
             this.organismos.get(i).setCoordenadas(organismos.get(i).getX(), organismos.get(i).getY());    
         } 
     }
-    
+//Se crean diversos alimentos que aparecerán de manera aleatoria en el mapa de juego
+
     public void crearAlimentos (int[][] coordsAlimentos) {
         
         for (int i = 0; i < 21; i++) {
@@ -79,6 +80,8 @@ public class GestorPartida {
     public ArrayList<Organismo> getOrganismos() {
         return organismos;
     }
+
+//Método de movimiento en autómatico; posible de realizar en el juego
 
     public void moverAutomatico () {
         if (this.turno == 0)
@@ -166,8 +169,10 @@ public class GestorPartida {
             }
         }
         this.turno = 0; 
+        actualizarEstado(organismos, alimentos);
     }
-    
+//Movimiento de NPC´s en el maopa de juego
+
     public void moverNpcs () {
         if (this.turno == 0)
             return;
@@ -192,8 +197,10 @@ public class GestorPartida {
                     break;
             }
         }
-        this.turno = 0; 
+        this.turno = 0;
+        actualizarEstado(organismos, alimentos);
     }
+//Simulación al presionar el botón siguiente del mapa de juego
 
     public void simularSiguiente () {
         if (this.turno != 0) {
@@ -274,8 +281,10 @@ public class GestorPartida {
             else
                 this.turno++;
         }
+    actualizarEstado(organismos, alimentos);
     }
-    
+//Método que permite limpiar la vista
+
     public void limpiarVista (JLabel[][] mapa) {
         Organismo orgEnTurno = orgEnTurno = this.organismos.get(this.turno);
          
@@ -304,17 +313,14 @@ public class GestorPartida {
             }
         } 
     }
-    
+
+//Método que permite mostrar coordenadas de visión de cada organismo en el mapa de juego
+
     public void mostrarVision (JLabel[][] mapa) { 
         Organismo orgEnTurno = orgEnTurno = this.organismos.get(this.turno);
         
         int posOrgX = (orgEnTurno.getCoordenadas()[0] - 299) / 13;
         int posOrgY = orgEnTurno.getCoordenadas()[1] / 13; //posOrgY--;
-        
-        /*System.out.println("Turno:" + this.turno + " JB_coord_x = "+ org_JB.getX()+ " JB_coord_y = "+ org_JB.getY());
-        System.out.println("Turno:" + this.turno + " coord_x = "+ orgEnTurno.getCoordenadas()[0] + " coord_y = "+ orgEnTurno.getCoordenadas()[1]);
-        System.out.println("Turno:" + this.turno + " pos_x = "+ posOrgX + " pos_y = "+ posOrgY);
-        System.out.println("Turno:" + this.turno + " ind_x = "+ (posOrgX-1) + " ind_y = "+ (posOrgY-1) );*/
          
         int indxInicialX = (posOrgX - orgEnTurno.getVision())-1;
         int indxFinalX = (posOrgX + orgEnTurno.getVision())-1;
@@ -341,7 +347,9 @@ public class GestorPartida {
         }
         
     }
-    
+
+//Métodos para el turno en el juego
+
     public void setTurno(int turno) {
         this.turno = turno;
     }
@@ -349,5 +357,37 @@ public class GestorPartida {
     public int getTurno() {
         return turno;
     } 
+
+//Método que permite subir atributos si se come a otro organismo
+
+
+//INCOMPLETO: Falta que además de dar atributo, se elimine y aparezca en otro lado
+
+
+public void actualizarEstado(ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos) {
+        
+    // Validar si hay algún par de organismos en las mismas coordenadas
+    for (int i = 0; i <= 0; i++) {
+        Organismo org1 = organismos.get(i);
+        for (int j = i + 1; j < organismos.size(); j++) {
+            Organismo org2 = organismos.get(j);
+            if (org1.getCoordenadas()[0] == org2.getCoordenadas()[0] && org1.getCoordenadas()[1] == org2.getCoordenadas()[1]) {
+                org1.setEnergia(org1.getEnergia() + (org2.getEnergia()/2 ));
+                System.out.println("Subeeeeee energia del primero que come al otro organismo ");
+                
+                // Remove the eaten organism from the list of organisms
+                organismos.remove(org2);
+                
+                // Generate random coordinates for the eaten organism
+                int x = (int) (Math.random() * 50);
+                int y = (int) (Math.random() * 50);
+                org2.setCoordenadas(x, y);
+                
+                // Add the eaten organism back to the list of organisms
+                organismos.add(org2);
+            }
+        }
+    }
+}
     
 }
