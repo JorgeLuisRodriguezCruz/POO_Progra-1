@@ -375,16 +375,21 @@ public void actualizarEstado(ArrayList<Organismo> organismos, ArrayList<Alimento
                 org1.setEnergia(org1.getEnergia() + (org2.getEnergia()/2 ));
                 System.out.println("Subeeeeee energia del primero que come al otro organismo ");
                 
-                // Remove the eaten organism from the list of organisms
-                organismos.remove(org2);
+                // Remueve el organismo de la lista de organismos
+                this.organismos.remove(org2);
+
+                System.out.println("Se eliminoooo ");
                 
-                // Generate random coordinates for the eaten organism
+                
+                // Genera coordenadas random para el organismo
+
                 int x = (int) (Math.random() * 50);
                 int y = (int) (Math.random() * 50);
-                org2.setCoordenadas(x, y);
+                org2.setCoordenadas((299+((x+1)*13)),(13*(y+1)));
                 
-                // Add the eaten organism back to the list of organisms
+                // Añade el organismo a la lista de nuevo
                 organismos.add(org2);
+                System.out.println("Nuevo???? ");
             }
         }
     }
