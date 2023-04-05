@@ -6,8 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import model.Alimento;
 import model.GestorPartida;
 import model.Organismo;
 import view.Mapa;
@@ -79,6 +82,57 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
 
+    public void cambiarPosicionOrg (int indice){
+        Organismo org = this.gestor.getOrganismos().get(indice);
+        JButton orgJB = this.mapa.getOrganismos().get(indice);
+        boolean bandera = true;
+        
+        while (bandera) {
+            int x = new Random().nextInt(50);
+            int y = new Random().nextInt(50);
+            JLabel[][] mapa = this.mapa.getCasillas();
+            
+            if (mapa[x][y].getBackground() == Color.WHITE && this.mapa.hayOrgPosicion(x, y) == false) {
+                org.reiniciarAtributos();
+                org.setCoordenadas( 299 +( (x+1) * 13), (y+1) * 13);
+                orgJB.setLocation(299 +( (x+1) * 13), (y+1) * 13);
+                bandera = false;
+            }
+        }
+    }
+    
+    public void cambiarPosicionAlim (int indice){
+        Alimento alimento = this.gestor.getAlimentos().get(indice);
+        int posAlimen_X = alimento.getCoordenadas()[0], posAlimen_Y = alimento.getCoordenadas()[1];
+        boolean bandera = true;
+        
+        while (bandera) {
+            int x = new Random().nextInt(50);
+            int y = new Random().nextInt(50);
+            JLabel[][] mapa = this.mapa.getCasillas();
+            
+            if (mapa[x][y].getBackground() == Color.WHITE && this.mapa.hayOrgPosicion(x, y) == false) {
+                mapa[ posAlimen_X ][ posAlimen_Y ].setBackground(Color.WHITE);
+                mapa[x][y].setBackground(alimento.getColor());
+                alimento.setCoordenadas(x, y);
+                bandera = false;
+            }
+        }
+    }
+    
+    public void coprobarPosicion (Organismo organismo) {
+        //System.out.println("ENTRA ENTRA ENTRA");
+        int pos_X = organismo.getCoordenadas()[0], pos_Y = organismo.getCoordenadas()[1];
+        if (this.gestor.comprobarCoincidenciaOrganismos(pos_X, pos_Y, this.gestor.getTurno()) != -1) {
+            //System.out.println("Hay una coincidencia con organismos. --- UUUH"); 
+            this.cambiarPosicionOrg(this.gestor.comprobarCoincidenciaOrganismos(pos_X, pos_Y, this.gestor.getTurno()));
+        }
+        if (this.gestor.comprobarCoincidenciaAlimento(((pos_X - 299) / 13) - 1, (pos_Y / 13) - 1) != -1) { 
+            //System.out.println("Hay una coincidencia con alimentos. --- UUUH");
+            this.cambiarPosicionAlim(this.gestor.comprobarCoincidenciaAlimento(((pos_X - 299) / 13) - 1, (pos_Y / 13) - 1));
+        }
+    }
+    
 //Se manejan los diversos tipos de movimientos de los organismos
 
     public void mover (int x, int y, int turno) {
@@ -115,7 +169,7 @@ public class Controlador implements ActionListener, KeyListener {
             } 
             orgBoton.setLocation(orgBoton.getX() + (13 * x),  orgBoton.getY() + (13 * y));
             org.setCoordenadas(orgBoton.getX(),  orgBoton.getY());
-            
+            this.coprobarPosicion(org);
         }
     }
 

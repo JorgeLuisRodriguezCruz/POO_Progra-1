@@ -81,6 +81,10 @@ public class GestorPartida {
         return organismos;
     }
 
+    public ArrayList<Alimento> getAlimentos() {
+        return alimentos;
+    }
+    
 //Método de movimiento en autómatico; posible de realizar en el juego
 
     public void moverAutomatico () {
@@ -103,8 +107,7 @@ public class GestorPartida {
             orgEncontrado = orgTemporal.organismoMasSercano(this.organismos, i);
             alimentoEncontrado = orgTemporal.alimentosALaVista(this.alimentos);
                     
-            if (orgEncontrado != null) {
-                System.out.println("Org encontrado");
+            if (orgEncontrado != null) { 
                 seguirHuirOrg = true;
                 if (orgTemporal.getEnergia() <= orgEncontrado.getEnergia())
                     direccionMover = orgTemporal.huirDeOrganismo(orgEncontrado);
@@ -167,6 +170,7 @@ public class GestorPartida {
                 default: //Cuando no elige direccion
                     break;
             }
+            this.turno++;
         }
         this.turno = 0; 
         actualizarEstado(organismos, alimentos);
@@ -196,6 +200,7 @@ public class GestorPartida {
                 default: //Cuando no elige direccion
                     break;
             }
+            this.turno++;
         }
         this.turno = 0;
         actualizarEstado(organismos, alimentos);
@@ -215,7 +220,6 @@ public class GestorPartida {
             alimentoEncontrado = orgTemporal.alimentosALaVista(this.alimentos);
                     
             if (orgEncontrado != null) {
-                System.out.println("Org encontrado");
                 seguirHuirOrg = true;
                 if (orgTemporal.getEnergia() <= orgEncontrado.getEnergia())
                     direccionMover = orgTemporal.huirDeOrganismo(orgEncontrado);
@@ -364,35 +368,71 @@ public class GestorPartida {
 //INCOMPLETO: Falta que además de dar atributo, se elimine y aparezca en otro lado
 
 
-public void actualizarEstado(ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos) {
-        
-    // Validar si hay algún par de organismos en las mismas coordenadas
-    for (int i = 0; i <= 0; i++) {
-        Organismo org1 = organismos.get(i);
-        for (int j = i + 1; j < organismos.size(); j++) {
-            Organismo org2 = organismos.get(j);
-            if (org1.getCoordenadas()[0] == org2.getCoordenadas()[0] && org1.getCoordenadas()[1] == org2.getCoordenadas()[1]) {
-                org1.setEnergia(org1.getEnergia() + (org2.getEnergia()/2 ));
-                System.out.println("Subeeeeee energia del primero que come al otro organismo ");
-                
-                // Remueve el organismo de la lista de organismos
-                this.organismos.remove(org2);
+    public void actualizarEstado(ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos) {
 
-                System.out.println("Se eliminoooo ");
-                
-                
-                // Genera coordenadas random para el organismo
+        // Validar si hay algún par de organismos en las mismas coordenadas
+        for (int i = 0; i <= 0; i++) {
+            Organismo org1 = organismos.get(i);
+            for (int j = i + 1; j < organismos.size(); j++) {
+                Organismo org2 = organismos.get(j);
+                if (org1.getCoordenadas()[0] == org2.getCoordenadas()[0] && org1.getCoordenadas()[1] == org2.getCoordenadas()[1]) {
+                    org1.setEnergia(org1.getEnergia() + (org2.getEnergia()/2 ));
+                    System.out.println("Subeeeeee energia del primero que come al otro organismo ");
 
-                int x = (int) (Math.random() * 50);
-                int y = (int) (Math.random() * 50);
-                org2.setCoordenadas((299+((x+1)*13)),(13*(y+1)));
-                
-                // Añade el organismo a la lista de nuevo
-                organismos.add(org2);
-                System.out.println("Nuevo???? ");
+                    // Remueve el organismo de la lista de organismos
+                    this.organismos.remove(org2);
+
+                    System.out.println("Se eliminoooo ");
+
+
+                    // Genera coordenadas random para el organismo
+
+                    int x = (int) (Math.random() * 50);
+                    int y = (int) (Math.random() * 50);
+                    org2.setCoordenadas((299+((x+1)*13)),(13*(y+1)));
+
+                    // Añade el organismo a la lista de nuevo
+                    organismos.add(org2);
+                    System.out.println("Nuevo???? ");
+                }
             }
         }
     }
-}
     
+    public int comprobarCoincidenciaOrganismos (int pos_X, int pos_Y, int turno) { 
+        int posCompar_X, posCompar_Y;
+        //System.out.println("Org x: "+ pos_X + " - Org y: " + pos_Y);
+        for (int i = 0; i < this.organismos.size(); i++) {
+            if (i != turno){
+                Organismo orgCompar = this.organismos.get(i);
+                posCompar_X = orgCompar.getCoordenadas()[0];
+                posCompar_Y = orgCompar.getCoordenadas()[1];
+                
+                //System.out.println("OrgCom x: "+ posCompar_X + " - OrgCom y: " + posCompar_Y);
+                
+                if (pos_X == posCompar_X && pos_Y == posCompar_Y) {
+                    System.out.println("entro");
+                    return i;
+                }
+            } 
+        }
+        return -1;
+    }
+    
+    public int comprobarCoincidenciaAlimento (int posOrgIndx_X, int posOrgIndx_Y) { 
+        int posAlim_X, posAlim_Y;
+        for (int i = 0; i < this.alimentos.size(); i++) {
+            Alimento alimento = this.alimentos.get(i);
+            posAlim_X = alimento.getCoordenadas()[0];
+            posAlim_Y = alimento.getCoordenadas()[1];
+            
+            if (posOrgIndx_X == posAlim_X && posOrgIndx_Y == posAlim_Y) {
+                return i;
+            }   
+        } 
+        return -1;
+    }
+
+
 }
+

@@ -45,10 +45,8 @@ public class Organismo {
         else
             diferenciaY = posAlimenY - posOrgY;
         
-        System.out.println("Diferencia_X: " +diferenciaX+ " - Diferencia_Y: " +diferenciaY);
         
         if (posOrgX < posAlimenX && posOrgY > posAlimenY) { //El alim esta Der + Arrb
-            System.out.println("Alimento esta arriba + derecha.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Der o Arrb
                     return 2;
@@ -61,7 +59,6 @@ public class Organismo {
             }
         }
         if (posOrgX < posAlimenX && posOrgY < posAlimenY) { //Der + Abaj
-            System.out.println("Alimento esta abajo + derecha.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Der o Abaj
                     return 2;
@@ -74,7 +71,6 @@ public class Organismo {
             } 
         }
         if (posOrgX > posAlimenX && posOrgY > posAlimenY) { //Izq + Arrb
-            System.out.println("Alimento esta arriba + izquierda.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Izq o Arrb
                     return 0;
@@ -87,7 +83,6 @@ public class Organismo {
             }
         } 
         if (posOrgX > posAlimenX && posOrgY < posAlimenY) { //Izq + Abaj
-            System.out.println("Alimento esta abajo + izquierda.");
             if (diferenciaX == diferenciaY){
                 if (new Random().nextInt(2) == 0) // Izq o Abaj
                     return 0;
@@ -380,6 +375,13 @@ public class Organismo {
         this.coordenadas [1] = y;
     }
 
+    public void reiniciarAtributos () {
+        this.edad = 1;
+        this.vision = 4;
+        this.energia = 10;
+        this.velocidad = 3;
+    }
+    
     public int getEdad() {
         return edad;
     }

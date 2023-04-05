@@ -65,7 +65,8 @@ public class Mapa extends JFrame {
         
         
         this.iniciarComponentes ();
-        this.generarAlimentos();
+        //this.crearOrganismos();
+        this.generarAlimentos(); 
         this.iniciarVentana();
         
     }
@@ -94,10 +95,21 @@ public class Mapa extends JFrame {
         
         
         this.iniciarComponentes ();
-        this.generarAlimentos();
+        //this.crearOrganismos();
+        this.generarAlimentos(); 
         this.iniciarVentana();
     }
- 
+
+    public boolean hayOrgPosicion (int x, int y){
+        int pos_x = ((x + 1) * 13) + 299, pos_y = (y + 1) * 13; 
+        for (int i = 0; i < this.organismos.size(); i++) {
+            JButton org = this.organismos.get(i);
+            if (pos_x == org.getX() && pos_y == org.getY())
+                return true; 
+        } 
+        return false;
+    }
+    
     private void generarAlimentos() {
         Random rand = new Random(); 
         int coordsAlimentos [][] = new int[21][2];
@@ -107,7 +119,7 @@ public class Mapa extends JFrame {
             int x = rand.nextInt(50);
             int y = rand.nextInt(50);  
             
-            if (this.casillas[x][y].getBackground() == Color.WHITE) { 
+            if (this.casillas[x][y].getBackground() == Color.WHITE && this.hayOrgPosicion(x, y) == false) { 
                 coordsAlimentos [i][0] = x;
                 coordsAlimentos [i][1] = y;
                 if (i <= 6)
@@ -124,8 +136,7 @@ public class Mapa extends JFrame {
 
 //Se crean los diversos organismos, así como el organismo principal (color rojo)
 
-    private void crearOrganismos() {
-
+    private void crearOrganismos() { 
         Random rand = new Random();
         
         this.organismos.add(new JButton());  
@@ -134,16 +145,20 @@ public class Mapa extends JFrame {
         this.organismos.get(0).setBackground(Color.RED);
         this.organismos.get(0).setOpaque(true);
         
-        for (int i = 1; i <= 5; i++) { 
+        int i = 1;
+        while (i <= 5) { //for (int i = 1; i <= 5; i++) {
             
             int x = rand.nextInt(50);
             int y = rand.nextInt(50);
             
-            this.organismos.add(new JButton()); 
-            this.principal.add(this.organismos.get(i)); 
-            this.organismos.get(i).setBounds(13*(x+1) + 299, 13*(y+1), 12, 12);
-            this.organismos.get(i).setBackground(new Color(204, 102, 0));
-            this.organismos.get(i).setOpaque(true);
+            if (this.hayOrgPosicion(x, y) == false) {
+                this.organismos.add(new JButton()); 
+                this.principal.add(this.organismos.get(i)); 
+                this.organismos.get(i).setBounds(13*(x+1) + 299, 13*(y+1), 12, 12);
+                this.organismos.get(i).setBackground(new Color(204, 102, 0));
+                this.organismos.get(i).setOpaque(true);
+                i++;
+            }
             
         }
     }
@@ -271,5 +286,6 @@ public class Mapa extends JFrame {
         return automatico;
     }
 
+    
     
 }

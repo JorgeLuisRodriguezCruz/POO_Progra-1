@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 
 public class Alimento {
     protected int[] coordenadas;
@@ -25,6 +27,10 @@ public class Alimento {
         this.coordenadas[1] = y;
     }
 
+    public Color getColor (){
+        return Color.WHITE;
+    }
+    
 }
     
 
