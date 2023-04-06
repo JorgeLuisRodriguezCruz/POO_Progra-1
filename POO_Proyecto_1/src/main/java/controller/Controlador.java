@@ -120,16 +120,20 @@ public class Controlador implements ActionListener, KeyListener {
         }
     }
     
-    public void coprobarPosicion (Organismo organismo) {
-        //System.out.println("ENTRA ENTRA ENTRA");
+    public void coprobarPosicion (Organismo organismo) { 
         int pos_X = organismo.getCoordenadas()[0], pos_Y = organismo.getCoordenadas()[1];
-        if (this.gestor.comprobarCoincidenciaOrganismos(pos_X, pos_Y, this.gestor.getTurno()) != -1) {
-            //System.out.println("Hay una coincidencia con organismos. --- UUUH"); 
-            this.cambiarPosicionOrg(this.gestor.comprobarCoincidenciaOrganismos(pos_X, pos_Y, this.gestor.getTurno()));
+        int indxCoincidencia = this.gestor.comprobarCoincidenciaOrganismos(pos_X, pos_Y, this.gestor.getTurno());
+        if (indxCoincidencia != -1) {
+            indxCoincidencia = this.gestor.incidenciaOrganismos(this.gestor.getTurno(), indxCoincidencia);
+            if (indxCoincidencia == 0)
+                System.exit(0);
+            this.cambiarPosicionOrg(indxCoincidencia);
+            return;
         }
-        if (this.gestor.comprobarCoincidenciaAlimento(((pos_X - 299) / 13) - 1, (pos_Y / 13) - 1) != -1) { 
-            //System.out.println("Hay una coincidencia con alimentos. --- UUUH");
-            this.cambiarPosicionAlim(this.gestor.comprobarCoincidenciaAlimento(((pos_X - 299) / 13) - 1, (pos_Y / 13) - 1));
+        indxCoincidencia = this.gestor.comprobarCoincidenciaAlimento(((pos_X - 299) / 13) - 1, (pos_Y / 13) - 1);
+        if (indxCoincidencia != -1) { 
+            this.gestor.getAlimentos().get(indxCoincidencia).serComido(organismo);
+            this.cambiarPosicionAlim(indxCoincidencia);
         }
     }
     
@@ -177,23 +181,33 @@ public class Controlador implements ActionListener, KeyListener {
 
     public void moverEnLineaControlado (int turno, int x, int y, int cantidad) {
         Organismo org = this.gestor.getOrganismos().get(turno);
-        
-        for (int i = 1; i <= cantidad; i++) {
-            mover(x, y, turno);
+        if (org.getEnergia() > 0) {
+            for (int i = 1; i <= cantidad; i++) {
+                mover(x, y, turno);
+            }
+            org.setEdad(org.getEdad()+1);
+            org.setEnergia(org.getEnergia()-1);
+            org.setVision(org.getVision()-1);
+            return;
         }
-        org.setEdad(org.getEdad()+1);
-        org.setEnergia(org.getEnergia()-1);
+        if (turno == 0)
+            System.exit(0);
     }
+
 //Movimiento realizado en linea recta 
 
     public void moverEnLineaRecta(int turno, int x, int y) {
         Organismo org = this.gestor.getOrganismos().get(turno);
-        
-        for (int i = 1; i <= org.getVelocidad(); i++) {
-            mover(x, y, turno);
+        if (org.getEnergia() > 0) {
+            for (int i = 1; i <= org.getVelocidad(); i++) {
+                mover(x, y, turno);
+            }
+            org.setEdad(org.getEdad()+1);
+            org.setEnergia(org.getEnergia()-1);
+            return;
         }
-        org.setEdad(org.getEdad()+1);
-        org.setEnergia(org.getEnergia()-1);
+        if (turno == 0)
+            System.exit(0);
     }
 
 //Se inician  los organismos (la posición [0] es el jugador principal; los demás son los NPC)

@@ -20,10 +20,10 @@ public class Organismo {
         this.coordenadas = new int[2];
         this.coordenadas[0] = 0;
         this.coordenadas[1] = 0;
-        this.edad = 1;
-        this.vision = 4; 
+        this.edad = 0;
+        this.vision = 5; 
         this.energia = 10;
-        this.velocidad = 3;
+        this.velocidad = 4;
     }
 //Seguir alimento por parte de un organismo
 

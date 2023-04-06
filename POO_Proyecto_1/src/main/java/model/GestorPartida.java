@@ -173,7 +173,7 @@ public class GestorPartida {
             this.turno++;
         }
         this.turno = 0; 
-        actualizarEstado(organismos, alimentos);
+        //actualizarEstado(organismos, alimentos);
     }
 //Movimiento de NPC´s en el maopa de juego
 
@@ -285,7 +285,7 @@ public class GestorPartida {
             else
                 this.turno++;
         }
-    actualizarEstado(organismos, alimentos);
+    //actualizarEstado(organismos, alimentos);
     }
 //Método que permite limpiar la vista
 
@@ -367,6 +367,38 @@ public class GestorPartida {
 
 //INCOMPLETO: Falta que además de dar atributo, se elimine y aparezca en otro lado
 
+    //Retorna el org que sera consumido
+    public int incidenciaOrganismos (int indxEnTurno, int indxEnIncidencia) { // Energ - Vel - Eda - Random
+        Organismo orgTurno = this.organismos.get(indxEnTurno);
+        Organismo orgIncidente = this.organismos.get(indxEnIncidencia);
+         
+        if (orgTurno.getEnergia() < orgIncidente.getEnergia())
+            return indxEnTurno;
+        if (orgTurno.getEnergia() > orgIncidente.getEnergia())
+            return indxEnIncidencia; 
+        
+        if (orgTurno.getEnergia() == orgIncidente.getEnergia()) {
+            
+            if (orgTurno.getVelocidad() < orgIncidente.getVelocidad())
+                return indxEnTurno;
+            if (orgTurno.getVelocidad() > orgIncidente.getVelocidad())
+                return indxEnIncidencia; 
+            
+            if (orgTurno.getVelocidad() == orgIncidente.getVelocidad()) {
+                if (orgTurno.getEdad() < orgIncidente.getEdad())
+                    return indxEnTurno;
+                if (orgTurno.getEdad() > orgIncidente.getEdad())
+                    return indxEnIncidencia; 
+                
+                if (orgTurno.getEdad() == orgIncidente.getEdad()) {
+                    if (new Random().nextInt(2) == 0)
+                        return indxEnTurno;
+                    return indxEnIncidencia;
+                }
+            }
+        }
+        return -1;
+    }
 
     public void actualizarEstado(ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos) {
 

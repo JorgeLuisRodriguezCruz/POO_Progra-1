@@ -12,7 +12,7 @@ public class Alimento {
         this.coordenadas = new int[2];
         this.coordenadas[0] = 0; 
         this.coordenadas[1] = 0;
-        this.cantidad = 4;
+        this.cantidad = 1;
         this.turnosParaReaparecer = 0; 
     }
 
