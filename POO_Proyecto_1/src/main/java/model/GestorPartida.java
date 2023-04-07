@@ -371,33 +371,55 @@ public class GestorPartida {
     public int incidenciaOrganismos (int indxEnTurno, int indxEnIncidencia) { // Energ - Vel - Eda - Random
         Organismo orgTurno = this.organismos.get(indxEnTurno);
         Organismo orgIncidente = this.organismos.get(indxEnIncidencia);
+        boolean enTurnoConsume = true;
          
         if (orgTurno.getEnergia() < orgIncidente.getEnergia())
-            return indxEnTurno;
+            enTurnoConsume = true;
         if (orgTurno.getEnergia() > orgIncidente.getEnergia())
-            return indxEnIncidencia; 
+            enTurnoConsume = false;
         
         if (orgTurno.getEnergia() == orgIncidente.getEnergia()) {
             
             if (orgTurno.getVelocidad() < orgIncidente.getVelocidad())
-                return indxEnTurno;
+                enTurnoConsume = true;
             if (orgTurno.getVelocidad() > orgIncidente.getVelocidad())
-                return indxEnIncidencia; 
+                enTurnoConsume = false;
             
             if (orgTurno.getVelocidad() == orgIncidente.getVelocidad()) {
                 if (orgTurno.getEdad() < orgIncidente.getEdad())
-                    return indxEnTurno;
+                    enTurnoConsume = false;
                 if (orgTurno.getEdad() > orgIncidente.getEdad())
-                    return indxEnIncidencia; 
+                    enTurnoConsume = false;
                 
                 if (orgTurno.getEdad() == orgIncidente.getEdad()) {
                     if (new Random().nextInt(2) == 0)
-                        return indxEnTurno;
-                    return indxEnIncidencia;
+                        enTurnoConsume = true;
+                    else
+                        enTurnoConsume = false;
                 }
             }
         }
-        return -1;
+        int nuevEnergia, nueVision, nueVelocidad;
+        if (enTurnoConsume) {
+            nueVision = orgTurno.getVision() + (orgIncidente.getVision()/ 2);
+            nuevEnergia = orgTurno.getEnergia() + (orgIncidente.getEnergia() / 2);
+            nueVelocidad = orgTurno.getVelocidad()+ (orgIncidente.getVelocidad()/ 2);
+            
+            orgTurno.setVision(nueVision);
+            orgTurno.setEnergia(nuevEnergia);
+            orgTurno.setVelocidad(nueVelocidad);
+            
+            return indxEnIncidencia;
+        } 
+        nueVision = orgIncidente.getVision() + (orgTurno.getVision()/ 2);
+        nuevEnergia = orgIncidente.getEnergia() + (orgTurno.getEnergia() / 2);
+        nueVelocidad = orgIncidente.getVelocidad()+ (orgTurno.getVelocidad()/ 2);
+        
+        orgIncidente.setVision(nueVision);
+        orgIncidente.setEnergia(nuevEnergia);
+        orgIncidente.setVelocidad(nueVelocidad);
+        
+        return indxEnTurno;
     }
 
     public void actualizarEstado(ArrayList<Organismo> organismos, ArrayList<Alimento> alimentos) {
