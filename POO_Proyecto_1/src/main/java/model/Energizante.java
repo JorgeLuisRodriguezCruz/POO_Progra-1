@@ -11,9 +11,18 @@ public class Energizante extends Alimento {
     }
     
     @Override
-    public void serComido (Organismo org) {
-        org.setEnergia(org.getEnergia()+this.cantidad);
-        org.setVelocidad(org.getVelocidad() - 1);
+    public void serComido (Organismo org, int maximo, int minimo, int incremento, int decremento) {
+        int nuevaCantUno = org.getEnergia()+(this.cantidad*incremento);
+        if (nuevaCantUno <= maximo)
+            org.setEnergia(nuevaCantUno);
+        else
+            org.setEnergia(maximo);
+        
+        int nuevaCantDos = org.getVelocidad() - (1*decremento);
+        if (nuevaCantDos >= minimo)
+            org.setVelocidad(nuevaCantDos);
+        else
+            org.setVelocidad(minimo);
     }
 
     @Override

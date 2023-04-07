@@ -16,7 +16,7 @@ public class Alimento {
         this.turnosParaReaparecer = 0; 
     }
 
-    public void serComido (Organismo org) { }
+    public void serComido (Organismo org, int maximo, int minimo, int incremento, int decremento) { }
 
     public int[] getCoordenadas() {
         return coordenadas;

@@ -9,9 +9,10 @@ public class Vision extends Alimento {
     }
     
     @Override
-    public void serComido (Organismo org) {
-        org.setVision(org.getVision()+this.cantidad);
-        
+    public void serComido (Organismo org, int maximo, int minimo, int incremento, int decremento) {
+        int nuevaCantidad = org.getVision()+(this.cantidad*incremento);
+        if (nuevaCantidad <= maximo)
+            org.setVision(nuevaCantidad);
     }
 
     @Override

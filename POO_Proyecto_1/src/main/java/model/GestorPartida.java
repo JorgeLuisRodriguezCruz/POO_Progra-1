@@ -465,6 +465,23 @@ public class GestorPartida {
         return -1;
     }
 
+    public int getMaxCanpacidad() {
+        return maxCanpacidad;
+    }
+
+    public int getMinCanpacidad() {
+        return minCanpacidad;
+    }
+
+    public int getEscalaIncremento() {
+        return escalaIncremento;
+    }
+
+    public int getEscalaDecremento() {
+        return escalaDecremento;
+    }
+
+    
 
 }
 

@@ -9,8 +9,10 @@ public class Velocidad extends Alimento {
     }
     
     @Override
-    public void serComido (Organismo org) {
-        org.setVelocidad(org.getVelocidad()+this.cantidad);
+    public void serComido (Organismo org, int maximo, int minimo, int incremento, int decremento) {
+        int nuevaCantidad = org.getVelocidad()+ (this.cantidad*incremento);
+        if (nuevaCantidad <= maximo)
+            org.setVelocidad(nuevaCantidad);
     }
 
     @Override

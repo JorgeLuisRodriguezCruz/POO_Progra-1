@@ -26,9 +26,9 @@ public class Controlador implements ActionListener, KeyListener {
 
     public Controlador () { 
         this.configuracion = new MicroGameGUI(); 
-        this.configuracion.setVisible(false);    //this.configuracion.setVisible(true);
+        this.configuracion.setVisible(true);
         this.gestor = new GestorPartida(this);
-        this.mapa = new Mapa(this); this.mapa.setVisible(true);
+        this.mapa = new Mapa(this); this.mapa.setVisible(false);
         this.infomacion = new ArrayList<Informacion> ();
         this.automacNPCS = true;
         
@@ -132,7 +132,8 @@ public class Controlador implements ActionListener, KeyListener {
         }
         indxCoincidencia = this.gestor.comprobarCoincidenciaAlimento(((pos_X - 299) / 13) - 1, (pos_Y / 13) - 1);
         if (indxCoincidencia != -1) { 
-            this.gestor.getAlimentos().get(indxCoincidencia).serComido(organismo);
+            this.gestor.getAlimentos().get(indxCoincidencia).serComido(organismo, this.gestor.getMaxCanpacidad(), 
+                    this.gestor.getMinCanpacidad(), this.gestor.getEscalaIncremento(), this.gestor.getEscalaDecremento());
             this.cambiarPosicionAlim(indxCoincidencia);
         }
     }
@@ -181,33 +182,63 @@ public class Controlador implements ActionListener, KeyListener {
 
     public void moverEnLineaControlado (int turno, int x, int y, int cantidad) {
         Organismo org = this.gestor.getOrganismos().get(turno);
-        if (org.getEnergia() > 0) {
+        if (org.getEnergia() > this.gestor.getMinCanpacidad()) {
             for (int i = 1; i <= cantidad; i++) {
                 mover(x, y, turno);
             }
-            org.setEdad(org.getEdad()+1);
-            org.setEnergia(org.getEnergia()-1);
-            org.setVision(org.getVision()-1);
+            int nuevaEdad = org.getEdad()+(1*this.gestor.getEscalaIncremento());
+            int nuevaEnergia = org.getEnergia()-(1*this.gestor.getEscalaDecremento());
+            int nuevaVision = org.getVision()-(1*this.gestor.getEscalaDecremento());
+            
+            if (nuevaEdad > this.gestor.getMaxCanpacidad())
+                nuevaEdad = this.gestor.getMaxCanpacidad();
+            if (nuevaEnergia < this.gestor.getMinCanpacidad())
+                nuevaEnergia = this.gestor.getMinCanpacidad();
+            if (nuevaVision < this.gestor.getMinCanpacidad())
+                nuevaVision = this.gestor.getMinCanpacidad();
+            
+            org.setEdad(nuevaEdad);
+            org.setEnergia(nuevaEnergia);
+            org.setVision(nuevaVision);
             return;
         }
-        if (turno == 0)
+        if (turno == 0) {
+            //System.out.println("EEE");
             System.exit(0);
+        }
     }
 
 //Movimiento realizado en linea recta 
 
     public void moverEnLineaRecta(int turno, int x, int y) {
         Organismo org = this.gestor.getOrganismos().get(turno);
-        if (org.getEnergia() > 0) {
+        //System.out.println("Energia: "+org.getEnergia()+" - Max: "+this.gestor.getMinCanpacidad());
+        if (org.getEnergia() >= this.gestor.getMinCanpacidad()) {
             for (int i = 1; i <= org.getVelocidad(); i++) {
                 mover(x, y, turno);
             }
-            org.setEdad(org.getEdad()+1);
-            org.setEnergia(org.getEnergia()-1);
+            int nuevaEdad = org.getEdad()+(1*this.gestor.getEscalaIncremento());
+            int nuevaEnergia = org.getEnergia()-(1*this.gestor.getEscalaDecremento());
+            int nuevaVision = org.getVision()-(1*this.gestor.getEscalaDecremento());
+            
+            if (nuevaEdad > this.gestor.getMaxCanpacidad())
+                nuevaEdad = this.gestor.getMaxCanpacidad();
+            if (nuevaEnergia < this.gestor.getMinCanpacidad())
+                nuevaEnergia = this.gestor.getMinCanpacidad();
+            if (nuevaVision < this.gestor.getMinCanpacidad())
+                nuevaVision = this.gestor.getMinCanpacidad();
+            
+            //System.out.println("che");
+            org.setEdad(nuevaEdad);
+            org.setEnergia(nuevaEnergia);
+            org.setVision(nuevaVision);
             return;
         }
-        if (turno == 0)
+        
+        if (turno == 0) {
+            //System.out.println("AAA");
             System.exit(0);
+        }
     }
 
 //Se inician  los organismos (la posición [0] es el jugador principal; los demás son los NPC)
@@ -262,6 +293,7 @@ public class Controlador implements ActionListener, KeyListener {
                 int escalaIncremento = Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
                 int escalaDecremento = Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
                 this.mapa.setVisible(true);
+                //System.out.println("maximo: "+maximo+" _ minimo: "+minimo+" _ incremento: "+escalaIncremento+" _ decremento: "+escalaDecremento);
                 this.gestor.setSimulacionFactoresDeCambio(maximo, minimo, escalaIncremento, escalaDecremento);
                 this.configuracion.setVisible(false);
             } 
