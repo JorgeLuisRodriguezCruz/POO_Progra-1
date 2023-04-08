@@ -31,6 +31,7 @@ public class Organismo {
     }
 
     protected int seguirAlimento (Alimento alimento) {
+        System.out.println("Siguelo alim!!");
         int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
         int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
         int diferenciaX = 0, diferenciaY = 0;
@@ -109,6 +110,7 @@ public class Organismo {
 //Parecido al método anterior; solo que ahora es para seguir un organismo
 
     protected int seguirOrganismo (Organismo organismo) {
+        System.out.println("Siguelo org!!");
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
         int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
         int diferenciaX = 0, diferenciaY = 0; 
@@ -186,6 +188,7 @@ public class Organismo {
 //Método para escapar de un organismo que lo quiera comer, esto en el mapa de juego
 
     protected int huirDeOrganismo (Organismo organismo) {
+        System.out.println("Huye org!!");
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
         int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
         int diferenciaX = 0, diferenciaY = 0; 

@@ -25,6 +25,7 @@ public class Mapa extends JFrame {
     private ArrayList<JButton> organismos; 
     private JButton siguiente;
     private JButton automatico;
+    private JButton terminarTurno;
     private JPanel principal;
     private JPanel informacionJuego;
     private JLabel casillas[][];
@@ -34,6 +35,8 @@ public class Mapa extends JFrame {
     private JLabel alimentoVelocidad;
     private JLabel alimentoEnergia;
     private JLabel alimentoVision;
+    private JLabel infoJugador;
+    private JLabel cantMovimientos;
     
     private JLabel colorNpcs;
     private JLabel colorJugadores;
@@ -42,36 +45,36 @@ public class Mapa extends JFrame {
     private JLabel colorAlimentoVision; 
 
 //Se crea el mapa con sus respectivos botones y label que aparecerán en dicha instancia
+    
     public Mapa() {
         super("Ventana");
-        
         this.organismos = new ArrayList<JButton>(); // Inicialización de la lista organismos
         this.casillas = new JLabel[50][50];
         this.principal = new JPanel();
         this.siguiente = new JButton("Siguiente");
         this.automatico = new JButton("NPC automaticos");
+        this.terminarTurno = new JButton("Terminar turno");
         
         this.npcs = new JLabel("NPC");
         this.jugadores = new JLabel("Jugador");
         this.alimentoVision = new JLabel("Comida vision"); 
         this.alimentoEnergia = new JLabel("Comida energia");
         this.alimentoVelocidad = new JLabel("Comida velocidad");
+        this.infoJugador = new JLabel("Jugador:");
+        this.cantMovimientos = new JLabel("Movimietos: 00000");
         
         this.colorNpcs = new JLabel();
         this.colorJugadores = new JLabel();
         this.colorAlimentoVision = new JLabel();
         this.colorAlimentoEnergia = new JLabel();
         this.colorAlimentoVelocidad = new JLabel(); 
-        
-        
+             
         this.iniciarComponentes ();
-        //this.crearOrganismos();
         this.generarAlimentos(); 
         this.iniciarVentana();
         
     }
-//Se llama al "Controlador" para que mediante una comunicación 1 a 1, se pongan en marcha los diversos métodos
-
+    
     public Mapa(Controlador controlador) {
         super("Ventana");
         this.controlador = controlador;
@@ -80,24 +83,26 @@ public class Mapa extends JFrame {
         this.principal = new JPanel();
         this.siguiente = new JButton("Siguiente");
         this.automatico = new JButton("NPC automaticos");
+        this.terminarTurno = new JButton("Terminar turno");
         
         this.npcs = new JLabel("NPC");
         this.jugadores = new JLabel("Jugador");
         this.alimentoVision = new JLabel("Comida vision"); 
         this.alimentoEnergia = new JLabel("Comida energia");
         this.alimentoVelocidad = new JLabel("Comida velocidad");
+        this.infoJugador = new JLabel("Jugador:");
+        this.cantMovimientos = new JLabel("Movimietos: 0");
         
         this.colorNpcs = new JLabel();
         this.colorJugadores = new JLabel();
         this.colorAlimentoVision = new JLabel();
         this.colorAlimentoEnergia = new JLabel();
         this.colorAlimentoVelocidad = new JLabel(); 
-        
-        
+             
         this.iniciarComponentes ();
-        //this.crearOrganismos();
         this.generarAlimentos(); 
         this.iniciarVentana();
+        
     }
 
     public boolean hayOrgPosicion (int x, int y){
@@ -168,7 +173,7 @@ public class Mapa extends JFrame {
         int sizeFont = 16;
         int widthFont = 140; 
         int xCordTxt = 40;
-        int yCordTxt = 130;
+        int yCordTxt = 104;//130;
         int xCordColor = xCordTxt + 150;
 
 // Agregar label y cuadro para la NPC 
@@ -229,9 +234,27 @@ public class Mapa extends JFrame {
         this.siguiente.setFocusable(false);
         this.siguiente.setBackground(new Color(224, 224, 224));
         
-        this.principal.add(this.automatico);
-        this.principal.add(this.siguiente);
+        this.infoJugador.setForeground(Color.BLACK);
+        this.infoJugador.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont + 2));
+        this.infoJugador.setBounds(xCordTxt, yCordTxt + 360,widthFont, 30); 
         
+        this.cantMovimientos.setForeground(Color.BLACK);
+        this.cantMovimientos.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
+        this.cantMovimientos.setBounds(xCordTxt, yCordTxt + 400,widthFont + 20, 26);
+        
+        this.terminarTurno.setBounds(xCordTxt, yCordTxt + 440, widthFont + 15, 26);
+        this.terminarTurno.setForeground(Color.BLACK);
+        this.terminarTurno.setFont(new Font("Comic Sans Ms", Font.BOLD, sizeFont));
+        this.terminarTurno.setFocusable(false);
+        this.terminarTurno.setBackground(new Color(224, 224, 224));
+        
+        
+        this.principal.add(this.cantMovimientos);
+        this.principal.add(this.terminarTurno);
+        
+        this.principal.add(this.infoJugador);
+        this.principal.add(this.automatico);
+        this.principal.add(this.siguiente); 
         this.principal.add(this.npcs);
         this.principal.add(this.jugadores);
         this.principal.add(this.alimentoVision);
@@ -286,6 +309,12 @@ public class Mapa extends JFrame {
         return automatico;
     }
 
-    
+    public JButton getTerminarTurno() {
+        return terminarTurno;
+    }
+
+    public JLabel getCantMovimientos() {
+        return cantMovimientos;
+    }
     
 }

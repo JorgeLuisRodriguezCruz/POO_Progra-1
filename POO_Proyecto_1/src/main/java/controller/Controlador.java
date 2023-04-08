@@ -23,41 +23,24 @@ public class Controlador implements ActionListener, KeyListener {
     private GestorPartida gestor;
     private ArrayList<Informacion> infomacion;
     private boolean automacNPCS;
+    int cantMoviJugador;
+    int keyDireccion;
 
     public Controlador () { 
         this.configuracion = new MicroGameGUI(); 
-        this.configuracion.setVisible(true);
+        this.configuracion.setVisible(false);//(true);
         this.gestor = new GestorPartida(this);
-        this.mapa = new Mapa(this); this.mapa.setVisible(false);
+        this.mapa = new Mapa(this); 
+        this.mapa.setVisible(true);//(false);
         this.infomacion = new ArrayList<Informacion> ();
         this.automacNPCS = true;
+        this.cantMoviJugador = -1;
+        this.keyDireccion = -1;
         
         this.establecerComunicacion();
         this.iniciarOrganismos();
         this.gestor.mostrarVision(this.mapa.getCasillas());
         this.mapa.repaint();
-    }
-    
-    public Controlador (Mapa pMapa) {
-        this.mapa = pMapa;
-        this.mapa.setVisible(true);
-        this.configuracion = new MicroGameGUI(); 
-        this.configuracion.setVisible(false);
-        this.infomacion = new ArrayList<Informacion> ();
-        this.automacNPCS = true;
-        
-        this.establecerComunicacion();
-        this.gestor.mostrarVision(this.mapa.getCasillas());
-        this.mapa.repaint();
-    }
-    
-    public Controlador (MicroGameGUI pConfiguracion) {
-        this.mapa = new Mapa(this);
-        this.configuracion = pConfiguracion;
-        this.infomacion = new ArrayList<Informacion> ();
-        this.automacNPCS = true;
-        
-        this.establecerComunicacion();
     }
     
     private void establecerComunicacion () { 
@@ -67,6 +50,8 @@ public class Controlador implements ActionListener, KeyListener {
             this.mapa.getOrganismos().get(i).addKeyListener(this);
             this.mapa.getOrganismos().get(i).addActionListener(this);
         }
+        this.mapa.getTerminarTurno().addKeyListener(this);
+        this.mapa.getTerminarTurno().addActionListener(this);
         this.mapa.getSiguiente().addKeyListener(this);
         this.mapa.getSiguiente().addActionListener(this);
         this.mapa.getAutomatico().addKeyListener(this);
@@ -211,8 +196,7 @@ public class Controlador implements ActionListener, KeyListener {
 //Movimiento realizado en linea recta 
 
     public void moverEnLineaRecta(int turno, int x, int y) {
-        Organismo org = this.gestor.getOrganismos().get(turno);
-        //System.out.println("Energia: "+org.getEnergia()+" - Max: "+this.gestor.getMinCanpacidad());
+        Organismo org = this.gestor.getOrganismos().get(turno); 
         if (org.getEnergia() >= this.gestor.getMinCanpacidad()) {
             for (int i = 1; i <= org.getVelocidad(); i++) {
                 mover(x, y, turno);
@@ -250,6 +234,8 @@ public class Controlador implements ActionListener, KeyListener {
             Organismo org = organismos.get(i);
             this.infomacion.add(new Informacion(org.identificarse(), org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad()));
         }
+        this.cantMoviJugador = this.gestor.getOrganismos().get(0).getVelocidad();
+        this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
     }
     
     public void pasarCoordsAlimentos (int[][] coordsAlimentos) {
@@ -264,6 +250,27 @@ public class Controlador implements ActionListener, KeyListener {
                 return;
             }
         }
+        if (e.getSource() == this.mapa.getTerminarTurno()){
+            int turno = this.gestor.getTurno();
+            if ( turno == 0) {
+                this.gestor.limpiarVista(mapa.getCasillas()); 
+                this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+                this.keyDireccion = -1;
+                this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
+                if (this.automacNPCS) {
+                    this.gestor.setTurno(turno + 1);
+                    this.gestor.moverAutomatico(); 
+                    this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+                }
+                else {
+                    this.gestor.setTurno(turno + 1);
+                    this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+                }
+            }
+            this.gestor.mostrarVision(this.mapa.getCasillas());
+            this.mapa.repaint();
+            return;
+        }
         if (e.getSource() == this.mapa.getSiguiente()){
             this.gestor.limpiarVista(mapa.getCasillas());
             this.mapa.repaint(); 
@@ -275,7 +282,11 @@ public class Controlador implements ActionListener, KeyListener {
             else { 
                 this.gestor.simularSiguiente();
                 this.gestor.mostrarVision(mapa.getCasillas()); 
-                this.mapa.repaint();  
+                this.mapa.repaint();
+                if (this.gestor.getTurno() == 0){ 
+                    this.cantMoviJugador = this.gestor.getOrganismos().get(0).getVelocidad();
+                    this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+                }
             }
             this.actualizarInformacion();
         }
@@ -305,37 +316,70 @@ public class Controlador implements ActionListener, KeyListener {
     
     @Override
     public void keyPressed(KeyEvent e) { 
-        int turno = this.gestor.getTurno(); //Esto es solo representativo cuando este implementado la gestion del turno, se quita. 
+        int turno = this.gestor.getTurno();
         if (turno != 0)
-            return;
+            return; 
         this.gestor.limpiarVista(mapa.getCasillas()); 
         switch (e.getKeyCode()) {
             case 37: // flecha izquierda
-                this.moverEnLineaRecta(turno, -1, 0);
-                break;
+                if (this.keyDireccion == 37 || this.keyDireccion == -1) {
+                    this.keyDireccion = 37;
+                    this.mover(-1, 0, turno);
+                    break;
+                } else
+                    break;
             case 38: // flecha arriba
-                this.moverEnLineaRecta(turno, 0, -1);
-                break;
+                if (this.keyDireccion == 38 || this.keyDireccion == -1) {
+                    this.keyDireccion = 38;
+                    this.mover(0, -1, turno);
+                    break;
+                } else
+                    break;
             case 39: // flecha derecha
-                this.moverEnLineaRecta(turno, 1, 0);
-                break;
+                if (this.keyDireccion == 39 || this.keyDireccion == -1) {
+                    this.keyDireccion = 39;
+                    this.mover(1, 0, turno);
+                    break;
+                } else
+                    break;
             case 40: // flecha abajo
-                this.moverEnLineaRecta(turno, 0, 1);
-                break; 
+                if (this.keyDireccion == 40 || this.keyDireccion == -1) {
+                    this.keyDireccion = 40;
+                    this.mover(0, 1, turno);
+                    break;
+                } else
+                    break;
             default: 
-                break;
+                return;
         }  
-        if (this.automacNPCS){
-            this.gestor.setTurno(turno + 1);
-            this.gestor.moverAutomatico();//this.gestor.moverNpcs();
+        if (this.keyDireccion != e.getKeyCode()) {
             this.gestor.mostrarVision(this.mapa.getCasillas());
             this.mapa.repaint();
+            return;
         }
-        else {
-            this.gestor.setTurno(turno + 1);
-            this.gestor.mostrarVision(mapa.getCasillas());
-            this.mapa.repaint();
+        if (this.cantMoviJugador == 1) { 
+            this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+            this.keyDireccion = -1;
+            this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
+            if (this.automacNPCS) {
+                this.gestor.setTurno(turno + 1);
+                this.gestor.moverAutomatico(); 
+                this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+            }
+            else {
+                this.gestor.setTurno(turno + 1);
+                this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+            }
+        } else {
+            if(this.cantMoviJugador == -1) {
+                this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
+            } else {
+                this.cantMoviJugador = this.cantMoviJugador - 1;
+                this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+            }
         }
+        this.gestor.mostrarVision(this.mapa.getCasillas());
+        this.mapa.repaint();
         this.actualizarInformacion();
     }
 
