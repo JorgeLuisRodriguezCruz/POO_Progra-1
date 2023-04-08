@@ -28,10 +28,10 @@ public class Controlador implements ActionListener, KeyListener {
 
     public Controlador () { 
         this.configuracion = new MicroGameGUI(); 
-        this.configuracion.setVisible(false);//(true);
+        this.configuracion.setVisible (true);
         this.gestor = new GestorPartida(this);
         this.mapa = new Mapa(this); 
-        this.mapa.setVisible(true);//(false);
+        this.mapa.setVisible (false);
         this.infomacion = new ArrayList<Informacion> ();
         this.automacNPCS = true;
         this.cantMoviJugador = -1;
@@ -59,10 +59,10 @@ public class Controlador implements ActionListener, KeyListener {
     }
     
     public void actualizarInformacion (){
-        ArrayList<Organismo> arrsyListorg = this.gestor.getOrganismos();
+        ArrayList<Organismo> arrsyListOrg = this.gestor.getOrganismos();
         //System.out.println("Dentro de actualizarInfo size orga: "+ arrsyListorg.size());
-        for (int i = 0; i < arrsyListorg.size(); i++) {
-            Organismo org = arrsyListorg.get(i); 
+        for (int i = 0; i < arrsyListOrg.size(); i++) {
+            Organismo org = arrsyListOrg.get(i); 
             this.infomacion.get(i).actualisarDatos(org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
         }
     }
@@ -257,6 +257,23 @@ public class Controlador implements ActionListener, KeyListener {
                 this.mapa.getCantMovimientos().setText("Movimietos: "+0);
                 this.keyDireccion = -1;
                 this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
+                
+                Organismo org = this.gestor.getOrganismos().get(0);
+                int nuevaEdad = org.getEdad()+(1*this.gestor.getEscalaIncremento());
+                int nuevaEnergia = org.getEnergia()-(1*this.gestor.getEscalaDecremento());
+                int nuevaVision = org.getVision()-(1*this.gestor.getEscalaDecremento());
+
+                if (nuevaEdad > this.gestor.getMaxCanpacidad())
+                    nuevaEdad = this.gestor.getMaxCanpacidad();
+                if (nuevaEnergia < this.gestor.getMinCanpacidad())
+                    System.exit(0);//nuevaEnergia = this.gestor.getMinCanpacidad();
+                if (nuevaVision < this.gestor.getMinCanpacidad())
+                    nuevaVision = this.gestor.getMinCanpacidad();
+
+                org.setEdad(nuevaEdad);
+                org.setEnergia(nuevaEnergia);
+                org.setVision(nuevaVision);
+                
                 if (this.automacNPCS) {
                     this.gestor.setTurno(turno + 1);
                     this.gestor.moverAutomatico(); 
@@ -269,6 +286,7 @@ public class Controlador implements ActionListener, KeyListener {
             }
             this.gestor.mostrarVision(this.mapa.getCasillas());
             this.mapa.repaint();
+            this.actualizarInformacion();
             return;
         }
         if (e.getSource() == this.mapa.getSiguiente()){
@@ -317,8 +335,8 @@ public class Controlador implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) { 
         int turno = this.gestor.getTurno();
-        if (turno != 0)
-            return; 
+        if (turno != 0 || e.getKeyCode() < 37 || e.getKeyCode() > 40)
+            return;
         this.gestor.limpiarVista(mapa.getCasillas()); 
         switch (e.getKeyCode()) {
             case 37: // flecha izquierda
@@ -361,6 +379,23 @@ public class Controlador implements ActionListener, KeyListener {
             this.mapa.getCantMovimientos().setText("Movimietos: "+0);
             this.keyDireccion = -1;
             this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
+            
+            Organismo org = this.gestor.getOrganismos().get(0);
+            int nuevaEdad = org.getEdad()+(1*this.gestor.getEscalaIncremento());
+            int nuevaEnergia = org.getEnergia()-(1*this.gestor.getEscalaDecremento());
+            int nuevaVision = org.getVision()-(1*this.gestor.getEscalaDecremento());
+            
+            if (nuevaEdad > this.gestor.getMaxCanpacidad())
+                nuevaEdad = this.gestor.getMaxCanpacidad();
+            if (nuevaEnergia < this.gestor.getMinCanpacidad())
+                System.exit(0);//nuevaEnergia = this.gestor.getMinCanpacidad();
+            if (nuevaVision < this.gestor.getMinCanpacidad())
+                nuevaVision = this.gestor.getMinCanpacidad();
+            
+            org.setEdad(nuevaEdad);
+            org.setEnergia(nuevaEnergia);
+            org.setVision(nuevaVision);
+            
             if (this.automacNPCS) {
                 this.gestor.setTurno(turno + 1);
                 this.gestor.moverAutomatico(); 

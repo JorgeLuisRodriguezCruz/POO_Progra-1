@@ -25,13 +25,11 @@ public class Organismo {
         this.energia = 10;
         this.velocidad = 4;
     }
-//Seguir alimento por parte de un organismo
-
+    
     public Organismo(int x, int y) {
     }
 
-    protected int seguirAlimento (Alimento alimento) {
-        System.out.println("Siguelo alim!!");
+    protected int seguirAlimento (Alimento alimento) { 
         int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
         int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
         int diferenciaX = 0, diferenciaY = 0;
@@ -107,10 +105,8 @@ public class Organismo {
         }
         return -1;
     }
-//Parecido al método anterior; solo que ahora es para seguir un organismo
 
     protected int seguirOrganismo (Organismo organismo) {
-        System.out.println("Siguelo org!!");
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
         int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
         int diferenciaX = 0, diferenciaY = 0; 
@@ -185,22 +181,23 @@ public class Organismo {
         return -1;
     }
 
-//Método para escapar de un organismo que lo quiera comer, esto en el mapa de juego
-
-    protected int huirDeOrganismo (Organismo organismo) {
-        System.out.println("Huye org!!");
+    protected int huirDeOrganismo (Organismo organismo) { 
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
         int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
         int diferenciaX = 0, diferenciaY = 0; 
         
-        if (this.coordenadas[0] > xOrgCompar)
-            diferenciaX = this.coordenadas[0] - xOrgCompar;
+        if (xPosOrg > xOrgCompar)
+            diferenciaX = xPosOrg - xOrgCompar;
         else
-            diferenciaX = xOrgCompar - this.coordenadas[0];
-        if (this.coordenadas[1] > yOrgCompar)
-            diferenciaY = this.coordenadas[1] - yOrgCompar;
+            diferenciaX = xOrgCompar - xPosOrg;
+        if (yPosOrg > yOrgCompar)
+            diferenciaY = yPosOrg - yOrgCompar;
         else  
-            diferenciaY = yOrgCompar - this.coordenadas[1]; 
+            diferenciaY = yOrgCompar - yPosOrg; 
+        
+        /*System.out.println("Org_x: "+ xPosOrg +" Org_y: "+ yPosOrg);
+        System.out.println("OrgCom_x: "+ xOrgCompar +" OrgCom_y: "+ yOrgCompar);
+        System.out.println("Dif_x: "+ diferenciaX +" Dif_y: "+ diferenciaY);*/
         
         if (xPosOrg < xOrgCompar && yPosOrg > yOrgCompar) { //esta Der + Arrb
             if (diferenciaX == diferenciaY){
@@ -408,13 +405,13 @@ public class Organismo {
     public void setEnergia(int energia) {
         this.energia = energia;
     }
+    
     public void setVision(int vision) {
         this.vision = vision;
     }
+    
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
     }
-
-
     
 }

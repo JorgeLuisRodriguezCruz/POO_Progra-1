@@ -175,6 +175,7 @@ public class GestorPartida {
         this.turno = 0; 
         //actualizarEstado(organismos, alimentos);
     }
+
 //Movimiento de NPC´s en el maopa de juego
 
     public void moverNpcs () {
@@ -205,6 +206,7 @@ public class GestorPartida {
         this.turno = 0;
         actualizarEstado(organismos, alimentos);
     }
+
 //Simulación al presionar el botón siguiente del mapa de juego
 
     public void simularSiguiente () {
@@ -287,6 +289,7 @@ public class GestorPartida {
         }
     //actualizarEstado(organismos, alimentos);
     }
+
 //Método que permite limpiar la vista
 
     public void limpiarVista (JLabel[][] mapa) {
@@ -374,28 +377,28 @@ public class GestorPartida {
         boolean enTurnoConsume = true;
          
         if (orgTurno.getEnergia() < orgIncidente.getEnergia())
-            enTurnoConsume = true;
-        if (orgTurno.getEnergia() > orgIncidente.getEnergia())
             enTurnoConsume = false;
+        if (orgTurno.getEnergia() > orgIncidente.getEnergia())
+            enTurnoConsume = true;
         
         if (orgTurno.getEnergia() == orgIncidente.getEnergia()) {
             
             if (orgTurno.getVelocidad() < orgIncidente.getVelocidad())
-                enTurnoConsume = true;
-            if (orgTurno.getVelocidad() > orgIncidente.getVelocidad())
                 enTurnoConsume = false;
+            if (orgTurno.getVelocidad() > orgIncidente.getVelocidad())
+                enTurnoConsume = true;
             
             if (orgTurno.getVelocidad() == orgIncidente.getVelocidad()) {
                 if (orgTurno.getEdad() < orgIncidente.getEdad())
                     enTurnoConsume = false;
                 if (orgTurno.getEdad() > orgIncidente.getEdad())
-                    enTurnoConsume = false;
+                    enTurnoConsume = true;
                 
                 if (orgTurno.getEdad() == orgIncidente.getEdad()) {
                     if (new Random().nextInt(2) == 0)
-                        enTurnoConsume = true;
-                    else
                         enTurnoConsume = false;
+                    else
+                        enTurnoConsume = true;
                 }
             }
         }
