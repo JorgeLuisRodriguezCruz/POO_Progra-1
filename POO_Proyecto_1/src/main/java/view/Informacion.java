@@ -18,13 +18,13 @@ public class Informacion extends JFrame {
     
 //Se crea la ventana secundaria de información que aparecerá en el mapa al presionar el "botón" organismo
     public Informacion(){ 
-        super("Informacion");
+        super("Información");
 
         this.fondo = new JPanel();
         this.tipo = new JLabel ("Indefinido");
         this.edad = new JLabel("Edad: " + 0);
-        this.vision = new JLabel("Vision: " + 0);
-        this.energia = new JLabel("Energia: " + 0);
+        this.vision = new JLabel("Visión: " + 0);
+        this.energia = new JLabel("Energía: " + 0);
         this.velocidad = new JLabel("Velocidad: " + 0);
         
         this.iniciarComponenetes();
@@ -86,11 +86,12 @@ public class Informacion extends JFrame {
         
         this.add(this.fondo);
     }
-    
+//Se actualizan los diversos atributos y datos de cada organismo 
+
     public void actualisarDatos (int edad, int vision, int energia, int velocidad) { 
         this.edad.setText("Edad: " + edad);
-        this.vision.setText("Vision: " + vision);
-        this.energia.setText("Energia: " + energia);
+        this.vision.setText("Visión: " + vision);
+        this.energia.setText("Energía: " + energia);
         this.velocidad.setText("Velocidad: " + velocidad);
     }
     

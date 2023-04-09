@@ -368,8 +368,6 @@ public class GestorPartida {
 //Método que permite subir atributos si se come a otro organismo
 
 
-//INCOMPLETO: Falta que además de dar atributo, se elimine y aparezca en otro lado
-
     //Retorna el org que sera consumido
     public int incidenciaOrganismos (int indxEnTurno, int indxEnIncidencia) { // Energ - Vel - Eda - Random
         Organismo orgTurno = this.organismos.get(indxEnTurno);
@@ -468,7 +466,7 @@ public class GestorPartida {
                 //System.out.println("OrgCom x: "+ posCompar_X + " - OrgCom y: " + posCompar_Y);
                 
                 if (pos_X == posCompar_X && pos_Y == posCompar_Y) {
-                    System.out.println("entro");
+                    System.out.println("entró");
                     return i;
                 }
             } 

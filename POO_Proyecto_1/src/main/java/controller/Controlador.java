@@ -42,7 +42,9 @@ public class Controlador implements ActionListener, KeyListener {
         this.gestor.mostrarVision(this.mapa.getCasillas());
         this.mapa.repaint();
     }
-    
+
+//Se establece la comunicación entre las diversas partes esenciales del funcionamiento del juego
+
     private void establecerComunicacion () { 
         this.configuracion.getJugar().addActionListener(this);
         
@@ -58,9 +60,11 @@ public class Controlador implements ActionListener, KeyListener {
         this.mapa.getAutomatico().addActionListener(this);
     }
     
+//Se axtualiza la información correspondiente a cada organismo
+
     public void actualizarInformacion (){
         ArrayList<Organismo> arrsyListOrg = this.gestor.getOrganismos();
-        //System.out.println("Dentro de actualizarInfo size orga: "+ arrsyListorg.size());
+ 
         for (int i = 0; i < arrsyListOrg.size(); i++) {
             Organismo org = arrsyListOrg.get(i); 
             this.infomacion.get(i).actualisarDatos(org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
@@ -104,14 +108,17 @@ public class Controlador implements ActionListener, KeyListener {
             }
         }
     }
-    
+    public void juegoPerdido(){
+        JOptionPane.showMessageDialog(null, "El juego ha terminado porque se ha quedado sin energía", "Fin del juego", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+    }     
     public void coprobarPosicion (Organismo organismo) { 
         int pos_X = organismo.getCoordenadas()[0], pos_Y = organismo.getCoordenadas()[1];
         int indxCoincidencia = this.gestor.comprobarCoincidenciaOrganismos(pos_X, pos_Y, this.gestor.getTurno());
         if (indxCoincidencia != -1) {
             indxCoincidencia = this.gestor.incidenciaOrganismos(this.gestor.getTurno(), indxCoincidencia);
             if (indxCoincidencia == 0)
-                System.exit(0);
+                juegoPerdido();
             this.cambiarPosicionOrg(indxCoincidencia);
             return;
         }
@@ -188,8 +195,7 @@ public class Controlador implements ActionListener, KeyListener {
             return;
         }
         if (turno == 0) {
-            //System.out.println("EEE");
-            System.exit(0);
+         juegoPerdido();
         }
     }
 
@@ -212,7 +218,7 @@ public class Controlador implements ActionListener, KeyListener {
             if (nuevaVision < this.gestor.getMinCanpacidad())
                 nuevaVision = this.gestor.getMinCanpacidad();
             
-            //System.out.println("che");
+
             org.setEdad(nuevaEdad);
             org.setEnergia(nuevaEnergia);
             org.setVision(nuevaVision);
@@ -220,8 +226,7 @@ public class Controlador implements ActionListener, KeyListener {
         }
         
         if (turno == 0) {
-            //System.out.println("AAA");
-            System.exit(0);
+            juegoPerdido();
         }
     }
 
@@ -235,7 +240,7 @@ public class Controlador implements ActionListener, KeyListener {
             this.infomacion.add(new Informacion(org.identificarse(), org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad()));
         }
         this.cantMoviJugador = this.gestor.getOrganismos().get(0).getVelocidad();
-        this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+        this.mapa.getCantMovimientos().setText("Movimientos: "+this.cantMoviJugador);
     }
     
     public void pasarCoordsAlimentos (int[][] coordsAlimentos) {
@@ -254,7 +259,7 @@ public class Controlador implements ActionListener, KeyListener {
             int turno = this.gestor.getTurno();
             if ( turno == 0) {
                 this.gestor.limpiarVista(mapa.getCasillas()); 
-                this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+                this.mapa.getCantMovimientos().setText("Movimientos: "+0);
                 this.keyDireccion = -1;
                 this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
                 
@@ -266,7 +271,7 @@ public class Controlador implements ActionListener, KeyListener {
                 if (nuevaEdad > this.gestor.getMaxCanpacidad())
                     nuevaEdad = this.gestor.getMaxCanpacidad();
                 if (nuevaEnergia < this.gestor.getMinCanpacidad())
-                    System.exit(0);//nuevaEnergia = this.gestor.getMinCanpacidad();
+                    juegoPerdido();
                 if (nuevaVision < this.gestor.getMinCanpacidad())
                     nuevaVision = this.gestor.getMinCanpacidad();
 
@@ -277,11 +282,11 @@ public class Controlador implements ActionListener, KeyListener {
                 if (this.automacNPCS) {
                     this.gestor.setTurno(turno + 1);
                     this.gestor.moverAutomatico(); 
-                    this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+                    this.mapa.getCantMovimientos().setText("Movimientos: "+this.cantMoviJugador);
                 }
                 else {
                     this.gestor.setTurno(turno + 1);
-                    this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+                    this.mapa.getCantMovimientos().setText("Movimientos: "+0);
                 }
             }
             this.gestor.mostrarVision(this.mapa.getCasillas());
@@ -322,7 +327,7 @@ public class Controlador implements ActionListener, KeyListener {
                 int escalaIncremento = Integer.parseInt(this.configuracion.getEntradaAumento().getText()); 
                 int escalaDecremento = Integer.parseInt(this.configuracion.getEntradaDecremento().getText()); 
                 this.mapa.setVisible(true);
-                //System.out.println("maximo: "+maximo+" _ minimo: "+minimo+" _ incremento: "+escalaIncremento+" _ decremento: "+escalaDecremento);
+               
                 this.gestor.setSimulacionFactoresDeCambio(maximo, minimo, escalaIncremento, escalaDecremento);
                 this.configuracion.setVisible(false);
             } 
@@ -376,7 +381,7 @@ public class Controlador implements ActionListener, KeyListener {
             return;
         }
         if (this.cantMoviJugador == 1) { 
-            this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+            this.mapa.getCantMovimientos().setText("Movimientos: "+0);
             this.keyDireccion = -1;
             this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
             
@@ -388,7 +393,7 @@ public class Controlador implements ActionListener, KeyListener {
             if (nuevaEdad > this.gestor.getMaxCanpacidad())
                 nuevaEdad = this.gestor.getMaxCanpacidad();
             if (nuevaEnergia < this.gestor.getMinCanpacidad())
-                System.exit(0);//nuevaEnergia = this.gestor.getMinCanpacidad();
+                juegoPerdido();
             if (nuevaVision < this.gestor.getMinCanpacidad())
                 nuevaVision = this.gestor.getMinCanpacidad();
             
@@ -399,18 +404,18 @@ public class Controlador implements ActionListener, KeyListener {
             if (this.automacNPCS) {
                 this.gestor.setTurno(turno + 1);
                 this.gestor.moverAutomatico(); 
-                this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+                this.mapa.getCantMovimientos().setText("Movimientos: "+this.cantMoviJugador);
             }
             else {
                 this.gestor.setTurno(turno + 1);
-                this.mapa.getCantMovimientos().setText("Movimietos: "+0);
+                this.mapa.getCantMovimientos().setText("Movimientos: "+0);
             }
         } else {
             if(this.cantMoviJugador == -1) {
                 this.cantMoviJugador = this.gestor.getOrganismos().get(turno).getVelocidad();
             } else {
                 this.cantMoviJugador = this.cantMoviJugador - 1;
-                this.mapa.getCantMovimientos().setText("Movimietos: "+this.cantMoviJugador);
+                this.mapa.getCantMovimientos().setText("Movimientos: "+this.cantMoviJugador);
             }
         }
         this.gestor.mostrarVision(this.mapa.getCasillas());

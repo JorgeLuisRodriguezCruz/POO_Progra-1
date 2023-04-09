@@ -282,6 +282,7 @@ public class Mapa extends JFrame {
             }
         } 
     }
+//Se inicia ventana con sus correspondientes componentes
 
     private void iniciarVentana () {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

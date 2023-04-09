@@ -28,7 +28,7 @@ public class Organismo {
     
     public Organismo(int x, int y) {
     }
-
+//Métdo para que los organismos (en este caso los NPC) sigan al alimento en el mapa
     protected int seguirAlimento (Alimento alimento) { 
         int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
         int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
@@ -105,7 +105,7 @@ public class Organismo {
         }
         return -1;
     }
-
+//Método para que un organismo (en este caso los NPC) sigan a los otros organismos, haciendo que estos tengan que huir
     protected int seguirOrganismo (Organismo organismo) {
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
         int xOrgCompar = (organismo.getCoordenadas()[0] - 299) / 13, yOrgCompar = organismo.getCoordenadas()[1] / 13;
@@ -180,6 +180,7 @@ public class Organismo {
         }
         return -1;
     }
+//Método para que un organismo al verse en peligro, huya de los organismos que le siguen
 
     protected int huirDeOrganismo (Organismo organismo) { 
         int xPosOrg = (this.coordenadas[0] - 299) / 13, yPosOrg = this.coordenadas[1] / 13;
@@ -195,13 +196,11 @@ public class Organismo {
         else  
             diferenciaY = yOrgCompar - yPosOrg; 
         
-        /*System.out.println("Org_x: "+ xPosOrg +" Org_y: "+ yPosOrg);
-        System.out.println("OrgCom_x: "+ xOrgCompar +" OrgCom_y: "+ yOrgCompar);
-        System.out.println("Dif_x: "+ diferenciaX +" Dif_y: "+ diferenciaY);*/
+
         
-        if (xPosOrg < xOrgCompar && yPosOrg > yOrgCompar) { //esta Der + Arrb
+        if (xPosOrg < xOrgCompar && yPosOrg > yOrgCompar) { //está Derecha + Arriba
             if (diferenciaX == diferenciaY){
-                if (new Random().nextInt(2) == 0) // Izq o Abaj
+                if (new Random().nextInt(2) == 0) // Izquierda o Abajo
                     return 0;
                 return 3; 
             }
@@ -211,9 +210,9 @@ public class Organismo {
                 return 3;
             }
         }
-        if (xPosOrg < xOrgCompar && yPosOrg < yOrgCompar) { //Der + Abaj
+        if (xPosOrg < xOrgCompar && yPosOrg < yOrgCompar) { //Derecha + Abajo
             if (diferenciaX == diferenciaY){
-                if (new Random().nextInt(2) == 0) // Izq o Arr
+                if (new Random().nextInt(2) == 0) // Izquierda o Arriba
                     return 0;
                 return 1; 
             } 
@@ -223,9 +222,9 @@ public class Organismo {
                 return 1;
             } 
         }
-        if (xPosOrg > xOrgCompar && yPosOrg > yOrgCompar) { //Izq + Arrb
+        if (xPosOrg > xOrgCompar && yPosOrg > yOrgCompar) { //Izquierda + Arriba
             if (diferenciaX == diferenciaY){
-                if (new Random().nextInt(2) == 0) // Der o Abj
+                if (new Random().nextInt(2) == 0) // Derecha o Abajo
                     return 2;
                 return 3; 
             }
@@ -235,9 +234,9 @@ public class Organismo {
                 return 3;
             }
         } 
-        if (xPosOrg > xOrgCompar && yPosOrg < yOrgCompar) { //Izq + Abaj
+        if (xPosOrg > xOrgCompar && yPosOrg < yOrgCompar) { //Izquierda + Abajo
             if (diferenciaX == diferenciaY){
-                if (new Random().nextInt(2) == 0) // Der o Arr
+                if (new Random().nextInt(2) == 0) // Derecha o Arriba
                     return 2;
                 return 1; 
             }
@@ -259,7 +258,8 @@ public class Organismo {
         }
         return -1;
     }
-    
+//Método para identificar si existe un organismo cercano respecto a los otros organismos
+
     public Organismo organismoMasSercano (ArrayList<Organismo> organismos, int turno) {
         Organismo organismoSercano = null;
         int distanciaMenor = 0;
@@ -329,7 +329,8 @@ public class Organismo {
         }
         return 1;
     }
-    
+//Método para saber la cantidad de movimientos que un organismo debe realizar en su correspondiente turno
+
     public int cantidadMovimiento (Alimento alimento, int direccion) {
         int posAlimenX = alimento.getCoordenadas()[0]; int posAlimenY = alimento.getCoordenadas()[1];
         int posOrgX = ((this.coordenadas[0] - 299) / 13) - 1; int posOrgY = (this.coordenadas[1] / 13) - 1;
