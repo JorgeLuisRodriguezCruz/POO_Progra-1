@@ -60,7 +60,7 @@ public class Controlador implements ActionListener, KeyListener {
         this.mapa.getAutomatico().addActionListener(this);
     }
     
-//Se axtualiza la información correspondiente a cada organismo
+//Se actualiza la información correspondiente a cada organismo
 
     public void actualizarInformacion (){
         ArrayList<Organismo> arrsyListOrg = this.gestor.getOrganismos();
@@ -70,6 +70,7 @@ public class Controlador implements ActionListener, KeyListener {
             this.infomacion.get(i).actualisarDatos(org.getEdad(), org.getVision(), org.getEnergia(), org.getVelocidad());
         }
     }
+//Se cambia de posicion del organismo en el mapa de juego (matriz)
 
     public void cambiarPosicionOrg (int indice){
         Organismo org = this.gestor.getOrganismos().get(indice);
@@ -89,7 +90,7 @@ public class Controlador implements ActionListener, KeyListener {
             }
         }
     }
-    
+//Se cambia posición de alimentos en el mapa de juego (matriz)
     public void cambiarPosicionAlim (int indice){
         Alimento alimento = this.gestor.getAlimentos().get(indice);
         int posAlimen_X = alimento.getCoordenadas()[0], posAlimen_Y = alimento.getCoordenadas()[1];
@@ -108,10 +109,12 @@ public class Controlador implements ActionListener, KeyListener {
             }
         }
     }
+//Método para mostrar mensaje en caso de que la energía llegue a 0 de un organismo
     public void juegoPerdido(){
         JOptionPane.showMessageDialog(null, "El juego ha terminado porque se ha quedado sin energía", "Fin del juego", JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
     }     
+//Se comprueba la posición que un organismo tiene con respecto a otro organismo
     public void coprobarPosicion (Organismo organismo) { 
         int pos_X = organismo.getCoordenadas()[0], pos_Y = organismo.getCoordenadas()[1];
         int indxCoincidencia = this.gestor.comprobarCoincidenciaOrganismos(pos_X, pos_Y, this.gestor.getTurno());

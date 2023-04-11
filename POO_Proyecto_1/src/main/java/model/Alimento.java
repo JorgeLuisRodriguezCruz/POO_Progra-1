@@ -21,7 +21,8 @@ public class Alimento {
     public int[] getCoordenadas() {
         return coordenadas;
     } 
-    
+//Se obtienen las coordenadas del alimento respecto a la matriz
+
     public void setCoordenadas(int x, int y) {
         this.coordenadas[0] = x;
         this.coordenadas[1] = y;
